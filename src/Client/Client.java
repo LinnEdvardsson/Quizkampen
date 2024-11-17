@@ -1,5 +1,7 @@
 package Client;
 
+import QuizApp.QuizAppFrame;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +14,7 @@ public class Client {
 
     private final InetAddress ip = InetAddress.getLocalHost();
     private final int PORT = 6000;
+    QuizAppFrame frame = new QuizAppFrame();
 
     public Client() throws UnknownHostException {
         initializingConnection();
@@ -26,6 +29,7 @@ public class Client {
                  BufferedReader serverReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
                 System.out.println("Streams created, connection established.");
+                frame.mainFrame();
                 String fromUser;
                 while ((fromUser = userReader.readLine()) != null) {
                     serverWriter.println(fromUser);
