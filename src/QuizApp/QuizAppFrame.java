@@ -5,6 +5,13 @@ import java.awt.*;
 
 public class QuizAppFrame extends JFrame {
 
+    public void setPlayer1Name(String name){
+        player1.setText(name);
+    }
+    public void setPlayer2Name(String name){
+        player2.setText(name);
+    }
+
     public void baseFrame() {
         setSize(500,200);
         setLocationRelativeTo(null);
