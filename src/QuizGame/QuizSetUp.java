@@ -1,23 +1,27 @@
 package QuizGame;
-
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class QuizService {
-
-    private String categoryname;
+public class QuizSetUp {
     private List<Questions> questions;
+    private int roundsPerGame;
+    private int questionsPerRound;
+    ConfigGame configGame;
+    Questions question;
 
-    public QuizService() {
+    public QuizSetUp() {
         this.questions = new ArrayList<>();
+        this.roundsPerGame = roundsPerGame;
+        this.questionsPerRound = questionsPerRound;
+        configGame = new ConfigGame();
+       // question = new Questions();
     }
 
-    public void addQuestionsForCategory(String categoryname) {
-        this.categoryname = categoryname;
+   /* public void addQuestionsForCategory(String category) {
+        this.category = category;
 
-        switch (categoryname) {
+        switch (category) {
             case "Music":
 
                 questions.add(new Questions("Which musical instrument does Elton John play?", new String[]{"Guitar", "Drums", "Saxophone", "Piano"}, 3, eCategoryType.MUSIC));
@@ -31,21 +35,34 @@ public class QuizService {
                 questions.add(new Questions("How many dimples does an average golf ball have?", new String[]{"100-150", "300-500", "50-100", "350-600"}, 2, eCategoryType.SPORT));
                 questions.add(new Questions("What type of race is the Tour de France", new String[]{"by Car", "by Bicycle", "by Skates", "by Horse"}, 1, eCategoryType.SPORT));
 
-            /*default:
-                System.out.println("Invalid category.");*/
+            default:
+                System.out.println("Invalid category.");
         }
 
-    }
+    }*/
 
-    //Metod för att starta frågesporten
+
+    //metod frågor ska kopplas till svar med isCorrect boolean. Hämta index från lista till svarsalternativ
+
+    //Metod för att starta frågesporten med val av kategori och frågor.
+
+
 
     public void startQuiz(){
         Scanner scanner = new Scanner(System.in);
+        /* for(int round = 1; round <= roundsPerGame; round++) {
+            System.out.println("Round " + round + " of " + roundsPerGame);
+            for (int q = 1; q <= questionsPerRound; q++) {
+                if (q == 0) {
+                    System.out.println("No more questions available.");
+                    break;
+                }*/
 
-        while(true) {
+        configGame.setGameRounds();
         System.out.println("What Category? Music or Sport?");
         String input = scanner.nextLine();
-        addQuestionsForCategory(input);
+
+        question.addQuestionsForCategory(input);
 
         if(!input.isEmpty()) {
             for(Questions question : questions) {
@@ -64,13 +81,12 @@ public class QuizService {
             }
         }
     }
-}
 
 
     public static void main(String[] args) {
-        QuizService quizService = new QuizService();
-        quizService.startQuiz();
+        QuizSetUp quizSetUp = new QuizSetUp();
+        quizSetUp.startQuiz();
     }
-    //metod frågor ska kopplas till svar med isCorrect boolean. Hämta index från lista till svarsalternativ
+
 }
 
