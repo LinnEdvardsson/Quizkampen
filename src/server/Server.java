@@ -22,23 +22,6 @@ public class Server {
             }
     }
 
-                    /* PrintWriter clientWriter = new PrintWriter(clientSocket.getOutputStream(), true);
-                     BufferedReader clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-
-
-
-                    System.out.println("Client connected: ");
-                    String inputLine;
-                    while ((inputLine = clientReader.readLine()) != null) {
-                        System.out.println("Received from client: ");
-                        clientWriter.println("Echo: ");
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public static void main(String[] args) throws UnknownHostException {
         Server server = new Server();
