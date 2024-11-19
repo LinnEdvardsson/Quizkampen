@@ -1,84 +1,77 @@
 package QuizGame;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class QuizSetUp {
+    private QuestionDatabase questionDatabase;
     private List<Questions> questions;
-    private int roundsPerGame;
-    private int questionsPerRound;
-    ConfigGame configGame;
-    Questions question;
+    private ConfigGame configGame;
+    Scanner scanner;
 
     public QuizSetUp() {
-        this.questions = new ArrayList<>();
-        this.roundsPerGame = roundsPerGame;
-        this.questionsPerRound = questionsPerRound;
+        this.questionDatabase = new QuestionDatabase();
+        scanner = new Scanner(System.in);
         configGame = new ConfigGame();
-       // question = new Questions();
     }
 
-   /* public void addQuestionsForCategory(String category) {
-        this.category = category;
+    public void startQuiz() {
+        configGame.loadSettings();
+        String category = getCategory();
+        playAllRounds(category);
+    }
 
-        switch (category) {
-            case "Music":
-
-                questions.add(new Questions("Which musical instrument does Elton John play?", new String[]{"Guitar", "Drums", "Saxophone", "Piano"}, 3, eCategoryType.MUSIC));
-                questions.add(new Questions("Which classical composer became deaf later in life?", new String[]{"Mozart", "Bach", "Beethoven", "Tchaikovsky"}, 2, eCategoryType.MUSIC));
-                questions.add(new Questions("Who is known as the King of Pop?", new String[]{"Freddie Mercury", "Elvis Presley", "Michael Jackson", "Prince"}, 2, eCategoryType.MUSIC));
-                questions.add(new Questions("The 'Mamma Mia' Musical is based around the music of which band?", new String[]{"Take That", "Sarek", "ABBA", "Vikingarna"}, 2, eCategoryType.MUSIC));
-
-            case "Sport":
-                questions.add(new Questions("What sport is best known as the ‘king of sports?", new String[]{"Basket Ball", "Hockey", "Fotball", "Golf"}, 2, eCategoryType.SPORT));
-                questions.add(new Questions("What do you call it when a bowler makes three strikes in a row?", new String[]{"Meatloaf", "Turkey", "Hole in one", "Strike"}, 1, eCategoryType.SPORT));
-                questions.add(new Questions("How many dimples does an average golf ball have?", new String[]{"100-150", "300-500", "50-100", "350-600"}, 2, eCategoryType.SPORT));
-                questions.add(new Questions("What type of race is the Tour de France", new String[]{"by Car", "by Bicycle", "by Skates", "by Horse"}, 1, eCategoryType.SPORT));
-
-            default:
-                System.out.println("Invalid category.");
-        }
-
-    }*/
-
-
-    //metod frågor ska kopplas till svar med isCorrect boolean. Hämta index från lista till svarsalternativ
-
-    //Metod för att starta frågesporten med val av kategori och frågor.
-
-
-
-    public void startQuiz(){
-        Scanner scanner = new Scanner(System.in);
-        /* for(int round = 1; round <= roundsPerGame; round++) {
-            System.out.println("Round " + round + " of " + roundsPerGame);
-            for (int q = 1; q <= questionsPerRound; q++) {
-                if (q == 0) {
-                    System.out.println("No more questions available.");
-                    break;
-                }*/
-
-        configGame.setGameRounds();
+    private String getCategory() {
         System.out.println("What Category? Music or Sport?");
-        String input = scanner.nextLine();
+        return scanner.nextLine();
+    }
 
-        question.addQuestionsForCategory(input);
+    private void playAllRounds(String category) {
+        int roundsPerGame = configGame.getRoundsPerGame();
+        for (int round = 1; round <= roundsPerGame; round++) {
+            System.out.println("\nRound " + round + " of " + roundsPerGame);
+            playRound(category);
 
-        if(!input.isEmpty()) {
-            for(Questions question : questions) {
-                System.out.println(question.getQuestiontext());
-                String[] answers = question.getAnswers();
-                for(int i = 0; i < answers.length; i++) {
-                    System.out.println((i+1) + ". " + answers[i]);
-                }
-                System.out.println("Enter your answer");
-                int answered = Integer.parseInt(scanner.nextLine()) - 1;
-                if (answered == question.getCorrectAnswerIndex()) {
-                    System.out.println("Correct!");
-                } else {
-                    System.out.println("Wrong! The correct answer was " + answers[question.getCorrectAnswerIndex()]);
-                }
-            }
+        }
+    }
+
+    private int playRound(String category) {
+        List<Questions> questions = questionDatabase.addQuestionsForCategory(category);
+        int questionsToAsk = Math.min(configGame.getQuestionsPerRound(), questions.size());
+        for (int q = 0; q < questionsToAsk; q++) {
+            askQuestion(questions.get(q), q + 1, questionsToAsk);
+        }
+        return questionsToAsk;
+    }
+
+    private int askQuestion(Questions question, int questionNumber, int totalQuestions) {
+        displayQuestion(question, questionNumber, totalQuestions);
+        displayAnswerOptions(question.getAnswers());
+        return processAnswer(question);
+    }
+
+    private void displayQuestion(Questions question, int questionNumber, int totalQuestions) {
+        System.out.println("\nQuestion " + questionNumber + " of " + totalQuestions);
+        System.out.println(question.getQuestiontext());
+    }
+
+    private void displayAnswerOptions(String[] answers) {
+        for (int i = 0; i < answers.length; i++) {
+            System.out.println((i + 1) + ". " + answers[i]);
+        }
+    }
+
+    private int processAnswer(Questions question) {
+        System.out.println("Enter your answer");
+        int answered = Integer.parseInt(scanner.nextLine()) - 1;
+        String[] answers = question.getAnswers();
+
+        if (answered == question.getCorrectAnswerIndex()) {
+            System.out.println("Correct!");
+            return 1;
+        } else {
+            System.out.println("Wrong! The correct answer was " +
+                    answers[question.getCorrectAnswerIndex()]);
+            return 0;
         }
     }
 
@@ -87,6 +80,4 @@ public class QuizSetUp {
         QuizSetUp quizSetUp = new QuizSetUp();
         quizSetUp.startQuiz();
     }
-
 }
-
