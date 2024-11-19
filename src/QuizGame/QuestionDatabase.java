@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class QuestionDatabase {
+    public class QuestionDatabase {
         private List<Questions> musicQuestions;
         private List<Questions> sportQuestions;
         private String catagory;
@@ -39,6 +39,5 @@ public class QuestionDatabase {
                     return Collections.emptyList();
             }
         }
-}
-
+    }
 

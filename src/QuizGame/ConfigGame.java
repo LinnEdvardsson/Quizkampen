@@ -9,15 +9,7 @@ public class ConfigGame {
     private int roundsPerGame;
     private int questionsPerRound;
 
-    public int getRoundsPerGame() {
-        return roundsPerGame;
-    }
-
-    public int getQuestionsPerRound() {
-        return questionsPerRound;
-    }
-
-    private void loadSettings() {
+        public void loadSettings() {
             Properties prop = new Properties();
             try {
                 prop.load(new FileInputStream("server/setting.properties"));
@@ -29,13 +21,11 @@ public class ConfigGame {
             }
         }
 
-    public void initializeGameSettings() {
-        loadSettings();
-        for (int round = 1; round <= getRoundsPerGame(); round++) {
-            for(int question = 0; question <= getQuestionsPerRound(); question++) {
-
-            }
-        }
+    public int getRoundsPerGame() {
+        return roundsPerGame;
     }
 
+    public int getQuestionsPerRound() {
+        return questionsPerRound;
+    }
 }
