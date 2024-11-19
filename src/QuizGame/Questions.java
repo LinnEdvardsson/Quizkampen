@@ -5,19 +5,18 @@ import java.util.Collections;
 import java.util.List;
 
 public class Questions {
-        private String category;
-        private String question;
-        private String[] answers;
-        private int correctAnswerIndex;
-        private eCategoryType categoryType;
-        private List<Questions> gameQuestions = new ArrayList<Questions>();
+        private final String question;
+        private final String[] answers;
+        private final int correctAnswerIndex;
+        private final eCategoryType categoryType;
+       // private List<Questions> gameQuestions = new ArrayList<Questions>();
 
         public Questions(String question, String[] answers, int correctAnswerIndex, eCategoryType categoryType) {
             this.question = question;
             this.answers = answers;
             this.correctAnswerIndex = correctAnswerIndex;
             this.categoryType = categoryType;
-            gameQuestions = new ArrayList<Questions>();
+           // gameQuestions = new ArrayList<Questions>();
         }
 
         public String getQuestiontext() {
@@ -30,6 +29,10 @@ public class Questions {
 
         public int getCorrectAnswerIndex() {
             return correctAnswerIndex;
+        }
+
+        public eCategoryType getCategoryType() {
+            return categoryType;
         }
 
        /* public List<Questions> addQuestionsForCategory(String category) throws NullPointerException {

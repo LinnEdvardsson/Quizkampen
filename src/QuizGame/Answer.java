@@ -2,9 +2,9 @@ package QuizGame;
 
 public class Answer {
     private String answer;
-    private String isCorrect;
+    private boolean isCorrect; //gjorde denna till bool
 
-    public Answer(String answer, String isCorrect) {
+    public Answer(String answer, boolean isCorrect) {
         this.answer = answer;
         this.isCorrect = isCorrect;
     }
@@ -13,11 +13,11 @@ public class Answer {
         return answer;
     }
 
-    public String isCorrect() {
+    public boolean isCorrect() {
         return isCorrect;
     }
 
-    /*public String toString() {
-        return (isCorrect() ? "Correct" : "Incorrect";
-    }*/
+    public String toString() {
+        return isCorrect ? "Correct" : "Incorrect";
+    }
 }
