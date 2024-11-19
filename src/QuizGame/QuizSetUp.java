@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class QuizSetUp {
     private QuestionDatabase questionDatabase;
-    private List<Questions> questions;
     private ConfigGame configGame;
     Scanner scanner;
 

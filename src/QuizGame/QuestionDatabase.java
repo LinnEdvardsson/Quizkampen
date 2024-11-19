@@ -6,15 +6,14 @@ import java.util.List;
     public class QuestionDatabase {
         private List<Questions> musicQuestions;
         private List<Questions> sportQuestions;
-        private String catagory;
 
         public QuestionDatabase() {
             musicQuestions = new ArrayList<>();
             sportQuestions = new ArrayList<>();
         }
 
-        public List <Questions> addQuestionsForCategory(String catagory){
-            this.catagory = catagory;
+        public List <Questions> addQuestionsForCategory(String category){
+
             if(musicQuestions.isEmpty()) {
                 musicQuestions.add(new Questions("Which musical instrument does Elton John play?", new String[]{"Guitar", "Drums", "Saxophone", "Piano"}, 3, eCategoryType.MUSIC));
                 musicQuestions.add(new Questions("Which classical composer became deaf later in life?", new String[]{"Mozart", "Bach", "Beethoven", "Tchaikovsky"}, 2, eCategoryType.MUSIC));
@@ -26,7 +25,7 @@ import java.util.List;
                 sportQuestions.add(new Questions("How many dimples does an average golf ball have?", new String[]{"100-150", "300-500", "50-100", "350-600"}, 1, eCategoryType.SPORT));
                 sportQuestions.add(new Questions("What type of race is the Tour de France?", new String[]{"by Car", "by Bicycle", "by Skates", "by Horse"}, 1, eCategoryType.SPORT));
             }
-            return getQuestionsByCategory(catagory);
+            return getQuestionsByCategory(category);
         }
 
         public List<Questions> getQuestionsByCategory(String category) {
