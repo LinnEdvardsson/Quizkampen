@@ -1,5 +1,6 @@
 package QuizGame;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -12,7 +13,8 @@ public class ConfigGame {
         public void loadSettings() {
             Properties prop = new Properties();
             try {
-                prop.load(new FileInputStream("server/setting.properties"));
+                String filePath = "server" + File.separator + "setting.properties"; //alla operativsystem kan hämta path.
+                prop.load(new FileInputStream(filePath));
                 roundsPerGame = Integer.parseInt(prop.getProperty("roundsPerGame"));
                 questionsPerRound = Integer.parseInt(prop.getProperty("questionsPerRound"));
 
