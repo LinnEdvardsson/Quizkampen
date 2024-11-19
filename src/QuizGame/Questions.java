@@ -1,5 +1,7 @@
 package QuizGame;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Questions {
@@ -8,13 +10,14 @@ public class Questions {
         private String[] answers;
         private int correctAnswerIndex;
         private eCategoryType categoryType;
-        private List<Questions> gameQuestions;
+        private List<Questions> gameQuestions = new ArrayList<Questions>();
 
         public Questions(String question, String[] answers, int correctAnswerIndex, eCategoryType categoryType) {
             this.question = question;
             this.answers = answers;
             this.correctAnswerIndex = correctAnswerIndex;
             this.categoryType = categoryType;
+            gameQuestions = new ArrayList<Questions>();
         }
 
         public String getQuestiontext() {
@@ -29,7 +32,7 @@ public class Questions {
             return correctAnswerIndex;
         }
 
-    public void addQuestionsForCategory(String category) throws NullPointerException {
+       /* public List<Questions> addQuestionsForCategory(String category) throws NullPointerException {
         this.category = category;
 
         switch (category) {
@@ -46,11 +49,12 @@ public class Questions {
                 gameQuestions.add(new Questions("How many dimples does an average golf ball have?", new String[]{"100-150", "300-500", "50-100", "350-600"}, 2, eCategoryType.SPORT));
                 gameQuestions.add(new Questions("What type of race is the Tour de France", new String[]{"by Car", "by Bicycle", "by Skates", "by Horse"}, 1, eCategoryType.SPORT));
 
+
             default:
                 System.out.println("Invalid category.");
         }
-
-    }
-
+        Collections.shuffle(gameQuestions);
+        return gameQuestions;
+    }*/
 }
 

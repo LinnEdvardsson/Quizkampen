@@ -1,23 +1,62 @@
 package QuizGame;
+import com.sun.source.tree.UsesTree;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class QuizSetUp {
+    private QuestionDatabase questionDatabase;
     private List<Questions> questions;
-    private int roundsPerGame;
-    private int questionsPerRound;
     ConfigGame configGame;
-    Questions question;
+
 
     public QuizSetUp() {
-        this.questions = new ArrayList<>();
-        this.roundsPerGame = roundsPerGame;
-        this.questionsPerRound = questionsPerRound;
         configGame = new ConfigGame();
-       // question = new Questions();
+        this.questionDatabase = new QuestionDatabase();
+
     }
 
+    public void startQuiz() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("What Category? Music or Sport?");
+        String input = scanner.nextLine();
+        List<Questions> questions = questionDatabase.addQuestionsForCategory(input);
+
+        for (Questions question : questions) {
+            System.out.println(question.getQuestiontext());
+            String[] answers = question.getAnswers();
+            for (int i = 0; i < answers.length; i++) {
+                System.out.println((i + 1) + ". " + answers[i]);
+            }
+            System.out.println("Enter your answer");
+            int answered = Integer.parseInt(scanner.nextLine()) - 1;
+            if (answered == question.getCorrectAnswerIndex()) {
+                System.out.println("Correct!");
+            } else {
+                System.out.println("Wrong! The correct answer was " + answers[question.getCorrectAnswerIndex()]);
+            }
+        }
+    }
+
+
+
+
+    public static void main(String[] args) {
+        QuizSetUp quizSetUp = new QuizSetUp();
+        quizSetUp.startQuiz();
+    }
+
+}
+
+/* for(int round = 1; round <= roundsPerGame; round++) {
+            System.out.println("Round " + round + " of " + roundsPerGame);
+            for (int q = 1; q <= questionsPerRound; q++) {
+                if (q == 0) {
+                    System.out.println("No more questions available.");
+                    break;
+                }*/
    /* public void addQuestionsForCategory(String category) {
         this.category = category;
 
@@ -40,53 +79,3 @@ public class QuizSetUp {
         }
 
     }*/
-
-
-    //metod frågor ska kopplas till svar med isCorrect boolean. Hämta index från lista till svarsalternativ
-
-    //Metod för att starta frågesporten med val av kategori och frågor.
-
-
-
-    public void startQuiz(){
-        Scanner scanner = new Scanner(System.in);
-        /* for(int round = 1; round <= roundsPerGame; round++) {
-            System.out.println("Round " + round + " of " + roundsPerGame);
-            for (int q = 1; q <= questionsPerRound; q++) {
-                if (q == 0) {
-                    System.out.println("No more questions available.");
-                    break;
-                }*/
-
-        configGame.setGameRounds();
-        System.out.println("What Category? Music or Sport?");
-        String input = scanner.nextLine();
-
-        question.addQuestionsForCategory(input);
-
-        if(!input.isEmpty()) {
-            for(Questions question : questions) {
-                System.out.println(question.getQuestiontext());
-                String[] answers = question.getAnswers();
-                for(int i = 0; i < answers.length; i++) {
-                    System.out.println((i+1) + ". " + answers[i]);
-                }
-                System.out.println("Enter your answer");
-                int answered = Integer.parseInt(scanner.nextLine()) - 1;
-                if (answered == question.getCorrectAnswerIndex()) {
-                    System.out.println("Correct!");
-                } else {
-                    System.out.println("Wrong! The correct answer was " + answers[question.getCorrectAnswerIndex()]);
-                }
-            }
-        }
-    }
-
-
-    public static void main(String[] args) {
-        QuizSetUp quizSetUp = new QuizSetUp();
-        quizSetUp.startQuiz();
-    }
-
-}
-
