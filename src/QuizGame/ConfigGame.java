@@ -13,8 +13,9 @@ public class ConfigGame {
         public void loadSettings() {
             Properties prop = new Properties();
             try {
-                String filePath = "server" + File.separator + "setting.properties"; //alla operativsystem kan hämta path.
-                prop.load(new FileInputStream(filePath));
+               // String filePath = "server" + File.separator + "setting.properties";
+                //prop.load(new FileInputStream(filePath));
+                prop.load(new FileInputStream("src/server/setting.properties"));
                 roundsPerGame = Integer.parseInt(prop.getProperty("roundsPerGame"));
                 questionsPerRound = Integer.parseInt(prop.getProperty("questionsPerRound"));
 
