@@ -28,9 +28,11 @@ public class ClientConnection implements Runnable {
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        String fromClient = "";
-        while((fromClient = in.readLine()) != null) {
-            out.println("u wrote" +fromClient);
+        out.println("connected to server");
+        String fromClient;
+        while ((fromClient = in.readLine()) != null) {
+            out.println("u wrote: " + fromClient);
+            System.out.println(fromClient);
         }
     }
 

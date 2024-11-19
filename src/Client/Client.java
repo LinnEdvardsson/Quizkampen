@@ -26,6 +26,7 @@ public class Client {
                  BufferedReader serverReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
                 System.out.println("Streams created, connection established.");
+                String temp = serverReader.readLine();
                 String fromUser;
                 while ((fromUser = userReader.readLine()) != null) {
                     serverWriter.println(fromUser);
