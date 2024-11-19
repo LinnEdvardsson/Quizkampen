@@ -17,7 +17,4 @@ public class Answer {
         return isCorrect;
     }
 
-    /*public String toString() {
-        return (isCorrect() ? "Correct" : "Incorrect";
-    }*/
 }
