@@ -2,6 +2,11 @@ package QuizApp;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import Client.User;
+import ClientStates.eStateOfClient;
 
 public class Design {
 
@@ -9,7 +14,7 @@ public class Design {
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
-    public Design() {
+    public Design() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
     }
 
@@ -18,7 +23,7 @@ public class Design {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        mainPanel.add(createLoginFrame(), "Login");
+        mainPanel.add(createLoginFrame(), "Login"); //mot server?
         mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
@@ -30,18 +35,18 @@ public class Design {
         frame.setSize(300, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
+        frame.setLocationRelativeTo(null);
 
         cardLayout.show(mainPanel, "Login");
     }
 
-    private JPanel createLoginFrame() {
+    public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
-        JLabel label = new JLabel("Enter your username:", SwingConstants.CENTER);
+        JTextField userField = new JTextField("Enter your username:", SwingConstants.CENTER);//akutell user ska in i User-lista?
         JTextField usernameField = new JTextField();
-        JButton loginButton = new JButton("Login");
+        JButton loginButton = new JButton("Login"); //byta till createopponentFrame?
 
-        panel.add(label);
+        panel.add(userField);
         panel.add(usernameField);
         panel.add(loginButton);
         return panel;
@@ -117,4 +122,5 @@ public class Design {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Design::new);
     }
+
 }
