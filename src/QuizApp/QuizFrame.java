@@ -1,5 +1,8 @@
 package QuizApp;
 
+import Client.ClientRequest;
+import Client.RequestType;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +13,6 @@ public class QuizFrame {
     private JPanel mainPanel;
     private JButton loginButton;
     private JTextField userField;
-    private String usernamne;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
@@ -21,7 +23,7 @@ public class QuizFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        mainPanel.add(createLoginFrame(), "Login"); //mot server?
+        mainPanel.add(createLoginFrame(), "Login");
         mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
@@ -38,16 +40,27 @@ public class QuizFrame {
         cardLayout.show(mainPanel, "Login");
     }
 
+    public void switchTo(String panelName){
+        cardLayout.show(mainPanel, panelName);
+    }
+
+    //skapa menu-panel så att klienten kan klicka starta-spel ?
+    public void createMenuFrame(){
+
+    }
 
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         userField = new JTextField("Enter your username:", SwingConstants.CENTER);
         loginButton = new JButton("Login");
 
+       // loginButton.addActionListener(e -> { client.sendRequest(new ClientRequest(RequestType.CONNECT_REQUEST, userField.getText()))});
         panel.add(userField);
         panel.add(loginButton);
         return panel;
     }
+
+
 
     private JPanel createOpponentFrame() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -122,5 +135,9 @@ public class QuizFrame {
 
     public JButton getLoginButton() {
         return loginButton;
+    }
+
+    public JTextField getUserField() {
+        return userField;
     }
 }

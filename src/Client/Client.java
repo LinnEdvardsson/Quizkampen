@@ -17,6 +17,10 @@ public class Client {
     public Client() throws UnknownHostException {
         listenForConnection();
         //initializingConnection2();
+
+        frame.getLoginButton().addActionListener(e -> {
+            sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUsernameTextfield.getText()));
+        });
     }
 
     public void initializingConnection2(){
@@ -24,6 +28,7 @@ public class Client {
         //out = new ObjectOutputStream(socket.getOutputStream());
         //in = new ObjectInputStream(socket.getInputStream());
     }
+
 
     public void sendToServer(Object obj, ObjectOutputStream out) throws IOException {
         out.writeObject(obj);
