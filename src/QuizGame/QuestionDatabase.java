@@ -31,9 +31,9 @@ import java.util.List;
         public List<Questions> getQuestionsByCategory(String category) {
             switch (category) {
                 case "music":
-                    return new ArrayList<>(musicQuestions);
+                    return new ArrayList<>(musicQuestions); //Collections.shuffle(musicQuestions);
                 case "sport":
-                    return new ArrayList<>(sportQuestions);
+                    return new ArrayList<>(sportQuestions); //Collections.shuffle(sportQuestions);
                 default:
                     return Collections.emptyList();
             }

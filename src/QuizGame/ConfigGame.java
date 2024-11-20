@@ -12,7 +12,7 @@ public class ConfigGame {
         public void loadSettings() {
             Properties prop = new Properties();
             try {
-                prop.load(new FileInputStream("server/setting.properties"));
+                prop.load(new FileInputStream("src/server/setting.properties"));
                 roundsPerGame = Integer.parseInt(prop.getProperty("roundsPerGame"));
                 questionsPerRound = Integer.parseInt(prop.getProperty("questionsPerRound"));
 
