@@ -6,17 +6,20 @@ public class QuizSetUp {
     private QuestionDatabase questionDatabase;
     private ConfigGame configGame;
     Scanner scanner;
+    private PlayerScore playerScore;
 
     public QuizSetUp() {
         this.questionDatabase = new QuestionDatabase();
         scanner = new Scanner(System.in);
         configGame = new ConfigGame();
+        playerScore = new PlayerScore();
     }
 
     public void startQuiz() {
         configGame.loadSettings();
         String category = getCategory();
         playAllRounds(category);
+        System.out.println("Final score: " + playerScore.getScore());
     }
 
     private String getCategory() {
@@ -42,10 +45,10 @@ public class QuizSetUp {
         return questionsToAsk;
     }
 
-    private int askQuestion(Questions question, int questionNumber, int totalQuestions) {
+    private void askQuestion(Questions question, int questionNumber, int totalQuestions) {
         displayQuestion(question, questionNumber, totalQuestions);
         displayAnswerOptions(question.getAnswers());
-        return processAnswer(question);
+        processAnswer(question);
     }
 
     private void displayQuestion(Questions question, int questionNumber, int totalQuestions) {
@@ -59,18 +62,19 @@ public class QuizSetUp {
         }
     }
 
-    private int processAnswer(Questions question) {
+    private void processAnswer(Questions question) {
         System.out.println("Enter your answer");
         int answered = Integer.parseInt(scanner.nextLine()) - 1;
         String[] answers = question.getAnswers();
 
         if (answered == question.getCorrectAnswerIndex()) {
             System.out.println("Correct!");
-            return 1;
+            playerScore.updateScore(1);
+
         } else {
             System.out.println("Wrong! The correct answer was " +
                     answers[question.getCorrectAnswerIndex()]);
-            return 0;
+
         }
     }
 
