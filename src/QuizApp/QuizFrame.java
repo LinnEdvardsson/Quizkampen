@@ -2,19 +2,17 @@ package QuizApp;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import Client.User;
-import ClientStates.eStateOfClient;
-
-public class Design {
+public class QuizFrame {
 
     private JFrame frame;
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private JButton loginButton;
+    private JTextField userField;
+    private String usernamne;
 
-    public Design() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
+    public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
     }
 
@@ -40,14 +38,13 @@ public class Design {
         cardLayout.show(mainPanel, "Login");
     }
 
+
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
-        JTextField userField = new JTextField("Enter your username:", SwingConstants.CENTER);//akutell user ska in i User-lista?
-        JTextField usernameField = new JTextField();
-        JButton loginButton = new JButton("Login"); //byta till createopponentFrame?
+        userField = new JTextField("Enter your username:", SwingConstants.CENTER);
+        loginButton = new JButton("Login");
 
         panel.add(userField);
-        panel.add(usernameField);
         panel.add(loginButton);
         return panel;
     }
@@ -119,8 +116,11 @@ public class Design {
         return panel;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(Design::new);
-    }
+    /*public static void main(String[] args) {
+        SwingUtilities.invokeLater(QuizFrame::new); //vad betyder det här?
+    }*/
 
+    public JButton getLoginButton() {
+        return loginButton;
+    }
 }
