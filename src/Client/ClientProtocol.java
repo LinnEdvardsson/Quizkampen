@@ -9,7 +9,7 @@ public class ClientProtocol {
     public ClientProtocol(ServerResponse response, Client client){
         switch (response.getResponseType()){
             case CONNECTION_ESTABLISHED -> {
-                client.frame.
+                client.frame.createLoginFrame();
 
             }
         }
