@@ -18,9 +18,15 @@ public class Client {
         listenForConnection();
 //        initializingConnection2();
 
+
 //        frame.getLoginButton().addActionListener(e -> {
 //            sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUserField().getText()));
 //        });
+
+        frame.getLoginButton().addActionListener(e -> {
+            sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUserField().getText()));
+        });
+
     }
 
     public void initializingConnection2(){
