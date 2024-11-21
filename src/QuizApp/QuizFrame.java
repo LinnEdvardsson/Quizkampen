@@ -1,8 +1,5 @@
 package QuizApp;
 
-import Client.ClientRequest;
-import Client.RequestType;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,7 +15,7 @@ public class QuizFrame {
         setupGUI();
     }
 
-    private void setupGUI() {
+    public void setupGUI() {
         frame = new JFrame("Quiz Game");
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);

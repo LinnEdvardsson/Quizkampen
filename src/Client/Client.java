@@ -16,23 +16,23 @@ public class Client {
 
     public Client() throws UnknownHostException {
         listenForConnection();
-        //initializingConnection2();
+//        initializingConnection2();
 
-        frame.getLoginButton().addActionListener(e -> {
-            sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUsernameTextfield.getText()));
-        });
+//        frame.getLoginButton().addActionListener(e -> {
+//            sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUserField().getText()));
+//        });
     }
 
     public void initializingConnection2(){
-        //socket = new Socket(ip, PORT);
-        //out = new ObjectOutputStream(socket.getOutputStream());
-        //in = new ObjectInputStream(socket.getInputStream());
+//        socket = new Socket(ip, PORT);
+//        out = new ObjectOutputStream(socket.getOutputStream());
+//        in = new ObjectInputStream(socket.getInputStream());
     }
 
 
-    public void sendToServer(Object obj, ObjectOutputStream out) throws IOException {
-        out.writeObject(obj);
-    }
+//    public void sendToServer(Object obj, ObjectOutputStream out) throws IOException {
+//        out.writeObject(obj);
+//    }
 
     public void listenForConnection(){
         new Thread(()->{
@@ -40,18 +40,16 @@ public class Client {
             try (Socket clientSocket = new Socket(ip, PORT)) {
                 System.out.println("Socket created.");
                 try (ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-                     ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())) {
+                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));) {
 
                     System.out.println("Streams created, connection established.");
-                    sendToServer(new Object(), out);
+//                    sendToServer(new Object(), out);
                     Object objIn;
-                    while ((objIn = in.readObject()) != null) { //skicka ny frame?
+                    while ((objIn = in.readLine()) != null) { //skicka ny frame?
                         if (objIn instanceof Object obj){
                             System.out.println("Received response");
                         }
                     }
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
                 }
             } catch (IOException e) {
                 System.err.println("An error occurred: " + e.getMessage());
