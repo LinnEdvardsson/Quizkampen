@@ -3,7 +3,7 @@ import Client.ClientRequest;
 
 import java.io.IOException;
 
-
+//SERVER
 public class RequestHandler {
 
     public static void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
@@ -18,7 +18,7 @@ public class RequestHandler {
             }
             case START_GAME -> {
                 System.out.println("Wish to start game");
-
+                Server.addClientToQueue(client);
                 Server.sendResponse(new ServerResponse(ResponseType.GAME_STARTED), client);
             }
             case CATEGORY_TYPE_REQUEST -> {
