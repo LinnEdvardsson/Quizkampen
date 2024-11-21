@@ -3,16 +3,18 @@ package server;
 import Client.ClientRequest;
 import QuizApp.QuizFrame;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Random;
+
+import static server.Server.connectedClients;
 
 public class ClientConnection extends Thread implements Runnable {
 
-//    private final InetAddress ip = InetAddress.getLocalHost();
-//    private final int PORT = 6000;
-//    public QuizFrame frame;
     private Socket socket;
     ObjectOutputStream out;
     ObjectInputStream in;
@@ -31,7 +33,6 @@ public class ClientConnection extends Thread implements Runnable {
         }
     }
 
-
     private void initializingConnection() throws IOException {
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -42,13 +43,6 @@ public class ClientConnection extends Thread implements Runnable {
                 RequestHandler.handleRequest(request, this);
             }
 
-            /*
-            while ((objIn = in.readObject()) != null) {
-                if (objIn instanceof Object obj){
-                    System.out.println("Received object from client");
-                    out.writeObject(new Object());
-                }
-            }*/
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -71,6 +65,19 @@ public class ClientConnection extends Thread implements Runnable {
         }
     }
 
+    public void getGamePlayers(){
+        if(connectedClients.size() < 2){
+            System.out.println("Not enough players connected");
+        } if (connectedClients.size() > 2){
+            ClientConnection player1 = connectedClients.get(0);
+            ClientConnection player2 = connectedClients.get(1);
+        }
+    }
+
+
+//    private final InetAddress ip = InetAddress.getLocalHost();
+//    private final int PORT = 6000;
+//    public QuizFrame frame;
 
     /*private void initializingConnection() throws IOException {
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -100,4 +107,11 @@ public class ClientConnection extends Thread implements Runnable {
 //            throw new RuntimeException(e);
 //        }
 //    }
+      /*
+            while ((objIn = in.readObject()) != null) {
+                if (objIn instanceof Object obj){
+                    System.out.println("Received object from client");
+                    out.writeObject(new Object());
+                }
+            }*/
 }

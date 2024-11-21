@@ -3,6 +3,7 @@ package Client;
 import QuizApp.QuizFrame;
 import server.ServerResponse;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -41,32 +42,6 @@ public class Client {
                 e.printStackTrace();
             }
 
-            /*
-            System.out.println("Attempting to connect...");
-            try (Socket clientSocket = new Socket(ip, PORT)) {
-                System.out.println("Socket created.");
-                try (ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));) {
-
-                    System.out.println("Streams created, connection established.");
-                    while(input.readObject() instanceof ServerResponse response){
-
-                    }
-
-                    Object objIn;
-                    while ((objIn = in.readLine()) != null) {
-                        if (objIn instanceof ServerResponse response){
-                            System.out.println("Received response");
-                        }
-                    }
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            } catch (IOException e) {
-                System.err.println("An error occurred: " + e.getMessage());
-                e.printStackTrace();
-            }*/
-
         }).start();
     }
 
@@ -78,7 +53,7 @@ public class Client {
         }
     }
 
-    public void addActionListeners(){ //Alla actionlyssnare för knappar läggs HÄR.
+    public void addActionListeners(){ //Alla actionlyssnare för knappar osv läggs HÄR.
         frame.getLoginButton().addActionListener(e ->{
             System.out.println("Sending request to connect...");
             sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUserField().getText()));
@@ -92,6 +67,11 @@ public class Client {
             System.exit(0);
             System.out.println("Want to disconnect");
         });
+        frame.getCategory1Button().addActionListener(e ->{
+            System.out.println("Sending request to music category");
+            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, frame.getUserField().getText()));
+
+        });
     }
 
     public void closeConnection(){
@@ -103,28 +83,6 @@ public class Client {
             throw new RuntimeException(e);
         }
     }
-
-
-    /*
-    public void sendRequest(JButton button) throws IOException {
-        output = new ObjectOutputStream(clientSocket.getOutputStream());
-        input = new ObjectInputStream(new ObjectInputStream(clientSocket.getInputStream()));
-        if (button == frame.getLoginButton()) {
-            System.out.println("Sending request to connect...");
-            output.writeObject(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUserField().getText()));
-        } else if (button == frame.getStartGameButton()) {
-            output.writeObject(new ClientRequest(RequestType.START_GAME, frame.getUserField().getName()));
-        }
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JButton button = (JButton) e.getSource();
-        try {
-            sendRequest(button);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }*/
 
     
     public static void main(String[] args) throws IOException {
@@ -219,8 +177,55 @@ public class Client {
         e.printStackTrace();
     }
 }
+    /*
+            System.out.println("Attempting to connect...");
+            try (Socket clientSocket = new Socket(ip, PORT)) {
+                System.out.println("Socket created.");
+                try (ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));) {
+
+                    System.out.println("Streams created, connection established.");
+                    while(input.readObject() instanceof ServerResponse response){
+
+                    }
+
+                    Object objIn;
+                    while ((objIn = in.readLine()) != null) {
+                        if (objIn instanceof ServerResponse response){
+                            System.out.println("Received response");
+                        }
+                    }
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (IOException e) {
+                System.err.println("An error occurred: " + e.getMessage());
+                e.printStackTrace();
+            }*/
+
+
 
     /*public void addEventListeners(){
         frame.getLoginButton().addActionListener();
+    }*/
+    /*
+    public void sendRequest(JButton button) throws IOException {
+        output = new ObjectOutputStream(clientSocket.getOutputStream());
+        input = new ObjectInputStream(new ObjectInputStream(clientSocket.getInputStream()));
+        if (button == frame.getLoginButton()) {
+            System.out.println("Sending request to connect...");
+            output.writeObject(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUserField().getText()));
+        } else if (button == frame.getStartGameButton()) {
+            output.writeObject(new ClientRequest(RequestType.START_GAME, frame.getUserField().getName()));
+        }
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JButton button = (JButton) e.getSource();
+        try {
+            sendRequest(button);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }*/
 

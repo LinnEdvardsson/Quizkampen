@@ -5,4 +5,5 @@ public enum RequestType {
     DISCONNECT,
     START_GAME,
     CATEGORY_TYPE_REQUEST;
+
 }

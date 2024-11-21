@@ -12,6 +12,9 @@ public class QuizFrame {
     private JTextField userField;
     private JButton startGameButton;
     private JButton exitGameButton;
+    private JButton category1Button;
+    private JButton category2Button;
+    private JPanel createCategoryFrame;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
@@ -40,7 +43,7 @@ public class QuizFrame {
         cardLayout.show(mainPanel, "Login");
     }
 
-    //Metod för att kunna byta "kort" i ClientProtocol
+
     public void switchTo(String panelName){
         cardLayout.show(mainPanel, panelName);
     }
@@ -48,7 +51,8 @@ public class QuizFrame {
 
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
-        userField = new JTextField("Enter your username:", SwingConstants.CENTER);
+        userField = new JTextField("Enter your username: ", SwingConstants.CENTER);
+
         loginButton = new JButton("Login");
 
        // loginButton.addActionListener(e -> { client.sendRequest(new ClientRequest(RequestType.CONNECT_REQUEST, userField.getText()))});
@@ -76,11 +80,13 @@ public class QuizFrame {
         return panel;
     }
 
+
+
     private JPanel createCategoryFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
-        JButton category1Button = new JButton("Music");
-        JButton category2Button = new JButton("Sports");
+        category1Button = new JButton("Music");
+        category2Button = new JButton("Sports");
 
         panel.add(label);
         panel.add(category1Button);
@@ -145,7 +151,12 @@ public class QuizFrame {
         return userField;
     }
 
-    public JButton getStartGameButton(){ return startGameButton; }
+    public JButton getStartGameButton(){ return startGameButton;}
 
-    public JButton getExitGameButton(){ return exitGameButton; }
+    public JButton getExitGameButton(){ return exitGameButton;}
+
+    public JButton getCategory1Button() {return category1Button;}
+
+    public JButton getCategory2Button() {return category2Button;}
+
 }
