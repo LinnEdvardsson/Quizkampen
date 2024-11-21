@@ -10,6 +10,8 @@ public class QuizFrame {
     private JPanel mainPanel;
     private JButton loginButton;
     private JTextField userField;
+    private JButton startGameButton;
+    private JButton exitGameButton;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
@@ -21,6 +23,7 @@ public class QuizFrame {
         mainPanel = new JPanel(cardLayout);
 
         mainPanel.add(createLoginFrame(), "Login");
+        mainPanel.add(createWelcomeFrame(), "Welcome");
         mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
@@ -37,14 +40,11 @@ public class QuizFrame {
         cardLayout.show(mainPanel, "Login");
     }
 
+    //Metod för att kunna byta "kort" i ClientProtocol
     public void switchTo(String panelName){
         cardLayout.show(mainPanel, panelName);
     }
 
-    //skapa menu-panel så att klienten kan klicka starta-spel ?
-    public void createMenuFrame(){
-
-    }
 
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
@@ -57,7 +57,14 @@ public class QuizFrame {
         return panel;
     }
 
-
+    private JPanel createWelcomeFrame() {
+        JPanel welcomePanel = new JPanel(new BorderLayout());
+        startGameButton = new JButton("Start Game");
+        exitGameButton = new JButton("Exit Game");
+        welcomePanel.add(startGameButton, BorderLayout.NORTH);
+        welcomePanel.add(exitGameButton, BorderLayout.SOUTH);
+        return welcomePanel;
+    }
 
     private JPanel createOpponentFrame() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -137,4 +144,8 @@ public class QuizFrame {
     public JTextField getUserField() {
         return userField;
     }
+
+    public JButton getStartGameButton(){ return startGameButton; }
+
+    public JButton getExitGameButton(){ return exitGameButton; }
 }
