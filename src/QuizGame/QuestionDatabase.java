@@ -29,14 +29,19 @@ import java.util.List;
         }
 
         public List<Questions> getQuestionsByCategory(String category) {
+            List<Questions> shuffleQuestions;
             switch (category) {
                 case "music":
-                    return new ArrayList<>(musicQuestions);
+                    shuffleQuestions = new ArrayList<>(musicQuestions);
+                    break;
                 case "sport":
-                    return new ArrayList<>(sportQuestions);
+                    shuffleQuestions = new ArrayList<>(sportQuestions);
+                    break;
                 default:
                     return Collections.emptyList();
             }
+            Collections.shuffle(shuffleQuestions);
+            return shuffleQuestions;
         }
     }
 
