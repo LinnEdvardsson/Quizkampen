@@ -1,6 +1,8 @@
 package Client;
 
-public class ClientRequest {
+import java.io.Serializable;
+
+public class ClientRequest implements Serializable {
 
     RequestType type;
     String username;
@@ -12,6 +14,10 @@ public class ClientRequest {
 
     public RequestType getRequestType(){
         return type;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
 
