@@ -10,20 +10,19 @@ import java.util.List;
 //CLIENT
 
 public class ResponseHandler {
-    private ClientConnection clientConnection;
+    ClientConnection clientConnection;
 
         public void handleResponse(ServerResponse response, Client client){
+            //SENDTOSERVER METOD?
             switch (response.getResponseType()){
                 case CONNECTION_ESTABLISHED -> {
                     System.out.println("Want to connect");
-                    client.frame.switchTo("Welcome");
+                    client.frame.switchTo("Welcome"); //new game actionListener
                 }
 
                 case PLAYER_QUEUED -> {
+                    client.frame.switchTo("PlayerQueue");
                     System.out.println("Player waiting to connect with other player");
-                    client.frame.switchTo("Opponent");
-                    clientConnection.getGamePlayers(); //vet Inte hur man ska gå vidare efter att man plockat ut två st...
-                    //Få till så alla som connectar till servern läggs till i listan som finns i servern och här paras ihop så dom möter varandra.
                 }
 
                 case GAME_STARTED -> {

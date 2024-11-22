@@ -14,9 +14,11 @@ public class Server {
 
     private static final int PORT = 6000;
     static List<ClientConnection> connectedClients; ///Kan användas för att para ihop spelare. Oklart om den ska ligga i själva servern eller utanför.
+    static List<ClientConnection> onGoingGame;
 
     public Server() {
         connectedClients = new ArrayList<>();
+        onGoingGame = new ArrayList<>();
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server started");
@@ -31,14 +33,23 @@ public class Server {
         }
     }
 
-    public static void addClientToQueue(ClientConnection client){ //statisk för att ej vara klassbunden och kunna hämtas överallt utan att behöva skapa nytt objekt.
-        connectedClients.add(client);
+    public static void addToGame(ClientConnection client) {
+        onGoingGame.add(client);
+    }
+
+    public static void notifyGameStart() throws IOException{
+        for (ClientConnection client : onGoingGame) {
+            Server.sendResponse(new ServerResponse(ResponseType.GAME_STARTED), client);
+        }
     }
 
     public static void sendResponse(ServerResponse response, ClientConnection client) throws IOException {
         client.getOutputStream().writeObject(response);
     }
 
+    public static int playersInQueue() {
+        return onGoingGame.size();
+    }
 
 
     public static void main(String[] args) throws UnknownHostException {

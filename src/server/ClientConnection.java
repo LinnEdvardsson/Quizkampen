@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -18,9 +19,14 @@ public class ClientConnection extends Thread implements Runnable {
     private Socket socket;
     ObjectOutputStream out;
     ObjectInputStream in;
+    private ClientConnection player1;
+    private ClientConnection Player2;
+    List<ClientConnection> players;
 
     public ClientConnection(Socket socket) throws UnknownHostException {
         this.socket = socket;
+        players = new ArrayList<>();
+
     }
 
     @Override
@@ -47,7 +53,7 @@ public class ClientConnection extends Thread implements Runnable {
             throw new RuntimeException(e);
         }
         finally{
-            closeConnection();
+            //closeConnection();
         }
     }
 
@@ -65,17 +71,10 @@ public class ClientConnection extends Thread implements Runnable {
         }
     }
 
-    public void getGamePlayers(){
-        if(connectedClients.size() < 2){
-            System.out.println("Not enough players connected");
-        } if (connectedClients.size() > 2){
-            ClientConnection player1 = connectedClients.get(0);
-            ClientConnection player2 = connectedClients.get(1);
-        }
-    }
 
+}
 
-//    private final InetAddress ip = InetAddress.getLocalHost();
+    //    private final InetAddress ip = InetAddress.getLocalHost();
 //    private final int PORT = 6000;
 //    public QuizFrame frame;
 
@@ -114,4 +113,27 @@ public class ClientConnection extends Thread implements Runnable {
                     out.writeObject(new Object());
                 }
             }*/
-}
+/* public List<ClientConnection> getGamePlayers(){
+            if (connectedClients.size() < 2) {
+                System.out.println("Not enough players connected");
+            }
+            if (connectedClients.size() >= 2) {
+                ClientConnection player1 = connectedClients.get(0);
+                ClientConnection player2 = connectedClients.get(1);
+                players.add(player1); //detta är ju fel??
+                players.add(player2);
+                System.out.println("Hejsanhoppsan"); //debug som inte skrivs ut........
+            }
+            return players;
+        }
+
+    public ClientConnection getPlayer1() {
+        return player1;
+    }
+
+    public ClientConnection getPlayer2() {
+        return Player2;
+    }
+
+ */
+

@@ -51,7 +51,7 @@ public class QuizFrame {
 
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
-        userField = new JTextField("Enter your username: ", SwingConstants.CENTER);
+        userField = new JTextField("Enter your username: ", SwingConstants.CENTER); //ändra till lable med "Enter usernamne + lägg till textfield för att ta emot värdet.
 
         loginButton = new JButton("Login");
 
