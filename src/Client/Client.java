@@ -18,12 +18,14 @@ public class Client {
     ObjectOutputStream output;
     ObjectInputStream input;
     Socket socket;
+    ResponseHandler responseHandler;
 
     public Client() throws IOException {
         socket = new Socket(ip, PORT);
         output = new ObjectOutputStream(socket.getOutputStream());
         input = new ObjectInputStream(socket.getInputStream());
         frame = new QuizFrame();
+        responseHandler = new ResponseHandler();
         listenForConnection();
         addActionListeners();
     }
@@ -35,7 +37,7 @@ public class Client {
             try{
                 while(input.readObject() instanceof ServerResponse response){
                     System.out.println("Received response");
-                    ResponseHandler.handleResponse(response, this);
+                    responseHandler.handleResponse(response, this);
                 }
             }
             catch (IOException | ClassNotFoundException e){

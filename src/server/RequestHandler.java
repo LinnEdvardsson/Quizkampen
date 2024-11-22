@@ -16,10 +16,20 @@ public class RequestHandler {
                 System.out.println("Wish to disconnect");
                 Server.sendResponse(new ServerResponse(ResponseType.CONNECTION_TERMINATED), client);
             }
+
+//            case FIND_OPPONENT_REQUEST -> {
+//                System.out.println("Want to find an opponent");
+//                Server.addClientToQueue(client);
+//            }
             case START_GAME -> {
                 System.out.println("Wish to start game");
-                Server.addClientToQueue(client);
-                Server.sendResponse(new ServerResponse(ResponseType.GAME_STARTED), client);
+                Server.addToGame(client);
+                if (Server.playersInQueue() >= 2) {
+                    Server.notifyGameStart();
+                } else {
+                    Server.sendResponse(new ServerResponse(ResponseType.PLAYER_QUEUED), client); //ändra GUI för klienten
+                }
+
             }
             case CATEGORY_TYPE_REQUEST -> {
                 System.out.println("Want to choose category type request");
