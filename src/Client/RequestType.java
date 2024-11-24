@@ -6,5 +6,5 @@ public enum RequestType {
     FIND_OPPONENT_REQUEST,
     START_GAME,
     CATEGORY_TYPE_REQUEST,
-
+    PLAYER1_PLAYING;
 }

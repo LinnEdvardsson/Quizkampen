@@ -25,17 +25,24 @@ public class RequestHandler {
                 System.out.println("Wish to start game");
                 Server.addToGame(client);
                 if (Server.playersInQueue() >= 2) {
-                    Server.notifyGameStart();
+                    ClientConnection playerOne = Server.onGoingGame.removeFirst();
+                    ClientConnection playerTwo = Server.onGoingGame.removeFirst();
+                    Instance instance = new Instance(playerOne, playerTwo);
+                    Server.notifyInstance(instance);
                 } else {
-                    Server.sendResponse(new ServerResponse(ResponseType.PLAYER_QUEUED), client); //ändra GUI för klienten
+                    Server.sendResponse(new ServerResponse(ResponseType.PLAYER_QUEUED), client);
                 }
 
             }
             case CATEGORY_TYPE_REQUEST -> {
                 System.out.println("Want to choose category type request");
                 Server.sendResponse(new ServerResponse(ResponseType.CHOOSE_CATEGORY), client);
-
             }
+
+            case PLAYER1_PLAYING -> {
+                Server.sendResponse(new ServerResponse(ResponseType.GET_QUESTION), client);
+            }
+
         }
     }
 }
