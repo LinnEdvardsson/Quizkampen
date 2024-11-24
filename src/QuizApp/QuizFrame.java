@@ -30,6 +30,7 @@ public class QuizFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
+
         mainPanel.add(createLoginFrame(), "Login");
         mainPanel.add(createWelcomeFrame(), "Welcome");
         mainPanel.add(createQueueFrame(), "Queue");
@@ -39,6 +40,7 @@ public class QuizFrame {
         mainPanel.add(createUserResultFrame(), "UserResult");
         mainPanel.add(createOpponentResultFrame(), "OpponentResult");
         mainPanel.add(createFinalResultFrame(), "FinalResult");
+        mainPanel.add(createWaitingForPlayer(), "WaitingForPlayer");
 
         frame.add(mainPanel);
         frame.setSize(300, 400);
@@ -46,7 +48,7 @@ public class QuizFrame {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
-        cardLayout.show(mainPanel, "Login");
+        cardLayout.show(mainPanel, "Question");
     }
 
 
@@ -76,6 +78,13 @@ public class QuizFrame {
         welcomePanel.add(startGameButton, BorderLayout.NORTH);
         welcomePanel.add(exitGameButton, BorderLayout.SOUTH);
         return welcomePanel;
+    }
+
+    private JPanel createWaitingForPlayer(){
+        JPanel waitingPanel = new JPanel(new BorderLayout());
+        waitingPanel.add(new JLabel("Waiting for player"), BorderLayout.CENTER);
+        waitingPanel.setSize(100,100);
+        return waitingPanel;
     }
 
     private JPanel createOpponentFrame() {
@@ -110,14 +119,37 @@ public class QuizFrame {
     }
 
     private JPanel createQuestionFrame() {
+        QuestionDatabase qdb = new QuestionDatabase();
         JPanel panel = new JPanel(new BorderLayout());
         JLabel questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
         JPanel answerPanel = new JPanel(new GridLayout(4, 1));
+        JButton choice1 = new JButton();
+        JButton choice2 = new JButton();
+        JButton choice3 = new JButton();
+        JButton choice4 = new JButton();
 
-        for (int i = 1; i <= 4; i++) {
-            JButton answerButton = new JButton("Answer " + i);
-            answerPanel.add(answerButton);
-        }
+        qdb.addQuestionsForCategory("music");
+        String question = qdb.getQuestionsByCategory("music").getFirst().getQuestiontext();
+        questionLabel.setText(question);
+
+        String[] answers = qdb.getQuestionsByCategory("music").getFirst().getAnswers();
+        choice1.setText(answers[0]);
+        choice2.setText(answers[1]);
+        choice3.setText(answers[2]);
+        choice4.setText(answers[3]);
+
+        int correctAnswerIndex = qdb.getQuestionsByCategory("music").getFirst().getCorrectAnswerIndex();
+
+        answerPanel.add(choice1);
+        answerPanel.add(choice2);
+        answerPanel.add(choice3);
+        answerPanel.add(choice4);
+
+
+//        for (int i = 1; i <= 4; i++) {
+//            JButton answerButton = new JButton("Answer " + i);
+//            answerPanel.add(answerButton);
+//        }
 
         panel.add(questionLabel, BorderLayout.NORTH);
         panel.add(answerPanel, BorderLayout.CENTER);

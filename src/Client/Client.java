@@ -1,6 +1,9 @@
 package Client;
 
 import QuizApp.QuizFrame;
+import server.ClientConnection;
+import server.ResponseType;
+import server.Server;
 import server.ServerResponse;
 
 import javax.swing.*;
@@ -75,7 +78,6 @@ public class Client {
         frame.getCategory1Button().addActionListener(e ->{
             System.out.println("Sending request to music category");
             sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
-
         });
     }
 
