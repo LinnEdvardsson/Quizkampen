@@ -1,6 +1,9 @@
 package Client;
 
 import QuizApp.QuizFrame;
+import server.ClientConnection;
+import server.ResponseType;
+import server.Server;
 import server.ServerResponse;
 import java.io.*;
 import java.net.InetAddress;
