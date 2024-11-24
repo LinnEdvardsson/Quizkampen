@@ -1,7 +1,13 @@
 package QuizApp;
 
+import QuizGame.QuestionDatabase;
+import QuizGame.Questions;
+import server.ClientConnection;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public class QuizFrame {
 
@@ -14,7 +20,6 @@ public class QuizFrame {
     private JButton exitGameButton;
     private JButton category1Button;
     private JButton category2Button;
-    private JPanel createCategoryFrame;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
@@ -27,7 +32,8 @@ public class QuizFrame {
 
         mainPanel.add(createLoginFrame(), "Login");
         mainPanel.add(createWelcomeFrame(), "Welcome");
-        mainPanel.add(createOpponentFrame(), "Opponent");
+        mainPanel.add(createQueueFrame(), "Queue");
+       // mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
         mainPanel.add(createUserResultFrame(), "UserResult");
@@ -44,20 +50,22 @@ public class QuizFrame {
     }
 
 
-    public void switchTo(String panelName){
+    public void switchTo(String panelName) {
         cardLayout.show(mainPanel, panelName);
     }
 
 
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
-        userField = new JTextField("Enter your username: ", SwingConstants.CENTER); //ändra till lable med "Enter usernamne + lägg till textfield för att ta emot värdet.
+        JLabel lable = new JLabel("Enter username");
+        userField = new JTextField( SwingConstants.CENTER);
 
         loginButton = new JButton("Login");
 
        // loginButton.addActionListener(e -> { client.sendRequest(new ClientRequest(RequestType.CONNECT_REQUEST, userField.getText()))});
         panel.add(userField);
         panel.add(loginButton);
+        panel.add(lable);
         return panel;
     }
 
@@ -77,6 +85,13 @@ public class QuizFrame {
 
         panel.add(label, BorderLayout.CENTER);
         panel.add(proceedButton, BorderLayout.SOUTH);
+        return panel;
+    }
+
+    private JPanel createQueueFrame(){
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel("Other player is playing");
+        panel.add(label, BorderLayout.CENTER);
         return panel;
     }
 

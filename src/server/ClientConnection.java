@@ -8,24 +8,21 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
-import static server.Server.connectedClients;
+
 
 public class ClientConnection extends Thread implements Runnable {
 
     private Socket socket;
     ObjectOutputStream out;
     ObjectInputStream in;
-    private ClientConnection player1;
-    private ClientConnection Player2;
-    List<ClientConnection> players;
+//    private ClientConnection player1;
+//    private ClientConnection Player2;
+//    List<ClientConnection> players;
 
     public ClientConnection(Socket socket) throws UnknownHostException {
         this.socket = socket;
-        players = new ArrayList<>();
+//        players = new ArrayList<>();
 
     }
 

@@ -19,6 +19,8 @@ public class Client {
     ObjectInputStream input;
     Socket socket;
     ResponseHandler responseHandler;
+    
+    String username;
 
     public Client() throws IOException {
         socket = new Socket(ip, PORT);
@@ -58,11 +60,12 @@ public class Client {
     public void addActionListeners(){ //Alla actionlyssnare för knappar osv läggs HÄR.
         frame.getLoginButton().addActionListener(e ->{
             System.out.println("Sending request to connect...");
-            sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUserField().getText()));
+            username = frame.getUserField().getText();
+            sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, username));
         });
         frame.getStartGameButton().addActionListener(e ->{
             System.out.println("Sending request to start game");
-            sendToServer(new ClientRequest(RequestType.START_GAME, frame.getUserField().getName()));
+            sendToServer(new ClientRequest(RequestType.START_GAME, username));
         });
         frame.getExitGameButton().addActionListener(e -> {
             closeConnection();
@@ -71,7 +74,7 @@ public class Client {
         });
         frame.getCategory1Button().addActionListener(e ->{
             System.out.println("Sending request to music category");
-            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, frame.getUserField().getText()));
+            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
 
         });
     }

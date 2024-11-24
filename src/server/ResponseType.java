@@ -5,5 +5,6 @@ public enum ResponseType {
     CONNECTION_TERMINATED,
     PLAYER_QUEUED,
     GAME_STARTED,
-    CHOOSE_CATEGORY;
+    CHOOSE_CATEGORY,
+    GET_QUESTION;
 }
