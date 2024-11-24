@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import QuizApp.QuizFrame;
 
 
 
@@ -73,10 +76,14 @@ public class Client {
             System.out.println("Want to disconnect");
         });
         frame.getCategory1Button().addActionListener(e ->{
-            System.out.println("Sending request to music category");
+            System.out.println("Sending request to .... category");
             sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
-
         });
+        frame.getCategory2Button().addActionListener(e ->{
+            System.out.println("Sending request to .... category");
+            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
+        });
+
     }
 
     public void closeConnection(){

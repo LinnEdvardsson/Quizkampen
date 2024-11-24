@@ -1,4 +1,6 @@
 package QuizGame;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -6,6 +8,7 @@ public class QuizSetUp {
     private QuestionDatabase questionDatabase;
     private ConfigGame configGame;
     Scanner scanner;
+/// Hjälpmetoder som behöver skrivas om så de funkar med GUI
 
     public QuizSetUp() {
         this.questionDatabase = new QuestionDatabase();
@@ -15,26 +18,29 @@ public class QuizSetUp {
 
     public void startQuiz() {   //serverSidan???
         configGame.loadSettings();
-        String category = getCategory();
+        List <eCategoryType> category = getCategories();
         playAllRounds(category);
     }
 
-    private String getCategory() {
-        System.out.println("What Category? Music or Sport?");
-        return scanner.nextLine();
+    // liknande metod för frågor inom den valda kategorin?
+    public static List<eCategoryType> getCategories(){
+        List<eCategoryType> allAvailableCategories = new ArrayList<>(List.of(eCategoryType.values()));
+        Collections.shuffle(allAvailableCategories);
+
+        List<eCategoryType> categorySet = new ArrayList<>(allAvailableCategories.subList(0, 4));
+        return categorySet;
     }
 
-    public void playAllRounds(String category) {              //serverSidan?
+    public void playAllRounds(List<eCategoryType> category) {              //serverSidan?
         int roundsPerGame = configGame.getRoundsPerGame();
         for (int round = 1; round <= roundsPerGame; round++) {
             System.out.println("\nRound " + round + " of " + roundsPerGame);
             playRound(category);
-
         }
     }
 
-    public int playRound(String category) {
-        List<Questions> questions = questionDatabase.addQuestionsForCategory(category);
+    public int playRound(List<eCategoryType> category) {
+        List<Questions> questions = questionDatabase.addQuestionsForCategory(category.toString());
         int questionsToAsk = Math.min(configGame.getQuestionsPerRound(), questions.size());
         for (int q = 0; q < questionsToAsk; q++) {
             askQuestion(questions.get(q), q + 1, questionsToAsk);
@@ -72,11 +78,5 @@ public class QuizSetUp {
                     answers[question.getCorrectAnswerIndex()]);
             return 0;
         }
-    }
-
-
-    public static void main(String[] args) {
-        QuizSetUp quizSetUp = new QuizSetUp();
-        quizSetUp.startQuiz();
     }
 }
