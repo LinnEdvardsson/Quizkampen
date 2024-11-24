@@ -1,13 +1,7 @@
 package QuizApp;
 
-import QuizGame.QuestionDatabase;
-import QuizGame.Questions;
-import server.ClientConnection;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 public class QuizFrame {
 
@@ -20,6 +14,8 @@ public class QuizFrame {
     private JButton exitGameButton;
     private JButton category1Button;
     private JButton category2Button;
+    private JButton category3Button = new JButton();
+    private JButton category4Button = new JButton();
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
@@ -33,7 +29,6 @@ public class QuizFrame {
         mainPanel.add(createLoginFrame(), "Login");
         mainPanel.add(createWelcomeFrame(), "Welcome");
         mainPanel.add(createQueueFrame(), "Queue");
-       // mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
         mainPanel.add(createUserResultFrame(), "UserResult");
@@ -58,50 +53,45 @@ public class QuizFrame {
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel lable = new JLabel("Enter username");
-        userField = new JTextField( SwingConstants.CENTER);
-
+        userField = new JTextField();
         loginButton = new JButton("Login");
 
-       // loginButton.addActionListener(e -> { client.sendRequest(new ClientRequest(RequestType.CONNECT_REQUEST, userField.getText()))});
-        panel.add(userField);
-        panel.add(loginButton);
-        panel.add(lable);
+        panel.add(lable, BorderLayout.NORTH);
+        panel.add(userField, BorderLayout.CENTER);
+        panel.add(loginButton, BorderLayout.SOUTH);
         return panel;
     }
+
 
     private JPanel createWelcomeFrame() {
         JPanel welcomePanel = new JPanel(new BorderLayout());
         startGameButton = new JButton("Start Game");
+        JTextArea textArea = new JTextArea("WELCOME TO QUIZ GAME");
         exitGameButton = new JButton("Exit Game");
+        welcomePanel.add(textArea, BorderLayout.CENTER);
+
+
         welcomePanel.add(startGameButton, BorderLayout.NORTH);
         welcomePanel.add(exitGameButton, BorderLayout.SOUTH);
         return welcomePanel;
     }
 
-    private JPanel createOpponentFrame() {
-        JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Finding an opponent...", SwingConstants.CENTER);
-        JButton proceedButton = new JButton("Next");
-
-        panel.add(label, BorderLayout.CENTER);
-        panel.add(proceedButton, BorderLayout.SOUTH);
-        return panel;
-    }
 
     private JPanel createQueueFrame(){
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Other player is playing");
+        JLabel label = new JLabel("In queue.....");
         panel.add(label, BorderLayout.CENTER);
         return panel;
     }
-
 
 
     private JPanel createCategoryFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
-        category1Button = new JButton("Music");
-        category2Button = new JButton("Sports");
+        category1Button = new JButton();
+        category2Button = new JButton();
+        category3Button = new JButton();
+        category4Button = new JButton();
 
         panel.add(label);
         panel.add(category1Button);
@@ -154,10 +144,6 @@ public class QuizFrame {
         return panel;
     }
 
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(QuizFrame::new); //vad betyder det här?
-    }*/
-
     public JButton getLoginButton() {
         return loginButton;
     }
@@ -174,4 +160,7 @@ public class QuizFrame {
 
     public JButton getCategory2Button() {return category2Button;}
 
+    public JButton getCategory3Button() {return category3Button;}
+
+    public JButton getCategory4Button() {return category4Button;}
 }
