@@ -1,4 +1,8 @@
 package QuizGame;
+import QuizApp.QuizFrame;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +12,7 @@ public class QuizSetUp {
     private QuestionDatabase questionDatabase;
     private ConfigGame configGame;
     Scanner scanner;
+
 
 /// Hjälpmetoder som behöver skrivas om så de funkar med GUI
     private PlayerScore playerScore;
@@ -57,6 +62,22 @@ public class QuizSetUp {
         displayAnswerOptions(question.getAnswers());
         processAnswer(question);
     }
+
+    //Metoder till QuizSetUp?
+    /*public void initializeQuestions(){
+        for(int i = 0; i < 4; i++){
+            answerButtons[i] = new JButton();
+            answerPanel.add(answeredButtons[i]);}
+            }
+
+            public void displayQuestions(){
+                questionLabel.setText(question.getQuestionText();
+                String[] answers = question.getAnswers();
+
+                for(int i = 0; i < 4; i++){
+                    answerButton[i].setText(answers[i]);
+        }
+    }*/
 
     public void displayQuestion(Questions question, int questionNumber, int totalQuestions) {
         System.out.println("\nQuestion " + questionNumber + " of " + totalQuestions);

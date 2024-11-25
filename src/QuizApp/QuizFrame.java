@@ -47,8 +47,8 @@ public class QuizFrame {
        // mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
-        mainPanel.add(createUserResultFrame(), "UserResult");
-        mainPanel.add(createOpponentResultFrame(), "OpponentResult");
+//        mainPanel.add(createUserResultFrame(), "UserResult");
+//        mainPanel.add(createOpponentResultFrame(), "OpponentResult");
         mainPanel.add(createFinalResultFrame(), "FinalResult");
         mainPanel.add(createWaitingForPlayer(), "WaitingForPlayer");
 
@@ -177,7 +177,7 @@ public class QuizFrame {
 
     private JPanel createFinalResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Final Results:\nYou: 2 | Opponent: 1", SwingConstants.CENTER);
+        JLabel label = new JLabel("Final Results: ", username, PlayerOneScoreList, "|", username, PlayerTwoScoreList, SwingConstants.CENTER);
         JButton restartButton = new JButton("Play Again");
 
         panel.add(label, BorderLayout.CENTER);
