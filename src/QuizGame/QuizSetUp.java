@@ -81,13 +81,6 @@ public class QuizSetUp {
         } else {
             System.out.println("Wrong! The correct answer was " +
                     answers[question.getCorrectAnswerIndex()]);
-            return 0;
         }
-    }
-
-
-    public static void main(String[] args) {
-        QuizSetUp quizSetUp = new QuizSetUp();
-        quizSetUp.startQuiz();
     }
 }
