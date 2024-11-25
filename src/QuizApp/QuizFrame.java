@@ -1,5 +1,7 @@
 package QuizApp;
 
+import Client.Client;
+import Client.ResponseHandler;
 import QuizGame.QuestionDatabase;
 import QuizGame.Questions;
 import server.ClientConnection;
@@ -24,8 +26,11 @@ public class QuizFrame {
     private JButton answer2Button;
     private JButton answer3Button;
     private JButton answer4Button;
+    private int randomQuestion;
+    private int correctAnswerIndex;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
+        randomQuestion = (int) (Math.random() * 4);
         setupGUI();
     }
 
@@ -59,7 +64,6 @@ public class QuizFrame {
     public void switchTo(String panelName) {
         cardLayout.show(mainPanel, panelName);
     }
-
 
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
@@ -109,7 +113,6 @@ public class QuizFrame {
     }
 
 
-
     private JPanel createCategoryFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
@@ -128,19 +131,18 @@ public class QuizFrame {
         JLabel questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
         JPanel answerPanel = new JPanel(new GridLayout(4, 1));
 
-        qdb.addQuestionsForCategory("music");
-        String question = qdb.getQuestionsByCategory("music").getFirst().getQuestiontext();
-        questionLabel.setText(question);
 
-        String[] answers = qdb.getQuestionsByCategory("music").getFirst().getAnswers();
+        qdb.addQuestionsForCategory("music");
+        String question = qdb.getQuestionsByCategory("music").get(randomQuestion).getQuestiontext();
+        questionLabel.setText(question);
+        correctAnswerIndex = qdb.getQuestionsByCategory("music").get(randomQuestion).getCorrectAnswerIndex();
+        String[] answers = qdb.getQuestionsByCategory("music").get(randomQuestion).getAnswers();
+
         answer1Button = new JButton(answers[0]);
         answer2Button = new JButton(answers[1]);
         answer3Button = new JButton(answers[2]);
         answer4Button = new JButton(answers[3]);
-
-
-        int correctAnswerIndex = qdb.getQuestionsByCategory("music").getFirst().getCorrectAnswerIndex();
-
+        
         answerPanel.add(answer1Button);
         answerPanel.add(answer2Button);
         answerPanel.add(answer3Button);
@@ -214,5 +216,9 @@ public class QuizFrame {
     public JButton getAnswer3Button() {return answer3Button;}
 
     public JButton getAnswer4Button() {return answer4Button;}
+
+    public int getRandomQuestion(){return randomQuestion;}
+
+    public int getCorrectAnswerIndex(){return correctAnswerIndex;}
 
 }
