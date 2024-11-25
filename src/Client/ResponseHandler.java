@@ -13,12 +13,11 @@ import QuizGame.*;
 //CLIENT
 
 public class ResponseHandler {
-    Instance instance;
+
     QuizSetUp quizSetUp;
 
 
     public void handleResponse(ServerResponse response, Client client) throws IOException {
-
 
         switch (response.getResponseType()) {
             case CONNECTION_ESTABLISHED -> {
@@ -29,7 +28,7 @@ public class ResponseHandler {
             case PLAYER_QUEUED -> {
                 client.frame.switchTo("Queue");
                 System.out.println("Player waiting to connect with other player");
-                    /// få in så när spelare 2 joinar få upp kategori-panel.
+
             }
 
             case GAME_STARTED -> {
@@ -51,7 +50,8 @@ public class ResponseHandler {
                 if (response.isMyTurn()) {
                     client.frame.switchTo("Question");
                     quizSetUp.startQuiz();
-                    quizSetUp.playAllRounds(QuizSetUp.getCategories());
+                    //quizSetUp.playAllRounds(QuizSetUp.getCategories());
+                    /// Frågor ska in här + frågepanel.
                 }
             }
 

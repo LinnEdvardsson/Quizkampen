@@ -3,7 +3,7 @@ import Client.ClientRequest;
 
 import java.io.IOException;
 
-//SERVER
+//SERVER hanterar klientens requests
 public class RequestHandler {
 
     public static void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
