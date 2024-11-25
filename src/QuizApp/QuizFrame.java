@@ -28,6 +28,7 @@ public class QuizFrame {
     private JButton answer4Button;
     private int randomQuestion;
     private int correctAnswerIndex;
+    private String userCategoryChoice;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         randomQuestion = (int) (Math.random() * 4);
@@ -57,7 +58,7 @@ public class QuizFrame {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
-        cardLayout.show(mainPanel, "Question");
+        cardLayout.show(mainPanel, "Login");
     }
 
 
@@ -149,11 +150,6 @@ public class QuizFrame {
         answerPanel.add(answer4Button);
 
 
-//        for (int i = 1; i <= 4; i++) {
-//            JButton answerButton = new JButton("Answer " + i);
-//            answerPanel.add(answerButton);
-//        }
-
         panel.add(questionLabel, BorderLayout.NORTH);
         panel.add(answerPanel, BorderLayout.CENTER);
         return panel;
@@ -220,5 +216,9 @@ public class QuizFrame {
     public int getRandomQuestion(){return randomQuestion;}
 
     public int getCorrectAnswerIndex(){return correctAnswerIndex;}
+
+    public void setUserCategoryChoice(String category){this.userCategoryChoice = category;}
+
+    public String getUserCategoryChoice(){return userCategoryChoice;}
 
 }

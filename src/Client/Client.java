@@ -91,7 +91,9 @@ public class Client {
         frame.getCategory1Button().addActionListener(e ->{
             System.out.println("Sending request to music category");
             sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
+            frame.switchTo("Question");
         });
+
         frame.getAnswer1Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 0){
                 frame.getAnswer1Button().setBackground(Color.GREEN);
