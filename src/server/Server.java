@@ -40,6 +40,7 @@ public class Server {
     }
 
 
+
     public static void notifyInstance(Instance instance) throws IOException {
         ClientConnection playerOne = instance.getClientOne();
         ClientConnection playerTwo = instance.getClientTwo();
@@ -64,30 +65,3 @@ public class Server {
 
     }
 }
-
-
-/*try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            while (true) {
-
-//               Socket clientSocket = serverSocket.accept();
-                ClientConnection clientConnection = new ClientConnection(serverSocket.accept());
-                new QuizFrame(); //felplacerad?
-                //JOptionPane.showMessageDialog(null,"Waiting for another player!");
-                System.out.println("Waiting for another player");
-                ClientConnection clientConnection2 = new ClientConnection(serverSocket.accept());
-                clientConnection.start();
-                clientConnection2.start();
-                new QuizFrame();//felplacerad??
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-
-// Säger vems tur det är, i paketet, så dom kan urskilja på klientsidan
-// isMyTurn if  true > kategoripanel, annars queuepanel
-// skicka med kategorier
-
-//List<eCategoryType> categories = new ArrayList<>();
-//        categories.add(eCategoryType.MUSIC);
-//        categories.add(eCategoryType.SPORT);

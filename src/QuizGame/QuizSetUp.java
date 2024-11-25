@@ -8,6 +8,7 @@ public class QuizSetUp {
     private QuestionDatabase questionDatabase;
     private ConfigGame configGame;
     Scanner scanner;
+
 /// Hjälpmetoder som behöver skrivas om så de funkar med GUI
     private PlayerScore playerScore;
 

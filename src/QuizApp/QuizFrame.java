@@ -96,6 +96,8 @@ public class QuizFrame {
         panel.add(label);
         panel.add(category1Button);
         panel.add(category2Button);
+        panel.add(category3Button);
+        panel.add(category4Button);
         return panel;
     }
 
