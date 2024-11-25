@@ -1,37 +1,42 @@
 package QuizGame;
+import Client.Client;
 import QuizApp.QuizFrame;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class QuizSetUp {
     private QuestionDatabase questionDatabase;
     private ConfigGame configGame;
     Scanner scanner;
-
+//    List<PlayerScore> playerOneScore;
+//    List<PlayerScore> playerTwoScore;
+    private PlayerScore playerScore;
+//    Client client;
+//    QuizFrame quizFrame;
 
 /// Hjälpmetoder som behöver skrivas om så de funkar med GUI
-    private PlayerScore playerScore;
+
+
 
     public QuizSetUp() {
         this.questionDatabase = new QuestionDatabase();
         scanner = new Scanner(System.in);
         configGame = new ConfigGame();
+//        this.playerOneScore = playerOneScore;
+//        this.playerTwoScore = playerTwoScore;
+
     }
 
     public void startQuiz() {
         configGame.loadSettings();
         List <eCategoryType> category = getCategories();
         playAllRounds(category);
-        System.out.println("Final score: " + playerScore.getScore());
+
     }
 
     // liknande metod för frågor inom den valda kategorin?
-    public static List<eCategoryType> getCategories(){
+    public List<eCategoryType> getCategories(){
         List<eCategoryType> allAvailableCategories = new ArrayList<>(List.of(eCategoryType.values()));
         Collections.shuffle(allAvailableCategories);
 
@@ -39,7 +44,7 @@ public class QuizSetUp {
         return categorySet;
     }
 
-    public void playAllRounds(List<eCategoryType> category) {              //serverSidan?
+    public void playAllRounds(List<eCategoryType> category) {
         int roundsPerGame = configGame.getRoundsPerGame();
         for (int round = 1; round <= roundsPerGame; round++) {
             System.out.println("\nRound " + round + " of " + roundsPerGame);

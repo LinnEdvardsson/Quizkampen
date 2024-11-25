@@ -5,8 +5,10 @@ import java.io.IOException;
 
 //SERVER hanterar klientens requests
 public class RequestHandler {
+   Server server;
 
-    public static void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
+    public void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
+        this.server = new Server();
         switch (request.getRequestType()){
             case CONNECT_REQUEST -> {
                 System.out.println("Wish to connect to server");
@@ -28,7 +30,8 @@ public class RequestHandler {
                     ClientConnection playerOne = Server.onGoingGame.removeFirst();
                     ClientConnection playerTwo = Server.onGoingGame.removeFirst();
                     Instance instance = new Instance(playerOne, playerTwo);
-                    Server.notifyInstance(instance);
+                    server.notifyInstance(instance);
+                    
                 } else {
                     Server.sendResponse(new ServerResponse(ResponseType.PLAYER_QUEUED), client);
                 }
@@ -42,7 +45,8 @@ public class RequestHandler {
             case PLAYER1_PLAYING -> {
                 Server.sendResponse(new ServerResponse(ResponseType.GET_QUESTION), client);
             }
-
+            
+             
         }
     }
 }

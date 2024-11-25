@@ -7,5 +7,4 @@ public enum eCategoryType {
     IT,
     ANIMALS,
     GEOGRAPHY;
-
 }

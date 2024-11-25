@@ -51,14 +51,17 @@ public class ResponseHandler {
                     client.frame.switchTo("Question");
                     quizSetUp.startQuiz();
 
-                    /// Frågor ska in här + frågepanel.
+
                 }
             }
 
             case GET_QUESTION -> {
 
+                /// Frågor ska in här + frågepanel. KIM ÄR HÄR.
 
             }
+
+            case GAME_DONE
         }
     }
 }
