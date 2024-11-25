@@ -78,6 +78,10 @@ public class Client {
             System.out.println("Sending request to .... category");
             sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
         });
+        frame.getCategory3Button().addActionListener(e ->{
+            System.out.println("Sending request to .... category");
+            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
+        });
 
     }
 

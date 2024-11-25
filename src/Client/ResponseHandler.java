@@ -50,7 +50,7 @@ public class ResponseHandler {
                 if (response.isMyTurn()) {
                     client.frame.switchTo("Question");
                     quizSetUp.startQuiz();
-                    //quizSetUp.playAllRounds(QuizSetUp.getCategories());
+
                     /// Frågor ska in här + frågepanel.
                 }
             }

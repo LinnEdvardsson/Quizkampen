@@ -1,5 +1,7 @@
 package QuizApp;
 
+import QuizGame.QuestionDatabase;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,6 +18,9 @@ public class QuizFrame {
     private JButton category2Button;
     private JButton category3Button = new JButton();
     private JButton category4Button = new JButton();
+    private JButton[] answerButtons = new JButton[4];
+
+
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
@@ -86,7 +91,7 @@ public class QuizFrame {
 
 
     private JPanel createCategoryFrame() {
-        JPanel panel = new JPanel(new GridLayout(3, 1));
+        JPanel panel = new JPanel(new GridLayout(5, 1));
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
         category1Button = new JButton();
         category2Button = new JButton();
@@ -100,8 +105,36 @@ public class QuizFrame {
         panel.add(category4Button);
         return panel;
     }
-
     private JPanel createQuestionFrame() {
+        QuestionDatabase qdb = new QuestionDatabase();
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
+        JPanel answerPanel = new JPanel(new GridLayout(4, 1));
+        JButton choice1 = new JButton();
+        JButton choice2 = new JButton();
+        JButton choice3 = new JButton();
+        JButton choice4 = new JButton();
+
+        qdb.addQuestionsForCategory("music");
+        String question = qdb.getQuestionsByCategory("music").getFirst().getQuestiontext();
+        questionLabel.setText(question);
+
+        String[] answers = qdb.getQuestionsByCategory("music").getFirst().getAnswers();
+        choice1.setText(answers[0]);
+        choice2.setText(answers[1]);
+        choice3.setText(answers[2]);
+        choice4.setText(answers[3]);
+
+        int correctAnswerIndex = qdb.getQuestionsByCategory("music").getFirst().getCorrectAnswerIndex();
+
+        answerPanel.add(choice1);
+        answerPanel.add(choice2);
+        answerPanel.add(choice3);
+        answerPanel.add(choice4);
+        return panel;
+    }
+
+   /* private JPanel createQuestionFrame() {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
         JPanel answerPanel = new JPanel(new GridLayout(4, 1));
@@ -114,7 +147,7 @@ public class QuizFrame {
         panel.add(questionLabel, BorderLayout.NORTH);
         panel.add(answerPanel, BorderLayout.CENTER);
         return panel;
-    }
+    }*/
 
     private JPanel createUserResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -165,4 +198,7 @@ public class QuizFrame {
     public JButton getCategory3Button() {return category3Button;}
 
     public JButton getCategory4Button() {return category4Button;}
+
+    public JButton[] getAnswerButtons() {return answerButtons;}
 }
+
