@@ -1,9 +1,13 @@
 package QuizApp;
 
 import QuizGame.QuestionDatabase;
+import QuizGame.Questions;
+import server.ClientConnection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public class QuizFrame {
 
@@ -16,11 +20,10 @@ public class QuizFrame {
     private JButton exitGameButton;
     private JButton category1Button;
     private JButton category2Button;
-    private JButton category3Button = new JButton();
-    private JButton category4Button = new JButton();
-    private JButton[] answerButtons = new JButton[4];
-
-
+    private JButton answer1Button;
+    private JButton answer2Button;
+    private JButton answer3Button;
+    private JButton answer4Button;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
@@ -31,14 +34,17 @@ public class QuizFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
+
         mainPanel.add(createLoginFrame(), "Login");
         mainPanel.add(createWelcomeFrame(), "Welcome");
         mainPanel.add(createQueueFrame(), "Queue");
+       // mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
-//        mainPanel.add(createUserResultFrame(), "UserResult");
-//        mainPanel.add(createOpponentResultFrame(), "OpponentResult");
+        mainPanel.add(createUserResultFrame(), "UserResult");
+        mainPanel.add(createOpponentResultFrame(), "OpponentResult");
         mainPanel.add(createFinalResultFrame(), "FinalResult");
+        mainPanel.add(createWaitingForPlayer(), "WaitingForPlayer");
 
         frame.add(mainPanel);
         frame.setSize(300, 400);
@@ -46,7 +52,7 @@ public class QuizFrame {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
-        cardLayout.show(mainPanel, "Login");
+        cardLayout.show(mainPanel, "Question");
     }
 
 
@@ -58,96 +64,98 @@ public class QuizFrame {
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel lable = new JLabel("Enter username");
-        userField = new JTextField();
+        userField = new JTextField( SwingConstants.CENTER);
+
         loginButton = new JButton("Login");
 
-        panel.add(lable, BorderLayout.NORTH);
-        panel.add(userField, BorderLayout.CENTER);
-        panel.add(loginButton, BorderLayout.SOUTH);
+       // loginButton.addActionListener(e -> { client.sendRequest(new ClientRequest(RequestType.CONNECT_REQUEST, userField.getText()))});
+        panel.add(userField);
+        panel.add(loginButton);
+        panel.add(lable);
         return panel;
     }
-
 
     private JPanel createWelcomeFrame() {
         JPanel welcomePanel = new JPanel(new BorderLayout());
         startGameButton = new JButton("Start Game");
-        JTextArea textArea = new JTextArea("WELCOME TO QUIZ GAME");
         exitGameButton = new JButton("Exit Game");
-        welcomePanel.add(textArea, BorderLayout.CENTER);
-
-
         welcomePanel.add(startGameButton, BorderLayout.NORTH);
         welcomePanel.add(exitGameButton, BorderLayout.SOUTH);
         return welcomePanel;
     }
 
+    private JPanel createWaitingForPlayer(){
+        JPanel waitingPanel = new JPanel(new BorderLayout());
+        waitingPanel.add(new JLabel("Waiting for player"), BorderLayout.CENTER);
+        waitingPanel.setSize(100,100);
+        return waitingPanel;
+    }
+
+    private JPanel createOpponentFrame() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel("Finding an opponent...", SwingConstants.CENTER);
+        JButton proceedButton = new JButton("Next");
+
+        panel.add(label, BorderLayout.CENTER);
+        panel.add(proceedButton, BorderLayout.SOUTH);
+        return panel;
+    }
 
     private JPanel createQueueFrame(){
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("In queue.....");
+        JLabel label = new JLabel("Other player is playing");
         panel.add(label, BorderLayout.CENTER);
         return panel;
     }
 
 
+
     private JPanel createCategoryFrame() {
-        JPanel panel = new JPanel(new GridLayout(5, 1));
+        JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
-        category1Button = new JButton();
-        category2Button = new JButton();
-        category3Button = new JButton();
-        category4Button = new JButton();
+        category1Button = new JButton("Music");
+        category2Button = new JButton("Sports");
 
         panel.add(label);
         panel.add(category1Button);
         panel.add(category2Button);
-        panel.add(category3Button);
-        panel.add(category4Button);
         return panel;
     }
+
     private JPanel createQuestionFrame() {
         QuestionDatabase qdb = new QuestionDatabase();
         JPanel panel = new JPanel(new BorderLayout());
         JLabel questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
         JPanel answerPanel = new JPanel(new GridLayout(4, 1));
-        JButton choice1 = new JButton();
-        JButton choice2 = new JButton();
-        JButton choice3 = new JButton();
-        JButton choice4 = new JButton();
 
         qdb.addQuestionsForCategory("music");
         String question = qdb.getQuestionsByCategory("music").getFirst().getQuestiontext();
         questionLabel.setText(question);
 
         String[] answers = qdb.getQuestionsByCategory("music").getFirst().getAnswers();
-        choice1.setText(answers[0]);
-        choice2.setText(answers[1]);
-        choice3.setText(answers[2]);
-        choice4.setText(answers[3]);
+        answer1Button = new JButton(answers[0]);
+        answer2Button = new JButton(answers[1]);
+        answer3Button = new JButton(answers[2]);
+        answer4Button = new JButton(answers[3]);
+
 
         int correctAnswerIndex = qdb.getQuestionsByCategory("music").getFirst().getCorrectAnswerIndex();
 
-        answerPanel.add(choice1);
-        answerPanel.add(choice2);
-        answerPanel.add(choice3);
-        answerPanel.add(choice4);
-        return panel;
-    }
+        answerPanel.add(answer1Button);
+        answerPanel.add(answer2Button);
+        answerPanel.add(answer3Button);
+        answerPanel.add(answer4Button);
 
-   /* private JPanel createQuestionFrame() {
-        JPanel panel = new JPanel(new BorderLayout());
-        JLabel questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
-        JPanel answerPanel = new JPanel(new GridLayout(4, 1));
 
-        for (int i = 1; i <= 4; i++) {
-            JButton answerButton = new JButton("Answer " + i);
-            answerPanel.add(answerButton);
-        }
+//        for (int i = 1; i <= 4; i++) {
+//            JButton answerButton = new JButton("Answer " + i);
+//            answerPanel.add(answerButton);
+//        }
 
         panel.add(questionLabel, BorderLayout.NORTH);
         panel.add(answerPanel, BorderLayout.CENTER);
         return panel;
-    }*/
+    }
 
     private JPanel createUserResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -171,13 +179,17 @@ public class QuizFrame {
 
     private JPanel createFinalResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Final Results: ", username, PlayerOneScoreList, "|", username, PlayerTwoScoreList, SwingConstants.CENTER);
+        JLabel label = new JLabel("Final Results:\nYou: 2 | Opponent: 1", SwingConstants.CENTER);
         JButton restartButton = new JButton("Play Again");
 
         panel.add(label, BorderLayout.CENTER);
         panel.add(restartButton, BorderLayout.SOUTH);
         return panel;
     }
+
+    /*public static void main(String[] args) {
+        SwingUtilities.invokeLater(QuizFrame::new); //vad betyder det här?
+    }*/
 
     public JButton getLoginButton() {
         return loginButton;
@@ -195,10 +207,12 @@ public class QuizFrame {
 
     public JButton getCategory2Button() {return category2Button;}
 
-    public JButton getCategory3Button() {return category3Button;}
+    public JButton getAnswer1Button() {return answer1Button;}
 
-    public JButton getCategory4Button() {return category4Button;}
+    public JButton getAnswer2Button() {return answer2Button;}
 
-    public JButton[] getAnswerButtons() {return answerButtons;}
+    public JButton getAnswer3Button() {return answer3Button;}
+
+    public JButton getAnswer4Button() {return answer4Button;}
+
 }
-

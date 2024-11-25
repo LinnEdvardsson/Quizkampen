@@ -1,12 +1,14 @@
 package Client;
 
 import QuizApp.QuizFrame;
+import QuizGame.QuestionDatabase;
 import server.ClientConnection;
 import server.ResponseType;
 import server.Server;
 import server.ServerResponse;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -18,6 +20,7 @@ public class Client {
     private final InetAddress ip = InetAddress.getLocalHost();
     private final int PORT = 6000;
     QuizFrame frame;
+    QuestionDatabase database;
     ObjectOutputStream output;
     ObjectInputStream input;
     Socket socket;
@@ -30,10 +33,17 @@ public class Client {
         output = new ObjectOutputStream(socket.getOutputStream());
         input = new ObjectInputStream(socket.getInputStream());
         frame = new QuizFrame();
+        database = new QuestionDatabase();
         responseHandler = new ResponseHandler();
+
         listenForConnection();
         addActionListeners();
+        database.addQuestionsForCategory("music");
     }
+
+
+
+
 
     public void listenForConnection(){
         new Thread(()->{
@@ -43,6 +53,7 @@ public class Client {
                 while(input.readObject() instanceof ServerResponse response){
                     System.out.println("Received response");
                     responseHandler.handleResponse(response, this);
+
                 }
             }
             catch (IOException | ClassNotFoundException e){
@@ -59,6 +70,8 @@ public class Client {
             e.printStackTrace();
         }
     }
+
+
 
     public void addActionListeners(){ //Alla actionlyssnare för knappar osv läggs HÄR.
         frame.getLoginButton().addActionListener(e ->{
@@ -80,16 +93,32 @@ public class Client {
             sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
         });
         frame.getAnswer1Button().addActionListener(e ->{
-            System.out.println("Answer button 1 pressed");
+            if(frame.getCorrectAnswerIndex() == 0){
+                frame.getAnswer1Button().setBackground(Color.GREEN);
+            }else{
+                frame.getAnswer1Button().setBackground(Color.RED);
+            }
         });
         frame.getAnswer2Button().addActionListener(e ->{
-            System.out.println("Answer button 2 pressed");
+            if(frame.getCorrectAnswerIndex() == 1){
+                frame.getAnswer2Button().setBackground(Color.GREEN);
+            }else{
+                frame.getAnswer2Button().setBackground(Color.RED);
+            }
         });
         frame.getAnswer3Button().addActionListener(e ->{
-            System.out.println("Answer button 3 pressed");
+            if(frame.getCorrectAnswerIndex() == 2){
+                frame.getAnswer3Button().setBackground(Color.GREEN);
+            }else{
+                frame.getAnswer3Button().setBackground(Color.RED);
+            }
         });
-        frame.getAnswer4Button().addActionListener(e ->{
-            System.out.println("Answer button 4 pressed");
+        frame.getAnswer4Button().addActionListener(e ->{;
+            if(frame.getCorrectAnswerIndex() == 3){
+                frame.getAnswer4Button().setBackground(Color.GREEN);
+            }else{
+                frame.getAnswer4Button().setBackground(Color.RED);
+            }
         });
     }
 
