@@ -79,6 +79,18 @@ public class Client {
             System.out.println("Sending request to music category");
             sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
         });
+        frame.getAnswer1Button().addActionListener(e ->{
+            System.out.println("Answer button 1 pressed");
+        });
+        frame.getAnswer2Button().addActionListener(e ->{
+            System.out.println("Answer button 2 pressed");
+        });
+        frame.getAnswer3Button().addActionListener(e ->{
+            System.out.println("Answer button 3 pressed");
+        });
+        frame.getAnswer4Button().addActionListener(e ->{
+            System.out.println("Answer button 4 pressed");
+        });
     }
 
     public void closeConnection(){

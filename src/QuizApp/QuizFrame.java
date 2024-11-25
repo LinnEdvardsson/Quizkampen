@@ -20,6 +20,10 @@ public class QuizFrame {
     private JButton exitGameButton;
     private JButton category1Button;
     private JButton category2Button;
+    private JButton answer1Button;
+    private JButton answer2Button;
+    private JButton answer3Button;
+    private JButton answer4Button;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         setupGUI();
@@ -123,27 +127,24 @@ public class QuizFrame {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
         JPanel answerPanel = new JPanel(new GridLayout(4, 1));
-        JButton choice1 = new JButton();
-        JButton choice2 = new JButton();
-        JButton choice3 = new JButton();
-        JButton choice4 = new JButton();
 
         qdb.addQuestionsForCategory("music");
         String question = qdb.getQuestionsByCategory("music").getFirst().getQuestiontext();
         questionLabel.setText(question);
 
         String[] answers = qdb.getQuestionsByCategory("music").getFirst().getAnswers();
-        choice1.setText(answers[0]);
-        choice2.setText(answers[1]);
-        choice3.setText(answers[2]);
-        choice4.setText(answers[3]);
+        answer1Button = new JButton(answers[0]);
+        answer2Button = new JButton(answers[1]);
+        answer3Button = new JButton(answers[2]);
+        answer4Button = new JButton(answers[3]);
+
 
         int correctAnswerIndex = qdb.getQuestionsByCategory("music").getFirst().getCorrectAnswerIndex();
 
-        answerPanel.add(choice1);
-        answerPanel.add(choice2);
-        answerPanel.add(choice3);
-        answerPanel.add(choice4);
+        answerPanel.add(answer1Button);
+        answerPanel.add(answer2Button);
+        answerPanel.add(answer3Button);
+        answerPanel.add(answer4Button);
 
 
 //        for (int i = 1; i <= 4; i++) {
@@ -205,5 +206,13 @@ public class QuizFrame {
     public JButton getCategory1Button() {return category1Button;}
 
     public JButton getCategory2Button() {return category2Button;}
+
+    public JButton getAnswer1Button() {return answer1Button;}
+
+    public JButton getAnswer2Button() {return answer2Button;}
+
+    public JButton getAnswer3Button() {return answer3Button;}
+
+    public JButton getAnswer4Button() {return answer4Button;}
 
 }
