@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class Server {
@@ -59,6 +60,7 @@ public class Server {
         sendResponse(new ServerResponse(ResponseType.GAME_STARTED, true, categories), playerOne);
         sendResponse(new ServerResponse(ResponseType.GAME_STARTED, false, categories), playerTwo);
         System.out.println("Game started");
+
     }
 
     public void switchCurrentPlayer() throws IOException {
@@ -71,6 +73,8 @@ public class Server {
     }
 
     public void printScoreToPlayers() throws IOException {
+
+        /// Hashmap? Spelare nyckel och poäng värde? Plocka ut varje värde efter varje runda och upp
         playerOne = playerOneScore;
         playerTwo = playerTwoScore;
         //for(each)
