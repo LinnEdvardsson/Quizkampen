@@ -115,7 +115,7 @@ public class Client {
                 for(Questions question:currentQuestions){
                     System.out.println(question.getQuestion());
                 }
-                /// loop villkor till configGame, byta fråga när användaren svarat?? dvs klickat på en answerbutton. currentQuestion++. score++
+                /// loop villkor till configGame, byta fråga när användaren svarat?? dvs klickat på en answerbutton. currentQuestion++. score++?
                 currentQuestion = currentQuestions.get(onQuestion);
                 frame.populateQuestionPanel(currentQuestion);
 
@@ -136,7 +136,7 @@ public class Client {
 
 
         frame.getAnswer1Button().addActionListener(e ->{
-            if(frame.getCorrectAnswerIndex() == 0){
+            if(frame.getCorrectAnswerIndex() == 3){
                 frame.getAnswer1Button().setBackground(Color.GREEN);
 
             }else{
