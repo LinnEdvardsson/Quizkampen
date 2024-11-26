@@ -108,8 +108,8 @@ public class Client {
                 System.out.println(currentCategory);
 
                 // ??
-                database.addQuestionsForCategory(eCategoryType.MUSIC);
-                database.addQuestionsForCategory(eCategoryType.SPORT);
+               // database.addQuestionsForCategory(eCategoryType.MUSIC);
+               // database.addQuestionsForCategory(eCategoryType.SPORT);
 
                 currentQuestions = quizSetUp.getQuestions(currentCategory);
                 for(Questions question:currentQuestions){
@@ -119,7 +119,6 @@ public class Client {
                 currentQuestion = currentQuestions.get(onQuestion);
                 frame.populateQuestionPanel(currentQuestion);
 
-                //loop
 
                 frame.switchTo("Question");
                 // fyll currentQuestions lista med frågor inom denna kategori, hämta nånstans?
@@ -139,6 +138,7 @@ public class Client {
         frame.getAnswer1Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 0){
                 frame.getAnswer1Button().setBackground(Color.GREEN);
+
             }else{
                 frame.getAnswer1Button().setBackground(Color.RED);
             }
