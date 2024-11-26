@@ -49,7 +49,7 @@ import java.util.List;
                 animalsQuestions.add(new Questions("What color/colour is a polar bear&#039;s skin?", new String[]{"White", "Green", "Black", "Pink"}, 3, eCategoryType.ANIMALS));
             }if(geographyQuestions.isEmpty()){
                 geographyQuestions.add(new Questions("What is the largest Muslim country in the world?", new String[]{"Pakistan", "Saudi Arabia", "Iran", "Indonesia"}, 4, eCategoryType.GEOGRAPHY));
-                geographyQuestions.add(new Questions("Which of the following countries banned the use of personal genetic ancestry tests?", new String[]{"Austria", "Germany", "Canada", "Denmark"}, 2, eCategoryType.GEOGRAPHY))
+                geographyQuestions.add(new Questions("Which of the following countries banned the use of personal genetic ancestry tests?", new String[]{"Austria", "Germany", "Canada", "Denmark"}, 2, eCategoryType.GEOGRAPHY));
                 geographyQuestions.add(new Questions("What is the name of the former country that was succeeded by countries such as Serbia, Croatia and Slovenia?", new String[]{"Yugoslavia", "Abkhazia", "South Ossetia", "Yugoslavia"}, 4, eCategoryType.GEOGRAPHY));
                 geographyQuestions.add(new Questions("What is the capital city of New Zealand?", new String[]{"Auckland", "Christchurch", "Melbourne", "Wellington"}, 4, eCategoryType.GEOGRAPHY));
             }
@@ -84,4 +84,5 @@ import java.util.List;
             return shuffleQuestions;
         }
     }
+
 
