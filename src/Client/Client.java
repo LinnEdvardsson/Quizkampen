@@ -39,10 +39,8 @@ public class Client {
         listenForConnection();
         addActionListeners();
         database.addQuestionsForCategory("music");
+
     }
-
-
-
 
 
     public void listenForConnection(){
@@ -93,6 +91,12 @@ public class Client {
             sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
             frame.switchTo("Question");
         });
+//        frame.getCategory2Button().addActionListener(e ->{
+//            System.out.println("Sending request to sports category");
+//            frame.setUserCategoryChoice("sport");
+//            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
+//            frame.switchTo("Question");
+//        });
 
         frame.getAnswer1Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 0){
