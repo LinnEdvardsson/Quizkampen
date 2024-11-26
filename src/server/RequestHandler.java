@@ -3,7 +3,7 @@ import Client.ClientRequest;
 
 import java.io.IOException;
 
-//SERVER
+//SERVER hanterar klientens requests
 public class RequestHandler {
 
     public static void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
@@ -36,7 +36,7 @@ public class RequestHandler {
             }
             case CATEGORY_TYPE_REQUEST -> {
                 System.out.println("Want to choose category type request");
-                Server.sendResponse(new ServerResponse(ResponseType.CHOOSE_CATEGORY), client);
+                Server.sendResponse(new ServerResponse(ResponseType.CHOOSEN_CATEGORY), client);
             }
 
             case PLAYER1_PLAYING -> {
