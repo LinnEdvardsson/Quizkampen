@@ -55,7 +55,7 @@ public class Server {
          playerTwo = instance.getClientTwo();
          currentPlayer = playerOne;
 
-        List<eCategoryType> categories = setUp.getCategories();
+        List<eCategoryType> categories = QuizSetUp.getCategories();
 
         sendResponse(new ServerResponse(ResponseType.GAME_STARTED, true, categories), playerOne);
         sendResponse(new ServerResponse(ResponseType.GAME_STARTED, false, categories), playerTwo);
@@ -65,24 +65,11 @@ public class Server {
 
     public void switchCurrentPlayer() throws IOException {
         if(currentPlayer == playerOne) {
-            sendResponse(new ServerResponse(ResponseType.PLAYER_ONE_DONE, false, setUp.getCategories()), playerOne);
-            sendResponse(new ServerResponse(ResponseType.PLAYER_TWO_TURN, true, setUp.getCategories()), playerTwo);
+            sendResponse(new ServerResponse(ResponseType.PLAYER_ONE_DONE, false, QuizSetUp.getCategories()), playerOne);
+            sendResponse(new ServerResponse(ResponseType.PLAYER_TWO_TURN, true, QuizSetUp.getCategories()), playerTwo);
         } else{
             currentPlayer = playerOne;
         }
-    }
-
-    public void printScoreToPlayers() throws IOException {
-
-        /// Hashmap? Spelare nyckel och poäng värde? Plocka ut varje värde efter varje runda och upp
-        playerOne = playerOneScore;
-        playerTwo = playerTwoScore;
-        //for(each)
-        //PlayerOneScoreList = userfield.setText();
-        System.out.println("Final score: " + playerScore.getScore()); //--> Läggas i finalpanel?
-
-        sendResponse(new ServerResponse(ResponseType.GAME_DONE), playerOne);
-        sendResponse(new ServerResponse(ResponseType.GAME_DONE), playerTwo);
     }
 
     public static void sendResponse(ServerResponse response, ClientConnection client) throws IOException {

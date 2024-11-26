@@ -22,6 +22,8 @@ public class QuizFrame {
     private JButton exitGameButton;
     private JButton category1Button;
     private JButton category2Button;
+    private JButton category3Button;
+    private JButton category4Button;
     private JButton answer1Button;
     private JButton answer2Button;
     private JButton answer3Button;
@@ -117,8 +119,10 @@ public class QuizFrame {
     private JPanel createCategoryFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
-        category1Button = new JButton("Music");
-        category2Button = new JButton("Sports");
+        category1Button = new JButton();
+        category2Button = new JButton();
+        category3Button = new JButton();
+        category4Button = new JButton();
 
         panel.add(label);
         panel.add(category1Button);
@@ -177,7 +181,7 @@ public class QuizFrame {
 
     private JPanel createFinalResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Final Results: ", username, PlayerOneScoreList, "|", username, PlayerTwoScoreList, SwingConstants.CENTER);
+        JLabel label = new JLabel("Final Results: ", SwingConstants.CENTER);
         JButton restartButton = new JButton("Play Again");
 
         panel.add(label, BorderLayout.CENTER);
@@ -204,6 +208,10 @@ public class QuizFrame {
     public JButton getCategory1Button() {return category1Button;}
 
     public JButton getCategory2Button() {return category2Button;}
+
+    public JButton getCategory3Button() {return category3Button;}
+
+    public JButton getCategory4Button() {return category4Button;}
 
     public JButton getAnswer1Button() {return answer1Button;}
 

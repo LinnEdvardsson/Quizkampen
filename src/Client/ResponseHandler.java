@@ -60,8 +60,6 @@ public class ResponseHandler {
                 /// Frågor ska in här + frågepanel. KIM ÄR HÄR.
 
             }
-
-            case GAME_DONE
         }
     }
 }
