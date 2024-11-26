@@ -3,15 +3,15 @@ package QuizGame;
 public class Questions {
         private String question;
         private String[] answers;
-        private int correctAnswerIndex;
+        private String correctAnswer;
 
-    public Questions(String question, String[] answers, int correctAnswerIndex, eCategoryType categoryType) {
+    public Questions(String question, String[] answers, String correctAnswer, eCategoryType categoryType) {
             this.question = question;
             this.answers = answers;
-            this.correctAnswerIndex = correctAnswerIndex;
+            this.correctAnswer = correctAnswer;
         }
 
-        public String getQuestiontext() {
+        public String getQuestion() {
             return question;
         }
 
@@ -19,8 +19,8 @@ public class Questions {
             return answers;
         }
 
-        public int getCorrectAnswerIndex() {
-            return correctAnswerIndex;
+        public String getCorrectAnswer() {
+            return correctAnswer;
         }
 
 }

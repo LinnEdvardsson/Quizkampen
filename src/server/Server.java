@@ -1,18 +1,14 @@
 package server;
 
-import QuizApp.QuizFrame;
 import QuizGame.PlayerScore;
 import QuizGame.QuizSetUp;
 import QuizGame.eCategoryType;
 
-import javax.swing.*;
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class Server {
@@ -20,8 +16,6 @@ public class Server {
     private static final int PORT = 6000;
     static List<ClientConnection> onGoingGame;
     ClientConnection currentPlayer;
-    ClientConnection playerOne;
-    ClientConnection playerTwo;
     QuizSetUp setUp;
     List<PlayerScore> playerOneScore;
     List<PlayerScore> playerTwoScore;
@@ -50,10 +44,10 @@ public class Server {
         onGoingGame.add(client);
     }
 
-    public void notifyInstance(Instance instance) throws IOException {
-         playerOne = instance.getClientOne();
-         playerTwo = instance.getClientTwo();
-         currentPlayer = playerOne;
+    public static void notifyInstance(Instance instance) throws IOException {
+        ClientConnection playerOne = instance.getClientOne();
+        ClientConnection playerTwo = instance.getClientTwo();
+
 
         List<eCategoryType> categories = QuizSetUp.getCategories();
 
@@ -63,10 +57,11 @@ public class Server {
 
     }
 
-    public void switchCurrentPlayer() throws IOException {
+    public void switchCurrentPlayer(ClientConnection playerOne, ClientConnection playerTwo) throws IOException {
         if(currentPlayer == playerOne) {
             sendResponse(new ServerResponse(ResponseType.PLAYER_ONE_DONE, false, QuizSetUp.getCategories()), playerOne);
             sendResponse(new ServerResponse(ResponseType.PLAYER_TWO_TURN, true, QuizSetUp.getCategories()), playerTwo);
+            System.out.println("Player2 playing turn");
         } else{
             currentPlayer = playerOne;
         }

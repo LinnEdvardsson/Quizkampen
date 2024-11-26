@@ -2,6 +2,10 @@ package Client;
 
 import QuizApp.QuizFrame;
 import QuizGame.QuestionDatabase;
+import QuizGame.Questions;
+import QuizGame.QuizSetUp;
+import QuizGame.eCategoryType;
+import jdk.jfr.Category;
 import server.ClientConnection;
 import server.ResponseType;
 import server.Server;
@@ -9,10 +13,11 @@ import server.ServerResponse;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-
+import java.util.List;
 
 
 public class Client {
@@ -25,6 +30,11 @@ public class Client {
     ObjectInputStream input;
     Socket socket;
     ResponseHandler responseHandler;
+
+    Questions currentQuestion;
+    eCategoryType currentCategory;
+    List<Questions> currentQuestions;
+    int onQuestion = 0;
     
     String username;
 
@@ -38,7 +48,7 @@ public class Client {
 
         listenForConnection();
         addActionListeners();
-        database.addQuestionsForCategory("music");
+        //database.addQuestionsForCategory(eCategoryType.MUSIC);
 
     }
 
@@ -71,13 +81,13 @@ public class Client {
 
 
 
-    public void addActionListeners(){ //Alla actionlyssnare för knappar osv läggs HÄR.
-        frame.getLoginButton().addActionListener(e ->{
+    public void addActionListeners() { //Alla actionlyssnare för knappar osv läggs HÄR.
+        frame.getLoginButton().addActionListener(e -> {
             System.out.println("Sending request to connect...");
             username = frame.getUserField().getText();
             sendToServer(new ClientRequest(RequestType.CONNECT_REQUEST, username));
         });
-        frame.getStartGameButton().addActionListener(e ->{
+        frame.getStartGameButton().addActionListener(e -> {
             System.out.println("Sending request to start game");
             sendToServer(new ClientRequest(RequestType.START_GAME, username));
         });
@@ -86,17 +96,45 @@ public class Client {
             System.exit(0);
             System.out.println("Want to disconnect");
         });
-        frame.getCategory1Button().addActionListener(e ->{
-            System.out.println("Sending request to music category");
-            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
-            frame.switchTo("Question");
-        });
-//        frame.getCategory2Button().addActionListener(e ->{
-//            System.out.println("Sending request to sports category");
-//            frame.setUserCategoryChoice("sport");
-//            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, username));
+
+        List<JButton> categoryButtons = frame.getCategoryButtons();
+        for (JButton categoryButton : categoryButtons) {
+            categoryButton.addActionListener(e -> {
+                System.out.println("Sending request to music category");
+                eCategoryType chosenCategory = eCategoryType.valueOf(categoryButton.getText());
+
+                QuizSetUp quizSetUp = new QuizSetUp();
+                currentCategory = chosenCategory;
+                System.out.println(currentCategory);
+
+                // ??
+                database.addQuestionsForCategory(eCategoryType.MUSIC);
+                database.addQuestionsForCategory(eCategoryType.SPORT);
+
+                currentQuestions = quizSetUp.getQuestions(currentCategory);
+                for(Questions question:currentQuestions){
+                    System.out.println(question.getQuestion());
+                }
+                /// loop villkor till configGame, byta fråga när användaren svarat?? dvs klickat på en answerbutton. currentQuestion++. score++
+                currentQuestion = currentQuestions.get(onQuestion);
+                frame.populateQuestionPanel(currentQuestion);
+
+                //loop
+
+                frame.switchTo("Question");
+                // fyll currentQuestions lista med frågor inom denna kategori, hämta nånstans?
+                // anropa switcha till question-panel, anropa metod där du kan sätta in en fråga och sätta texten på knapparna?
+            });
+        }
+
+
+//        frame.getCategory1Button().addActionListener(e ->{
+//            System.out.println("Sending request to music category");
+//            eCategoryType chosen = eCategoryType.valueOf(frame.getCategory1Button().getText());
+//            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, chosen));
 //            frame.switchTo("Question");
 //        });
+
 
         frame.getAnswer1Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 0){

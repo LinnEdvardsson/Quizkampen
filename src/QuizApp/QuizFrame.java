@@ -31,6 +31,7 @@ public class QuizFrame {
     private int randomQuestion;
     private int correctAnswerIndex;
     private String userCategoryChoice;
+    private JLabel questionLabel = new JLabel();
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         randomQuestion = (int) (Math.random() * 4);
@@ -68,6 +69,24 @@ public class QuizFrame {
         cardLayout.show(mainPanel, panelName);
     }
 
+    public List<JButton> getCategoryButtons(){
+        List<JButton> categoryButtons = new ArrayList<>();
+        categoryButtons.add(category1Button);
+        categoryButtons.add(category2Button);
+        categoryButtons.add(category3Button);
+        categoryButtons.add(category4Button);
+        return categoryButtons;
+    }
+
+    public List<JButton> getAnswerButtons(){
+        List<JButton> answerButtons = new ArrayList<>();
+        answerButtons.add(answer1Button);
+        answerButtons.add(answer2Button);
+        answerButtons.add(answer3Button);
+        answerButtons.add(answer4Button);
+        return answerButtons;
+    }
+
     public JPanel createLoginFrame() {
         JPanel panel = new JPanel(new GridLayout(3, 1));
         JLabel lable = new JLabel("Enter username");
@@ -75,10 +94,10 @@ public class QuizFrame {
 
         loginButton = new JButton("Login");
 
-       // loginButton.addActionListener(e -> { client.sendRequest(new ClientRequest(RequestType.CONNECT_REQUEST, userField.getText()))});
+        panel.add(lable);
         panel.add(userField);
         panel.add(loginButton);
-        panel.add(lable);
+
         return panel;
     }
 
@@ -110,14 +129,14 @@ public class QuizFrame {
 
     private JPanel createQueueFrame(){
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Other player is playing");
+        JLabel label = new JLabel("Waiting for the other player");
         panel.add(label, BorderLayout.CENTER);
         return panel;
     }
 
 
     private JPanel createCategoryFrame() {
-        JPanel panel = new JPanel(new GridLayout(3, 1));
+        JPanel panel = new JPanel(new GridLayout(4, 1));
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
         category1Button = new JButton();
         category2Button = new JButton();
@@ -127,36 +146,38 @@ public class QuizFrame {
         panel.add(label);
         panel.add(category1Button);
         panel.add(category2Button);
+        panel.add(category3Button);
+        panel.add(category4Button);
         return panel;
     }
 
     private JPanel createQuestionFrame() {
         QuestionDatabase qdb = new QuestionDatabase();
-        JPanel panel = new JPanel(new BorderLayout());
-        JLabel questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
+        JPanel panel = new JPanel(new FlowLayout());
+        questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
         JPanel answerPanel = new JPanel(new GridLayout(4, 1));
 
-
-        qdb.addQuestionsForCategory("music");
-        String question = qdb.getQuestionsByCategory("music").get(randomQuestion).getQuestiontext();
-        questionLabel.setText(question);
-        correctAnswerIndex = qdb.getQuestionsByCategory("music").get(randomQuestion).getCorrectAnswerIndex();
-        String[] answers = qdb.getQuestionsByCategory("music").get(randomQuestion).getAnswers();
-
-        answer1Button = new JButton(answers[0]);
-        answer2Button = new JButton(answers[1]);
-        answer3Button = new JButton(answers[2]);
-        answer4Button = new JButton(answers[3]);
-        
-        answerPanel.add(answer1Button);
-        answerPanel.add(answer2Button);
-        answerPanel.add(answer3Button);
-        answerPanel.add(answer4Button);
+        answerPanel.add(answer1Button = new JButton());
+        answerPanel.add(answer2Button = new JButton());
+        answerPanel.add(answer3Button = new JButton());
+        answerPanel.add(answer4Button = new JButton());
 
 
         panel.add(questionLabel, BorderLayout.NORTH);
         panel.add(answerPanel, BorderLayout.CENTER);
         return panel;
+    }
+
+    public void populateQuestionPanel(Questions questionObj){
+        String question = questionObj.getQuestion();
+        String[] alternatives = questionObj.getAnswers();
+
+        questionLabel.setText(question);
+
+        answer1Button.setText(alternatives[0]);
+        answer2Button.setText(alternatives[1]);
+        answer3Button.setText(alternatives[2]);
+        answer4Button.setText(alternatives[3]);
     }
 
     private JPanel createUserResultFrame() {

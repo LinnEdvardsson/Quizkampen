@@ -5,10 +5,10 @@ import java.io.IOException;
 
 //SERVER hanterar klientens requests
 public class RequestHandler {
-   Server server;
 
-    public void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
-        this.server = new Server();
+
+    public static void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
+
         switch (request.getRequestType()){
             case CONNECT_REQUEST -> {
                 System.out.println("Wish to connect to server");
@@ -30,13 +30,12 @@ public class RequestHandler {
                     ClientConnection playerOne = Server.onGoingGame.removeFirst();
                     ClientConnection playerTwo = Server.onGoingGame.removeFirst();
                     Instance instance = new Instance(playerOne, playerTwo);
-                    server.notifyInstance(instance);
-                    
+                    Server.notifyInstance(instance);
                 } else {
                     Server.sendResponse(new ServerResponse(ResponseType.PLAYER_QUEUED), client);
                 }
-
             }
+
             case CATEGORY_TYPE_REQUEST -> {
                 System.out.println("Want to choose category type request");
                 Server.sendResponse(new ServerResponse(ResponseType.CHOOSEN_CATEGORY), client);

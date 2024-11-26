@@ -2,6 +2,7 @@ package Client;
 
 import QuizGame.eCategoryType;
 
+import server.ClientConnection;
 import server.Instance;
 import server.Server;
 import server.ServerResponse;
@@ -15,7 +16,9 @@ import QuizGame.*;
 public class ResponseHandler {
 
     QuizSetUp quizSetUp;
-
+    Server server;
+    ClientConnection player1;
+    ClientConnection player2;
 
     public void handleResponse(ServerResponse response, Client client) throws IOException {
 
@@ -28,7 +31,6 @@ public class ResponseHandler {
             case PLAYER_QUEUED -> {
                 client.frame.switchTo("Queue");
                 System.out.println("Player waiting to connect with other player");
-
             }
 
             case GAME_STARTED -> {
@@ -49,15 +51,15 @@ public class ResponseHandler {
             case CHOOSEN_CATEGORY -> {
                 if (response.isMyTurn()) {
                     client.frame.switchTo("Question");
-                    quizSetUp.startQuiz();
-
-
+                   // quizSetUp.startQuiz();
                 }
             }
 
             case GET_QUESTION -> {
-
-                /// Frågor ska in här + frågepanel. KIM ÄR HÄR.
+                server.switchCurrentPlayer(player1, player2);
+                if (response.isMyTurn()) {
+                    client.frame.switchTo("Question");
+                }
 
             }
         }

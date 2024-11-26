@@ -12,36 +12,31 @@ import java.util.List;
             sportQuestions = new ArrayList<>();
         }
 
-        public List <Questions> addQuestionsForCategory(String category){
+        public List <Questions> addQuestionsForCategory(eCategoryType categoryType){
 
             if(musicQuestions.isEmpty()) {
-                musicQuestions.add(new Questions("Which musical instrument does Elton John play?", new String[]{"Guitar", "Drums", "Saxophone", "Piano"}, 3, eCategoryType.MUSIC));
-                musicQuestions.add(new Questions("Which classical composer became deaf later in life?", new String[]{"Mozart", "Bach", "Beethoven", "Tchaikovsky"}, 2, eCategoryType.MUSIC));
-                musicQuestions.add(new Questions("Who is known as the King of Pop?", new String[]{"Freddie Mercury", "Elvis Presley", "Michael Jackson", "Prince"}, 2, eCategoryType.MUSIC));
-                musicQuestions.add(new Questions("The 'Mamma Mia' Musical is based around the music of which band?", new String[]{"Take That", "Sarek", "ABBA", "Vikingarna"}, 2, eCategoryType.MUSIC));
+                musicQuestions.add(new Questions("Which musical instrument does Elton John play?", new String[]{"Guitar", "Drums", "Saxophone", "Piano"}, "Piano", eCategoryType.MUSIC));
+                musicQuestions.add(new Questions("Which classical composer became deaf later in life?", new String[]{"Mozart", "Bach", "Beethoven", "Tchaikovsky"}, "Beethoven", eCategoryType.MUSIC));
+                musicQuestions.add(new Questions("Who is known as the King of Pop?", new String[]{"Freddie Mercury", "Elvis Presley", "Michael Jackson", "Prince"}, "Michael Jackson", eCategoryType.MUSIC));
+                musicQuestions.add(new Questions("The 'Mamma Mia' Musical is based around the music of which band?", new String[]{"Take That", "Sarek", "ABBA", "Vikingarna"}, "ABBA", eCategoryType.MUSIC));
             } if(sportQuestions.isEmpty()) {
-                sportQuestions.add(new Questions("What sport is best known as the ‘king of sports?", new String[]{"Basketball", "Hockey", "Football", "Golf"}, 2, eCategoryType.SPORT));
-                sportQuestions.add(new Questions("What do you call it when a bowler makes three strikes in a row?", new String[]{"Meatloaf", "Turkey", "Hole in one", "Strike"}, 1, eCategoryType.SPORT));
-                sportQuestions.add(new Questions("How many dimples does an average golf ball have?", new String[]{"100-150", "300-500", "50-100", "350-600"}, 1, eCategoryType.SPORT));
-                sportQuestions.add(new Questions("What type of race is the Tour de France?", new String[]{"by Car", "by Bicycle", "by Skates", "by Horse"}, 1, eCategoryType.SPORT));
+                sportQuestions.add(new Questions("What sport is best known as the ‘king of sports?", new String[]{"Basketball", "Hockey", "Football", "Golf"}, "Football", eCategoryType.SPORT));
+                sportQuestions.add(new Questions("What do you call it when a bowler makes three strikes in a row?", new String[]{"Meatloaf", "Turkey", "Hole in one", "Strike"}, "Turkey", eCategoryType.SPORT));
+                sportQuestions.add(new Questions("How many dimples does an average golf ball have?", new String[]{"100-150", "300-500", "50-100", "350-600"}, "300-500", eCategoryType.SPORT));
+                sportQuestions.add(new Questions("What type of race is the Tour de France?", new String[]{"by Car", "by Bicycle", "by Skates", "by Horse"}, "by Bicycle", eCategoryType.SPORT));
             }
-            return getQuestionsByCategory(category);
+            return getQuestionsByCategory(categoryType);
         }
 
-        public List<Questions> getQuestionsByCategory(String category) {
-            List<Questions> shuffleQuestions;
-            switch (category) {
-                case "music":
-                    shuffleQuestions = new ArrayList<>(musicQuestions);
-                    break;
-                case "sport":
-                    shuffleQuestions = new ArrayList<>(sportQuestions);
-                    break;
+        public List<Questions> getQuestionsByCategory(eCategoryType categoryType) {
+            switch (categoryType) {
+                case MUSIC:
+                    return musicQuestions;
+                case SPORT:
+                   return sportQuestions;
                 default:
                     return Collections.emptyList();
             }
-            Collections.shuffle(shuffleQuestions);
-            return shuffleQuestions;
         }
     }
 
