@@ -37,8 +37,8 @@ public class ResponseHandler {
                     List<eCategoryType> categories = response.getCategories();
                     client.frame.getCategory1Button().setText(categories.get(0).name());
                     client.frame.getCategory2Button().setText(categories.get(1).name());
-                    client.frame.getCategory3Button().setText(categories.get(2).name());
-                    client.frame.getCategory4Button().setText(categories.get(3).name());
+//                    client.frame.getCategory3Button().setText(categories.get(2).name());
+//                    client.frame.getCategory4Button().setText(categories.get(3).name());
                     System.out.println("P1 Choosing Category");
                 } else {
                     client.frame.switchTo("Queue");

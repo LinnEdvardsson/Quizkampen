@@ -32,16 +32,15 @@ import java.util.List;
             List<Questions> shuffleQuestions;
             switch (category) {
                 case "music":
-                    shuffleQuestions = new ArrayList<>(musicQuestions);
-                    break;
+                    return new ArrayList<>(musicQuestions);
                 case "sport":
-                    shuffleQuestions = new ArrayList<>(sportQuestions);
-                    break;
+                    return new ArrayList<>(sportQuestions);
                 default:
                     return Collections.emptyList();
             }
-            Collections.shuffle(shuffleQuestions);
-            return shuffleQuestions;
+//            Collections.shuffle(shuffleQuestions);
+//            return shuffleQuestions;
+//        }
         }
     }
 
