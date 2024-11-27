@@ -1,6 +1,7 @@
 package Client;
 
 import QuizApp.QuizFrame;
+import QuizGame.PlayerScore;
 import QuizGame.QuestionDatabase;
 import server.ClientConnection;
 import server.ResponseType;
@@ -28,6 +29,8 @@ public class Client {
     
     String username;
 
+    PlayerScore playerScore;
+
     public Client() throws IOException {
         socket = new Socket(ip, PORT);
         output = new ObjectOutputStream(socket.getOutputStream());
@@ -35,6 +38,7 @@ public class Client {
         frame = new QuizFrame();
         database = new QuestionDatabase();
         responseHandler = new ResponseHandler();
+        playerScore = new PlayerScore();
 
         listenForConnection();
         addActionListeners();
@@ -69,6 +73,10 @@ public class Client {
         }
     }
 
+   public PlayerScore getPlayerScore() {
+        return playerScore;
+   }
+
 
 
     public void addActionListeners(){ //Alla actionlyssnare för knappar osv läggs HÄR.
@@ -100,31 +108,45 @@ public class Client {
 
         frame.getAnswer1Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 0){
+                frame.getAnswer1Button().setBackground(null);
                 frame.getAnswer1Button().setBackground(Color.GREEN);
+                playerScore.updateScore(1);
                 frame.switchTo("UserResult");
             }else{
                 frame.getAnswer1Button().setBackground(Color.RED);
             }
         });
+
         frame.getAnswer2Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 1){
+                frame.getAnswer2Button().setBackground(null);
                 frame.getAnswer2Button().setBackground(Color.GREEN);
+                playerScore.updateScore(1);
+                System.out.println("Current Score: " + playerScore.getScore());
                 frame.switchTo("UserResult");
             }else{
                 frame.getAnswer2Button().setBackground(Color.RED);
             }
         });
+
         frame.getAnswer3Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 2){
+                frame.getAnswer3Button().setBackground(null);
                 frame.getAnswer3Button().setBackground(Color.GREEN);
+                playerScore.updateScore(1);
+                System.out.println("Current Score: " + playerScore.getScore());
                 frame.switchTo("UserResult");
             }else{
                 frame.getAnswer3Button().setBackground(Color.RED);
             }
         });
-        frame.getAnswer4Button().addActionListener(e ->{;
+        frame.getAnswer4Button().setBackground(null);
+        frame.getAnswer4Button().addActionListener(e -> {
             if(frame.getCorrectAnswerIndex() == 3){
+                frame.getAnswer3Button().setBackground(null);
                 frame.getAnswer4Button().setBackground(Color.GREEN);
+                playerScore.updateScore(1);
+                System.out.println("Current Score: " + playerScore.getScore());
                 frame.switchTo("UserResult");
             }else{
                 frame.getAnswer4Button().setBackground(Color.RED);

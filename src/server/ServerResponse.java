@@ -9,6 +9,7 @@ public class ServerResponse implements Serializable {
     ResponseType type;
     boolean myTurn;
     List<eCategoryType> categories;
+    int score;
 
     public ServerResponse(ResponseType type){
         this.type = type;
@@ -18,6 +19,7 @@ public class ServerResponse implements Serializable {
         this.type = type;
         this.myTurn = myTurn;
         this.categories = categories;
+
     }
 
     public ResponseType getResponseType(){
@@ -31,6 +33,8 @@ public class ServerResponse implements Serializable {
     public List<eCategoryType> getCategories(){
         return categories;
     }
+
+
 
 
 }

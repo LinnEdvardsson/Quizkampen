@@ -2,6 +2,7 @@ package QuizApp;
 
 import Client.Client;
 import Client.ResponseHandler;
+import QuizGame.PlayerScore;
 import QuizGame.QuestionDatabase;
 import QuizGame.Questions;
 import server.ClientConnection;
@@ -178,7 +179,7 @@ public class QuizFrame {
 
     private JPanel createFinalResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Final Results:\nYou: 2 | Opponent: 1", SwingConstants.CENTER);
+        JLabel label = new JLabel("Final Results: You Scored " + playerScore.getScore(), SwingConstants.CENTER);
         JButton restartButton = new JButton("Play Again");
 
         panel.add(label, BorderLayout.CENTER);
