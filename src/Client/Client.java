@@ -34,7 +34,6 @@ public class Client {
     QuizSetUp quizSetUp;
     int onRound = 0;
 
-
     int score;
     boolean myTurn;
 
