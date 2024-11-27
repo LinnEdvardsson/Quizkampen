@@ -35,14 +35,14 @@ public class ResponseHandler {
 
             case GAME_STARTED -> {
                 if (response.isMyTurn()) {
+                    client.myTurn = true;
                     client.frame.switchTo("Category");
                     List<eCategoryType> categories = response.getCategories();
                     client.frame.getCategory1Button().setText(categories.get(0).name());
                     client.frame.getCategory2Button().setText(categories.get(1).name());
-                    client.frame.getCategory3Button().setText(categories.get(2).name());
-                    client.frame.getCategory4Button().setText(categories.get(3).name());
                     System.out.println("P1 Choosing Category");
                 } else {
+                    client.myTurn = false;
                     client.frame.switchTo("Queue");
                     System.out.println("P2 Queue");
                 }
@@ -51,7 +51,7 @@ public class ResponseHandler {
             case CHOOSEN_CATEGORY -> {
                 if (response.isMyTurn()) {
                     client.frame.switchTo("Question");
-                   // quizSetUp.startQuiz();
+
                 }
             }
 

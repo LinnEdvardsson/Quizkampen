@@ -30,11 +30,16 @@ public class Client {
     ObjectInputStream input;
     Socket socket;
     ResponseHandler responseHandler;
+    QuizSetUp quizSetUp = new QuizSetUp();
+
+    int score;
+    boolean myTurn;
 
     Questions currentQuestion;
     eCategoryType currentCategory;
     List<Questions> currentQuestions;
     int onQuestion = 0;
+    int amountOfQuestionsPerRound = 4;
     
     String username;
 
@@ -96,36 +101,38 @@ public class Client {
             System.exit(0);
             System.out.println("Want to disconnect");
         });
+        frame.getNextButton().addActionListener(e->{
+            onQuestion++;
+            if (onQuestion == amountOfQuestionsPerRound){
+                sendToServer(new ClientRequest(RequestType.PLAYER_ONE_DONE, username));
+            }
+            currentQuestion = currentQuestions.get(onQuestion);
+            resetButtons();
+            frame.populateQuestionPanel(currentQuestion);
+            frame.switchTo("Question");
+
+        });
 
         List<JButton> categoryButtons = frame.getCategoryButtons();
         for (JButton categoryButton : categoryButtons) {
             categoryButton.addActionListener(e -> {
-                System.out.println("Sending request to music category");
-                eCategoryType chosenCategory = eCategoryType.valueOf(categoryButton.getText());
+                if(myTurn){
+                    System.out.println("Sending request to music category");
 
-                QuizSetUp quizSetUp = new QuizSetUp();
-                currentCategory = chosenCategory;
-                System.out.println(currentCategory);
+                    eCategoryType chosenCategory = eCategoryType.valueOf(categoryButton.getText());
+                    currentCategory = chosenCategory;
+                    System.out.println(currentCategory);
 
-                // ??
-               // database.addQuestionsForCategory(eCategoryType.MUSIC);
-               // database.addQuestionsForCategory(eCategoryType.SPORT);
+                    currentQuestions = quizSetUp.getQuestions(currentCategory);
 
-                currentQuestions = quizSetUp.getQuestions(currentCategory);
-                for(Questions question:currentQuestions){
-                    System.out.println(question.getQuestion());
+                    currentQuestion = currentQuestions.get(onQuestion);
+                    frame.populateQuestionPanel(currentQuestion);
+                    frame.switchTo("Question");
+                    addActionListenersToAnswerButtons();
                 }
-                /// loop villkor till configGame, byta fråga när användaren svarat?? dvs klickat på en answerbutton. currentQuestion++. score++?
-                currentQuestion = currentQuestions.get(onQuestion);
-                frame.populateQuestionPanel(currentQuestion);
-                onQuestion++;
-                frame.switchTo("Question");
-
-
-                // fyll currentQuestions lista med frågor inom denna kategori, hämta nånstans?
-                // anropa switcha till question-panel, anropa metod där du kan sätta in en fråga och sätta texten på knapparna?
             });
         }
+
 
 
 //        frame.getCategory1Button().addActionListener(e ->{
@@ -136,35 +143,75 @@ public class Client {
 //        });
 
 
-        frame.getAnswer1Button().addActionListener(e ->{
-            if(frame.getCorrectAnswerIndex() == 3){
-                frame.getAnswer1Button().setBackground(Color.GREEN);
+//        frame.getAnswer1Button().addActionListener(e ->{
+//            if(frame.getCorrectAnswerIndex() == 3){
+//                frame.getAnswer1Button().setBackground(Color.GREEN);
+//
+//            }else{
+//                frame.getAnswer1Button().setBackground(Color.RED);
+//            }
+//        });
+//        frame.getAnswer2Button().addActionListener(e ->{
+//            if(frame.getCorrectAnswerIndex() == 1){
+//                frame.getAnswer2Button().setBackground(Color.GREEN);
+//            }else{
+//                frame.getAnswer2Button().setBackground(Color.RED);
+//            }
+//        });
+//        frame.getAnswer3Button().addActionListener(e ->{
+//            if(frame.getCorrectAnswerIndex() == 2){
+//                frame.getAnswer3Button().setBackground(Color.GREEN);
+//            }else{
+//                frame.getAnswer3Button().setBackground(Color.RED);
+//            }
+//        });
+//        frame.getAnswer4Button().addActionListener(e ->{;
+//            if(frame.getCorrectAnswerIndex() == 3){
+//                frame.getAnswer4Button().setBackground(Color.GREEN);
+//            }else{
+//                frame.getAnswer4Button().setBackground(Color.RED);
+//            }
+//        });
+    }
 
-            }else{
-                frame.getAnswer1Button().setBackground(Color.RED);
-            }
-        });
-        frame.getAnswer2Button().addActionListener(e ->{
-            if(frame.getCorrectAnswerIndex() == 1){
-                frame.getAnswer2Button().setBackground(Color.GREEN);
-            }else{
-                frame.getAnswer2Button().setBackground(Color.RED);
-            }
-        });
-        frame.getAnswer3Button().addActionListener(e ->{
-            if(frame.getCorrectAnswerIndex() == 2){
-                frame.getAnswer3Button().setBackground(Color.GREEN);
-            }else{
-                frame.getAnswer3Button().setBackground(Color.RED);
-            }
-        });
-        frame.getAnswer4Button().addActionListener(e ->{;
-            if(frame.getCorrectAnswerIndex() == 3){
-                frame.getAnswer4Button().setBackground(Color.GREEN);
-            }else{
-                frame.getAnswer4Button().setBackground(Color.RED);
-            }
-        });
+    public void addActionListenersToAnswerButtons(){
+        List<JButton> answerButtons = frame.getAnswerButtons();
+        for(JButton button:answerButtons){
+            button.addActionListener(e->{
+                String answer = button.getText();
+                if (currentQuestion.isCorrect(answer)){
+                    score++;
+                    button.setBackground(Color.GREEN);
+                    frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct");
+                }
+                else{
+                    button.setBackground(Color.RED);
+                    for(JButton otherButton : answerButtons){
+                        if (currentQuestion.isCorrect(otherButton.getText())){
+                            otherButton.setBackground(Color.GREEN);
+                        }
+                    }
+
+                    frame.getIsCorrectlabel().setText("You answered " + answer + " and you were wrong!");
+                }
+                frame.switchTo("UserResult");
+            });
+        }
+    }
+
+    public void resetIsCorrectLabel(){
+        frame.getIsCorrectlabel().setText("Your answer: ");
+    }
+
+    public void resetButtons(){
+        List<JButton> answerButtons = frame.getAnswerButtons();
+        for(JButton button:answerButtons){
+            button.setBackground(null);
+        }
+    }
+
+    public void getNextQuestion(){
+
     }
 
     public void closeConnection(){

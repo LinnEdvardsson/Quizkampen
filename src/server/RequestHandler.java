@@ -19,10 +19,6 @@ public class RequestHandler {
                 Server.sendResponse(new ServerResponse(ResponseType.CONNECTION_TERMINATED), client);
             }
 
-//            case FIND_OPPONENT_REQUEST -> {
-//                System.out.println("Want to find an opponent");
-//                Server.addClientToQueue(client);
-//            }
             case START_GAME -> {
                 System.out.println("Wish to start game");
                 Server.addToGame(client);
@@ -44,8 +40,11 @@ public class RequestHandler {
             case PLAYER1_PLAYING -> {
                 Server.sendResponse(new ServerResponse(ResponseType.GET_QUESTION), client);
             }
-            
-             
+            case PLAYER_ONE_DONE -> {
+                Server.
+                Server.sendResponse(new ServerResponse(ResponseType.PLAYER_TWO_TURN), client);
+
+            }
         }
     }
 }

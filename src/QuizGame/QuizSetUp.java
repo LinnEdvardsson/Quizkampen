@@ -35,7 +35,7 @@ public class QuizSetUp {
         List<eCategoryType> allAvailableCategories = new ArrayList<>(List.of(eCategoryType.values()));
         Collections.shuffle(allAvailableCategories);
 
-        List<eCategoryType> categorySet = new ArrayList<>(allAvailableCategories.subList(0, 4));
+        List<eCategoryType> categorySet = new ArrayList<>(allAvailableCategories.subList(0, 2));
         return categorySet;
     }
 

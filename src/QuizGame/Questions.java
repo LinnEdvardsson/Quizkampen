@@ -23,5 +23,9 @@ public class Questions {
             return correctAnswer;
         }
 
+        public boolean isCorrect(String answer){
+            return answer.equals(correctAnswer);
+        }
+
 }
 

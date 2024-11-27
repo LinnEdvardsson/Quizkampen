@@ -32,6 +32,8 @@ public class QuizFrame {
     private int correctAnswerIndex;
     private String userCategoryChoice;
     private JLabel questionLabel = new JLabel();
+    private JButton nextButton;
+    private JLabel isCorrectlabel;
 
     public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
         randomQuestion = (int) (Math.random() * 4);
@@ -50,7 +52,7 @@ public class QuizFrame {
        // mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
-//        mainPanel.add(createUserResultFrame(), "UserResult");
+         mainPanel.add(createUserResultFrame(), "UserResult");
 //        mainPanel.add(createOpponentResultFrame(), "OpponentResult");
         mainPanel.add(createFinalResultFrame(), "FinalResult");
         mainPanel.add(createWaitingForPlayer(), "WaitingForPlayer");
@@ -182,10 +184,11 @@ public class QuizFrame {
 
     private JPanel createUserResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Your Answer: Correct!", SwingConstants.CENTER);
-        JButton nextButton = new JButton("Next");
+        isCorrectlabel = new JLabel("Your Answer: ", SwingConstants.CENTER);
 
-        panel.add(label, BorderLayout.CENTER);
+        nextButton = new JButton("Next");
+
+        panel.add(isCorrectlabel , BorderLayout.CENTER);
         panel.add(nextButton, BorderLayout.SOUTH);
         return panel;
     }
@@ -226,6 +229,8 @@ public class QuizFrame {
 
     public JButton getExitGameButton(){ return exitGameButton;}
 
+    public JButton getNextButton(){return nextButton;}
+
     public JButton getCategory1Button() {return category1Button;}
 
     public JButton getCategory2Button() {return category2Button;}
@@ -233,6 +238,8 @@ public class QuizFrame {
     public JButton getCategory3Button() {return category3Button;}
 
     public JButton getCategory4Button() {return category4Button;}
+
+    public JLabel getIsCorrectlabel() {return isCorrectlabel;}
 
     public JButton getAnswer1Button() {return answer1Button;}
 
