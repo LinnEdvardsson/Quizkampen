@@ -26,6 +26,7 @@ public class QuizFrame {
     private JButton answer2Button;
     private JButton answer3Button;
     private JButton answer4Button;
+    private JButton nextButton;
     private int randomQuestion;
     private int correctAnswerIndex;
     private String userCategoryChoice;
@@ -158,7 +159,7 @@ public class QuizFrame {
     private JPanel createUserResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("Your Answer: Correct!", SwingConstants.CENTER);
-        JButton nextButton = new JButton("Next");
+        nextButton = new JButton("Next");
 
         panel.add(label, BorderLayout.CENTER);
         panel.add(nextButton, BorderLayout.SOUTH);
@@ -220,5 +221,6 @@ public class QuizFrame {
     public void setUserCategoryChoice(String category){this.userCategoryChoice = category;}
 
     public String getUserCategoryChoice(){return userCategoryChoice;}
+    public JButton getNextButton() {return nextButton;}
 
 }

@@ -29,6 +29,7 @@ public class RequestHandler {
                     ClientConnection playerTwo = Server.onGoingGame.removeFirst();
                     Instance instance = new Instance(playerOne, playerTwo);
                     Server.notifyInstance(instance);
+
                 } else {
                     Server.sendResponse(new ServerResponse(ResponseType.PLAYER_QUEUED), client);
                 }
@@ -37,6 +38,7 @@ public class RequestHandler {
             case CATEGORY_TYPE_REQUEST -> {
                 System.out.println("Want to choose category type request");
                 Server.sendResponse(new ServerResponse(ResponseType.CHOOSEN_CATEGORY), client);
+
             }
 
             case PLAYER1_PLAYING -> {

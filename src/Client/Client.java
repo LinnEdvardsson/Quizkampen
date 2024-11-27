@@ -101,6 +101,7 @@ public class Client {
         frame.getAnswer1Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 0){
                 frame.getAnswer1Button().setBackground(Color.GREEN);
+                frame.switchTo("UserResult");
             }else{
                 frame.getAnswer1Button().setBackground(Color.RED);
             }
@@ -108,6 +109,7 @@ public class Client {
         frame.getAnswer2Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 1){
                 frame.getAnswer2Button().setBackground(Color.GREEN);
+                frame.switchTo("UserResult");
             }else{
                 frame.getAnswer2Button().setBackground(Color.RED);
             }
@@ -115,6 +117,7 @@ public class Client {
         frame.getAnswer3Button().addActionListener(e ->{
             if(frame.getCorrectAnswerIndex() == 2){
                 frame.getAnswer3Button().setBackground(Color.GREEN);
+                frame.switchTo("UserResult");
             }else{
                 frame.getAnswer3Button().setBackground(Color.RED);
             }
@@ -122,9 +125,13 @@ public class Client {
         frame.getAnswer4Button().addActionListener(e ->{;
             if(frame.getCorrectAnswerIndex() == 3){
                 frame.getAnswer4Button().setBackground(Color.GREEN);
+                frame.switchTo("UserResult");
             }else{
                 frame.getAnswer4Button().setBackground(Color.RED);
             }
+        });
+        frame.getNextButton().addActionListener(e ->{
+           frame.switchTo("WaitingForPlayer");
         });
     }
 

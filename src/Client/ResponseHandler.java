@@ -2,9 +2,8 @@ package Client;
 
 import QuizGame.eCategoryType;
 
-import server.Instance;
-import server.Server;
-import server.ServerResponse;
+import server.*;
+
 import java.io.IOException;
 import java.util.List;
 import QuizGame.*;
@@ -15,6 +14,9 @@ import QuizGame.*;
 public class ResponseHandler {
 
     QuizSetUp quizSetUp;
+    ClientConnection playerOne;
+    ClientConnection playerTwo;
+    List<eCategoryType> categories = QuizSetUp.getCategories();
 
 
     public void handleResponse(ServerResponse response, Client client) throws IOException {
@@ -37,8 +39,6 @@ public class ResponseHandler {
                     List<eCategoryType> categories = response.getCategories();
                     client.frame.getCategory1Button().setText(categories.get(0).name());
                     client.frame.getCategory2Button().setText(categories.get(1).name());
-//                    client.frame.getCategory3Button().setText(categories.get(2).name());
-//                    client.frame.getCategory4Button().setText(categories.get(3).name());
                     System.out.println("P1 Choosing Category");
                 } else {
                     client.frame.switchTo("Queue");
@@ -49,10 +49,11 @@ public class ResponseHandler {
             case CHOOSEN_CATEGORY -> {
                 if (response.isMyTurn()) {
                     client.frame.switchTo("Question");
-                    quizSetUp.startQuiz();
+
+                }
+//                    quizSetUp.startQuiz();
                     //quizSetUp.playAllRounds(QuizSetUp.getCategories());
                     /// Frågor ska in här + frågepanel.
-                }
             }
 
             case GET_QUESTION -> {

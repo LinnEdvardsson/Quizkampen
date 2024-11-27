@@ -28,7 +28,6 @@ public class QuizSetUp {
     // liknande metod för frågor inom den valda kategorin?
     public static List<eCategoryType> getCategories(){
         List<eCategoryType> allAvailableCategories = new ArrayList<>(List.of(eCategoryType.values()));
-        Collections.shuffle(allAvailableCategories);
 
         List<eCategoryType> categorySet = new ArrayList<>(allAvailableCategories.subList(0, 4));
         return categorySet;
