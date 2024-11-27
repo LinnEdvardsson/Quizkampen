@@ -64,7 +64,7 @@ public class QuizSetUp {
 //    }
 
     public List<Questions> getQuestions(eCategoryType category){
-        return questionDatabase.addQuestionsForCategory(String.valueOf(category));
+        return questionDatabase.addQuestionsForCategory(eCategoryType.valueOf(String.valueOf(category)));
     }
 
 //

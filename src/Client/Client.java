@@ -118,9 +118,10 @@ public class Client {
                 /// loop villkor till configGame, byta fråga när användaren svarat?? dvs klickat på en answerbutton. currentQuestion++. score++?
                 currentQuestion = currentQuestions.get(onQuestion);
                 frame.populateQuestionPanel(currentQuestion);
-
-
+                onQuestion++;
                 frame.switchTo("Question");
+
+
                 // fyll currentQuestions lista med frågor inom denna kategori, hämta nånstans?
                 // anropa switcha till question-panel, anropa metod där du kan sätta in en fråga och sätta texten på knapparna?
             });
