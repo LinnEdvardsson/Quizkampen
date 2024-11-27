@@ -85,8 +85,8 @@ public class Server {
     public static void sendFinalResult(ClientConnection playerOne, ClientConnection playerTwo) throws IOException {
         Server.sendResponse(new ServerResponse(ResponseType.WAITING), playerOne);
         if (playerOne.hasFinishedGame && playerTwo.hasFinishedGame){
-            sendResponse(new ServerResponse(ResponseType.GAME_OVER, ), playerOne);
-            sendResponse(new ServerResponse(ResponseType.GAME_OVER), playerTwo);
+            sendResponse(new ServerResponse(ResponseType.GAME_DONE, playerOne.score, playerTwo.score, playerTwo.getUsername()), playerOne);
+            sendResponse(new ServerResponse(ResponseType.GAME_DONE, playerTwo.score, playerOne.score, playerOne.getUsername()), playerTwo);
         }
     }
 

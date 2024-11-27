@@ -12,8 +12,9 @@ public class RequestHandler {
     public static void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
 
         switch (request.getRequestType()){
-            case CONNECT_REQUEST -> {
+            case CONNECT_REQUEST -> { // om detta skickar med username till servern
                 System.out.println("Wish to connect to server");
+                client.username = request.getUsername();
                 Server.sendResponse(new ServerResponse(ResponseType.CONNECTION_ESTABLISHED), client);
             }
             case DISCONNECT -> {

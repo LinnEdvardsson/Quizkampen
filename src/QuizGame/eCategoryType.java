@@ -2,5 +2,9 @@ package QuizGame;
 
 public enum eCategoryType {
     MUSIC,
-    SPORT;
+    SPORT,
+    ANIMALS,
+    IT,
+    MOVIES,
+    GEOGRAPHY;
 }

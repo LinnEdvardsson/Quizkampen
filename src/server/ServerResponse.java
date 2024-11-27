@@ -13,6 +13,7 @@ public class ServerResponse implements Serializable {
     List<Questions> questions;
     int myScore;
     int opponentsScore;
+    String opponentsName;
 
     public ServerResponse(ResponseType type){
         this.type = type;
@@ -24,10 +25,11 @@ public class ServerResponse implements Serializable {
         this.categories = categories;
     }
 
-    public ServerResponse(ResponseType type, int myScore, int opponentsScore){
+    public ServerResponse(ResponseType type, int myScore, int opponentsScore, String opponentsName){
         this.type = type;
         this.myScore = myScore;
         this.opponentsScore = opponentsScore;
+        this.opponentsName = opponentsName;
     }
 
     public ServerResponse(ResponseType type, List<Questions> questions){
@@ -46,11 +48,18 @@ public class ServerResponse implements Serializable {
     public List<eCategoryType> getCategories(){
         return categories;
     }
-    public List<Questions> getQuestions(){
-        return questions;
+
+    public List<Questions> getQuestions(){return questions;}
+
+    public String getOpponentsName(){
+        return opponentsName;
     }
 
+    public int getMyScore() {
+        return myScore;
+    }
 
-
-
+    public int getOpponentsScore() {
+        return opponentsScore;
+    }
 }

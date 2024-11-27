@@ -20,6 +20,7 @@ public class ClientConnection extends Thread implements Runnable {
     public boolean hasAnsweredThisRound = false;
     public boolean hasFinishedGame = false;
     public int score = 0;
+    String username;
 
     ClientConnection opponent;
 
@@ -27,6 +28,10 @@ public class ClientConnection extends Thread implements Runnable {
         this.socket = socket;
         this.requestHandler = new RequestHandler();
 
+    }
+
+    public String getUsername(){
+        return username;
     }
 
     public void setOpponent(ClientConnection opponentClient){

@@ -34,8 +34,10 @@ public class QuizFrame {
     private JLabel questionLabel = new JLabel();
     private JButton nextButton;
     private JLabel isCorrectlabel;
+    JLabel player1label;
+    JLabel player2label;
 
-    public QuizFrame() { //alla som ska ha actionlyssnare deklaraeras här och implemeter i egna metoder.
+    public QuizFrame() {
         randomQuestion = (int) (Math.random() * 4);
         setupGUI();
     }
@@ -49,11 +51,9 @@ public class QuizFrame {
         mainPanel.add(createLoginFrame(), "Login");
         mainPanel.add(createWelcomeFrame(), "Welcome");
         mainPanel.add(createQueueFrame(), "Queue");
-       // mainPanel.add(createOpponentFrame(), "Opponent");
         mainPanel.add(createCategoryFrame(), "Category");
         mainPanel.add(createQuestionFrame(), "Question");
          mainPanel.add(createUserResultFrame(), "UserResult");
-//        mainPanel.add(createOpponentResultFrame(), "OpponentResult");
         mainPanel.add(createFinalResultFrame(), "FinalResult");
         mainPanel.add(createWaitingForPlayer(), "WaitingForPlayer");
 
@@ -193,37 +193,32 @@ public class QuizFrame {
         return panel;
     }
 
-    private JPanel createOpponentResultFrame() {
-        JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Your answer: Correct! Opponent: Waiting...", SwingConstants.CENTER);
-        JButton nextButton = new JButton("Next");
 
-        panel.add(label, BorderLayout.CENTER);
-        panel.add(nextButton, BorderLayout.SOUTH);
-        return panel;
-    }
 
     private JPanel createFinalResultFrame() {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("Final Results: ", SwingConstants.CENTER);
+        player1label = new JLabel();
+        player2label = new JLabel();
         JButton restartButton = new JButton("Play Again");
 
+        panel.add(player1label, BorderLayout.WEST);
+        panel.add(player2label, BorderLayout.EAST);
         panel.add(label, BorderLayout.CENTER);
         panel.add(restartButton, BorderLayout.SOUTH);
         return panel;
     }
 
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(QuizFrame::new); //vad betyder det här?
-    }*/
+    public void setScoreLabels(String myName, int myScore, String opponentsName, int opponentsScore){
+        player1label.setText(myName + ": " + myScore);
+        player2label.setText(opponentsName + ": " + opponentsScore);
+    }
 
     public JButton getLoginButton() {
         return loginButton;
     }
 
-    public JTextField getUserField() {
-        return userField;
-    }
+    public JTextField getUserField() {return userField; }
 
     public JButton getStartGameButton(){ return startGameButton;}
 
@@ -240,21 +235,29 @@ public class QuizFrame {
     public JButton getCategory4Button() {return category4Button;}
 
     public JLabel getIsCorrectlabel() {return isCorrectlabel;}
-
-    public JButton getAnswer1Button() {return answer1Button;}
-
-    public JButton getAnswer2Button() {return answer2Button;}
-
-    public JButton getAnswer3Button() {return answer3Button;}
-
-    public JButton getAnswer4Button() {return answer4Button;}
-
-    public int getRandomQuestion(){return randomQuestion;}
-
-    public int getCorrectAnswerIndex(){return correctAnswerIndex;}
-
-    public void setUserCategoryChoice(String category){this.userCategoryChoice = category;}
-
-    public String getUserCategoryChoice(){return userCategoryChoice;}
-
 }
+//    public JButton getAnswer1Button() {return answer1Button;}
+//
+//    public JButton getAnswer2Button() {return answer2Button;}
+//
+//    public JButton getAnswer3Button() {return answer3Button;}
+//
+//    public JButton getAnswer4Button() {return answer4Button;}
+//
+//    public int getRandomQuestion(){return randomQuestion;}
+//
+//    public int getCorrectAnswerIndex(){return correctAnswerIndex;}
+//
+//    public void setUserCategoryChoice(String category){this.userCategoryChoice = category;}
+//
+//    public String getUserCategoryChoice(){return userCategoryChoice;}
+
+//    private JPanel createOpponentResultFrame() {
+//        JPanel panel = new JPanel(new BorderLayout());
+//        JLabel label = new JLabel("Your answer: Correct! Opponent: Waiting...", SwingConstants.CENTER);
+//        JButton nextButton = new JButton("Next");
+//
+//        panel.add(label, BorderLayout.CENTER);
+//        panel.add(nextButton, BorderLayout.SOUTH);
+//        return panel;
+//    }
