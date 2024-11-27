@@ -32,39 +32,71 @@ public class ResponseHandler {
                 client.frame.switchTo("Queue");
                 System.out.println("Player waiting to connect with other player");
             }
+            case MY_TURN_ANSWERING -> {
+                client.onRound++;
+                client.currentQuestions = response.getQuestions();
 
-            case GAME_STARTED -> {
-                if (response.isMyTurn()) {
-                    client.myTurn = true;
-                    client.frame.switchTo("Category");
-                    List<eCategoryType> categories = response.getCategories();
-                    client.frame.getCategory1Button().setText(categories.get(0).name());
-                    client.frame.getCategory2Button().setText(categories.get(1).name());
-                    System.out.println("P1 Choosing Category");
-                } else {
-                    client.myTurn = false;
-                    client.frame.switchTo("Queue");
-                    System.out.println("P2 Queue");
-                }
+                client.onQuestion = 0;
+                client.currentQuestion = client.currentQuestions.get(client.onQuestion);
+                client.frame.populateQuestionPanel(client.currentQuestion);
+                client.frame.switchTo("Question");
+                client.addActionListenersToAnswerButtons();
+
             }
-
+            case MY_TURN_CHOOSING -> {
+                client.onRound++;
+                client.myTurn = true;
+                client.frame.switchTo("Category");
+                List<eCategoryType> categories = response.getCategories();
+                client.frame.getCategory1Button().setText(categories.get(0).name());
+                client.frame.getCategory2Button().setText(categories.get(1).name());
+                System.out.println("P1 Choosing Category");
+            }
             case CHOOSEN_CATEGORY -> {
                 if (response.isMyTurn()) {
                     client.frame.switchTo("Question");
 
                 }
             }
+            case WAITING->{
+                client.myTurn = false;
+                client.frame.switchTo("Queue");
+                System.out.println("P2 Queue");
+            }
 
-            case GET_QUESTION -> {
-                server.switchCurrentPlayer(player1, player2);
-                if (response.isMyTurn()) {
-                    client.frame.switchTo("Question");
-                }
 
             }
         }
     }
-}
 
+//            case GAME_STARTED -> {
+//                if (response.isMyTurn()) {
+//                    client.myTurn = true;
+//                    client.frame.switchTo("Category");
+//                    List<eCategoryType> categories = response.getCategories();
+//                    client.frame.getCategory1Button().setText(categories.get(0).name());
+//                    client.frame.getCategory2Button().setText(categories.get(1).name());
+//                    System.out.println("P1 Choosing Category");
+//                } else {
+//                    client.myTurn = false;
+//                    client.frame.switchTo("Queue");
+//                    System.out.println("P2 Queue");
+//                }
+//            }
 
-
+//            case PLAYER_ONE_DONE -> {
+//                if (response.isMyTurn()) {
+//                    client.myTurn = true;
+//                    client.setCategories();
+//                    System.out.println("P1 Choosing Category");
+//                } else {
+//                    client.myTurn = false;
+//                    client.frame.switchTo("Queue");
+//                    System.out.println("P2 Queue");
+//                }
+//            case GET_QUESTION -> {
+//                server.switchCurrentPlayer(player1, player2);
+//                if (response.isMyTurn()) {
+//                    client.frame.switchTo("Question");
+//                }
+//            }

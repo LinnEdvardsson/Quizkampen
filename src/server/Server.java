@@ -1,6 +1,7 @@
 package server;
 
 import QuizGame.PlayerScore;
+import QuizGame.Questions;
 import QuizGame.QuizSetUp;
 import QuizGame.eCategoryType;
 
@@ -10,6 +11,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Server {
 
@@ -48,22 +50,43 @@ public class Server {
         ClientConnection playerOne = instance.getClientOne();
         ClientConnection playerTwo = instance.getClientTwo();
 
+        playerOne.setOpponent(playerTwo);
+        playerTwo.setOpponent(playerOne);
+
 
         List<eCategoryType> categories = QuizSetUp.getCategories();
 
-        sendResponse(new ServerResponse(ResponseType.GAME_STARTED, true, categories), playerOne);
-        sendResponse(new ServerResponse(ResponseType.GAME_STARTED, false, categories), playerTwo);
+        instance.currentRound++;
+
+        sendResponse(new ServerResponse(ResponseType.MY_TURN_CHOOSING, true, categories), playerOne);
+        sendResponse(new ServerResponse(ResponseType.WAITING), playerTwo);
         System.out.println("Game started");
 
     }
 
-    public void switchCurrentPlayer(ClientConnection playerOne, ClientConnection playerTwo) throws IOException {
-        if(currentPlayer == playerOne) {
-            sendResponse(new ServerResponse(ResponseType.PLAYER_ONE_DONE, false, QuizSetUp.getCategories()), playerOne);
-            sendResponse(new ServerResponse(ResponseType.PLAYER_TWO_TURN, true, QuizSetUp.getCategories()), playerTwo);
+    public static void switchCurrentPlayer(ClientConnection playerOne, ClientConnection playerTwo, List<Questions> questions) throws IOException {
+        System.out.println("Switching players");
+        if (playerOne.hasAnsweredThisRound && playerTwo.hasAnsweredThisRound){
+            System.out.printf("Sending categories again");
+            List<eCategoryType> categories = QuizSetUp.getCategories();
+            sendResponse(new ServerResponse(ResponseType.MY_TURN_CHOOSING, true, categories), playerOne);
+            sendResponse(new ServerResponse(ResponseType.WAITING), playerTwo);
+            playerOne.hasAnsweredThisRound = false;
+            playerTwo.hasAnsweredThisRound = false;
+        }
+        else{
+            System.out.println("Sending same questions");
+            sendResponse(new ServerResponse(ResponseType.WAITING), playerOne);
+            sendResponse(new ServerResponse(ResponseType.MY_TURN_ANSWERING, questions), playerTwo);
             System.out.println("Player2 playing turn");
-        } else{
-            currentPlayer = playerOne;
+        }
+    }
+
+    public static void sendFinalResult(ClientConnection playerOne, ClientConnection playerTwo) throws IOException {
+        Server.sendResponse(new ServerResponse(ResponseType.WAITING), playerOne);
+        if (playerOne.hasFinishedGame && playerTwo.hasFinishedGame){
+            sendResponse(new ServerResponse(ResponseType.GAME_OVER, ), playerOne);
+            sendResponse(new ServerResponse(ResponseType.GAME_OVER), playerTwo);
         }
     }
 
@@ -80,3 +103,11 @@ public class Server {
 
     }
 }
+  /*
+        if(currentPlayer == playerOne) {
+            sendResponse(new ServerResponse(ResponseType.PLAYER_ONE_DONE, false, QuizSetUp.getCategories()), playerOne);
+            sendResponse(new ServerResponse(ResponseType.PLAYER_TWO_TURN, true, QuizSetUp.getCategories()), playerTwo);
+            System.out.println("Player2 playing turn");
+        } else{
+            currentPlayer = playerOne;
+        }*/

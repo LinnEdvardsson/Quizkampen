@@ -7,7 +7,8 @@ public enum ResponseType {
     GAME_STARTED,
     CHOOSEN_CATEGORY,
     GET_QUESTION,
-    PLAYER_ONE_DONE,
-    PLAYER_TWO_TURN,
+    MY_TURN_CHOOSING,
+    MY_TURN_ANSWERING,
+    WAITING,
     GAME_DONE;
 }

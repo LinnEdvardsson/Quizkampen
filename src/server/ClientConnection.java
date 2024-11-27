@@ -17,11 +17,24 @@ public class ClientConnection extends Thread implements Runnable {
     ObjectOutputStream out;
     ObjectInputStream in;
     RequestHandler requestHandler;
+    public boolean hasAnsweredThisRound = false;
+    public boolean hasFinishedGame = false;
+    public int score = 0;
+
+    ClientConnection opponent;
 
     public ClientConnection(Socket socket) throws UnknownHostException {
         this.socket = socket;
         this.requestHandler = new RequestHandler();
 
+    }
+
+    public void setOpponent(ClientConnection opponentClient){
+        this.opponent = opponentClient;
+    }
+
+    public ClientConnection getOpponent(){
+        return opponent;
     }
 
     @Override

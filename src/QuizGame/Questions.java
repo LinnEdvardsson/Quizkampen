@@ -1,6 +1,8 @@
 package QuizGame;
 
-public class Questions {
+import java.io.Serializable;
+
+public class Questions implements Serializable {
         private String question;
         private String[] answers;
         private String correctAnswer;

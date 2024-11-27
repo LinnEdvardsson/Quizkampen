@@ -1,4 +1,4 @@
-package QuizGame;
+/*package QuizGame;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,4 +28,5 @@ public class ConfigGame {
     public int getQuestionsPerRound() {
         return questionsPerRound;
     }
-}
+}*/
+

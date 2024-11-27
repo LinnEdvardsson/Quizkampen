@@ -5,6 +5,7 @@ public class Instance {
     ClientConnection clientOne;
     ClientConnection clientTwo;
     ClientConnection currentPlayer;
+    public int currentRound = 0;
 
     public Instance(ClientConnection clientOne, ClientConnection clientTwo){
         this.clientOne = clientOne;
@@ -18,6 +19,12 @@ public class Instance {
     public ClientConnection getClientTwo() {
         return clientTwo;
     }
-    
-    public ClientConnection getCurrentPlayer() {return currentPlayer;}
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
 }

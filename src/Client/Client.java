@@ -13,6 +13,7 @@ import server.ServerResponse;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.Authenticator;
 import java.util.*;
 import java.io.*;
 import java.net.InetAddress;
@@ -30,17 +31,20 @@ public class Client {
     ObjectInputStream input;
     Socket socket;
     ResponseHandler responseHandler;
-    QuizSetUp quizSetUp = new QuizSetUp();
+    QuizSetUp quizSetUp;
+    int onRound = 0;
+
 
     int score;
     boolean myTurn;
 
-    Questions currentQuestion;
-    eCategoryType currentCategory;
-    List<Questions> currentQuestions;
-    int onQuestion = 0;
-    int amountOfQuestionsPerRound = 4;
-    
+    public Questions currentQuestion;
+    public eCategoryType currentCategory;
+    public List<Questions> currentQuestions;
+
+    public int onQuestion = 0;
+    public int amountOfQuestionsPerRound = 4;
+
     String username;
 
     public Client() throws IOException {
@@ -50,6 +54,7 @@ public class Client {
         frame = new QuizFrame();
         database = new QuestionDatabase();
         responseHandler = new ResponseHandler();
+        quizSetUp = new QuizSetUp();
 
         listenForConnection();
         addActionListeners();
@@ -58,18 +63,17 @@ public class Client {
     }
 
 
-    public void listenForConnection(){
-        new Thread(()->{
+    public void listenForConnection() {
+        new Thread(() -> {
 
             System.out.println("Started listening to server");
-            try{
-                while(input.readObject() instanceof ServerResponse response){
+            try {
+                while (input.readObject() instanceof ServerResponse response) {
                     System.out.println("Received response");
                     responseHandler.handleResponse(response, this);
 
                 }
-            }
-            catch (IOException | ClassNotFoundException e){
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -77,7 +81,7 @@ public class Client {
     }
 
     public void sendToServer(Object obj) {
-        try{
+        try {
             output.writeObject(obj);
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,8 +89,7 @@ public class Client {
     }
 
 
-
-    public void addActionListeners() { //Alla actionlyssnare för knappar osv läggs HÄR.
+    public void addActionListeners() { // actionlyssnare för knappar
         frame.getLoginButton().addActionListener(e -> {
             System.out.println("Sending request to connect...");
             username = frame.getUserField().getText();
@@ -101,22 +104,30 @@ public class Client {
             System.exit(0);
             System.out.println("Want to disconnect");
         });
-        frame.getNextButton().addActionListener(e->{
+        frame.getNextButton().addActionListener(e -> {
             onQuestion++;
-            if (onQuestion == amountOfQuestionsPerRound){
-                sendToServer(new ClientRequest(RequestType.PLAYER_ONE_DONE, username));
-            }
-            currentQuestion = currentQuestions.get(onQuestion);
             resetButtons();
-            frame.populateQuestionPanel(currentQuestion);
-            frame.switchTo("Question");
+            if (onQuestion == quizSetUp.getQuestionsPerRound()) {
+                System.out.println("Sending round finished");
+                sendToServer(new ClientRequest(RequestType.ROUND_FINISHED, currentQuestions));
+                onQuestion = 0;
+                if (onRound == quizSetUp.getRoundsPerGame()){
+                    sendToServer(new ClientRequest(RequestType.MY_SCORE, score));
+                }
+            }
+            else{
+                currentQuestion = currentQuestions.get(onQuestion);
+                resetButtons();
+                frame.populateQuestionPanel(currentQuestion);
+                frame.switchTo("Question");
+            }
 
         });
 
         List<JButton> categoryButtons = frame.getCategoryButtons();
         for (JButton categoryButton : categoryButtons) {
             categoryButton.addActionListener(e -> {
-                if(myTurn){
+                if (myTurn) {
                     System.out.println("Sending request to music category");
 
                     eCategoryType chosenCategory = eCategoryType.valueOf(categoryButton.getText());
@@ -132,62 +143,22 @@ public class Client {
                 }
             });
         }
-
-
-
-//        frame.getCategory1Button().addActionListener(e ->{
-//            System.out.println("Sending request to music category");
-//            eCategoryType chosen = eCategoryType.valueOf(frame.getCategory1Button().getText());
-//            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, chosen));
-//            frame.switchTo("Question");
-//        });
-
-
-//        frame.getAnswer1Button().addActionListener(e ->{
-//            if(frame.getCorrectAnswerIndex() == 3){
-//                frame.getAnswer1Button().setBackground(Color.GREEN);
-//
-//            }else{
-//                frame.getAnswer1Button().setBackground(Color.RED);
-//            }
-//        });
-//        frame.getAnswer2Button().addActionListener(e ->{
-//            if(frame.getCorrectAnswerIndex() == 1){
-//                frame.getAnswer2Button().setBackground(Color.GREEN);
-//            }else{
-//                frame.getAnswer2Button().setBackground(Color.RED);
-//            }
-//        });
-//        frame.getAnswer3Button().addActionListener(e ->{
-//            if(frame.getCorrectAnswerIndex() == 2){
-//                frame.getAnswer3Button().setBackground(Color.GREEN);
-//            }else{
-//                frame.getAnswer3Button().setBackground(Color.RED);
-//            }
-//        });
-//        frame.getAnswer4Button().addActionListener(e ->{;
-//            if(frame.getCorrectAnswerIndex() == 3){
-//                frame.getAnswer4Button().setBackground(Color.GREEN);
-//            }else{
-//                frame.getAnswer4Button().setBackground(Color.RED);
-//            }
-//        });
     }
 
-    public void addActionListenersToAnswerButtons(){
+
+    public void addActionListenersToAnswerButtons() {
         List<JButton> answerButtons = frame.getAnswerButtons();
-        for(JButton button:answerButtons){
-            button.addActionListener(e->{
+        for (JButton button : answerButtons) {
+            button.addActionListener(e -> {
                 String answer = button.getText();
-                if (currentQuestion.isCorrect(answer)){
+                if (currentQuestion.isCorrect(answer)) {
                     score++;
                     button.setBackground(Color.GREEN);
                     frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct");
-                }
-                else{
+                } else {
                     button.setBackground(Color.RED);
-                    for(JButton otherButton : answerButtons){
-                        if (currentQuestion.isCorrect(otherButton.getText())){
+                    for (JButton otherButton : answerButtons) {
+                        if (currentQuestion.isCorrect(otherButton.getText())) {
                             otherButton.setBackground(Color.GREEN);
                         }
                     }
@@ -199,23 +170,20 @@ public class Client {
         }
     }
 
-    public void resetIsCorrectLabel(){
+    public void resetIsCorrectLabel() {
         frame.getIsCorrectlabel().setText("Your answer: ");
     }
 
-    public void resetButtons(){
+    public void resetButtons() {
         List<JButton> answerButtons = frame.getAnswerButtons();
-        for(JButton button:answerButtons){
+        for (JButton button : answerButtons) {
             button.setBackground(null);
         }
     }
 
-    public void getNextQuestion(){
 
-    }
-
-    public void closeConnection(){
-        try{
+    public void closeConnection() {
+        try {
             output.close();
             input.close();
             socket.close();
@@ -224,13 +192,12 @@ public class Client {
         }
     }
 
-    
+
     public static void main(String[] args) throws IOException {
         Client client = new Client();
     }
-
-
 }
+
 
 /*package Client;
 
@@ -369,3 +336,40 @@ public class Client {
         }
     }*/
 
+//        frame.getCategory1Button().addActionListener(e ->{
+//            System.out.println("Sending request to music category");
+//            eCategoryType chosen = eCategoryType.valueOf(frame.getCategory1Button().getText());
+//            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, chosen));
+//            frame.switchTo("Question");
+//        });
+
+
+//        frame.getAnswer1Button().addActionListener(e ->{
+//            if(frame.getCorrectAnswerIndex() == 3){
+//                frame.getAnswer1Button().setBackground(Color.GREEN);
+//
+//            }else{
+//                frame.getAnswer1Button().setBackground(Color.RED);
+//            }
+//        });
+//        frame.getAnswer2Button().addActionListener(e ->{
+//            if(frame.getCorrectAnswerIndex() == 1){
+//                frame.getAnswer2Button().setBackground(Color.GREEN);
+//            }else{
+//                frame.getAnswer2Button().setBackground(Color.RED);
+//            }
+//        });
+//        frame.getAnswer3Button().addActionListener(e ->{
+//            if(frame.getCorrectAnswerIndex() == 2){
+//                frame.getAnswer3Button().setBackground(Color.GREEN);
+//            }else{
+//                frame.getAnswer3Button().setBackground(Color.RED);
+//            }
+//        });
+//        frame.getAnswer4Button().addActionListener(e ->{;
+//            if(frame.getCorrectAnswerIndex() == 3){
+//                frame.getAnswer4Button().setBackground(Color.GREEN);
+//            }else{
+//                frame.getAnswer4Button().setBackground(Color.RED);
+//            }
+//        });

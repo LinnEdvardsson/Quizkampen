@@ -1,7 +1,9 @@
 package server;
 import Client.ClientRequest;
+import QuizGame.Questions;
 
 import java.io.IOException;
+import java.util.List;
 
 //SERVER hanterar klientens requests
 public class RequestHandler {
@@ -40,10 +42,18 @@ public class RequestHandler {
             case PLAYER1_PLAYING -> {
                 Server.sendResponse(new ServerResponse(ResponseType.GET_QUESTION), client);
             }
-            case PLAYER_ONE_DONE -> {
-                Server.
-                Server.sendResponse(new ServerResponse(ResponseType.PLAYER_TWO_TURN), client);
-
+            //case PLAYER_ONE_DONE -> {
+            //Server.switchCurrentPlayer(client, client.getOpponent());
+            //}
+            case ROUND_FINISHED -> {
+                client.hasAnsweredThisRound = true;
+                List<Questions> questions = request.getQuestions();
+                Server.switchCurrentPlayer(client, client.getOpponent(), questions);
+            }
+            case MY_SCORE ->{
+                client.hasFinishedGame = true;
+                client.score = request.getScore();
+                Server.sendFinalResult(client, client.getOpponent());
             }
         }
     }

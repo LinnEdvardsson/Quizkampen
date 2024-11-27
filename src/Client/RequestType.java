@@ -8,5 +8,6 @@ public enum RequestType {
     CATEGORY_TYPE_REQUEST,
     PLAYER1_PLAYING,
     PLAYER_ONE_DONE,
+    MY_SCORE,
     ROUND_FINISHED;
 }

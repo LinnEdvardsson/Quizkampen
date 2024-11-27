@@ -3,34 +3,35 @@ import QuizApp.QuizFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class QuizSetUp {
+
     private QuestionDatabase questionDatabase;
-    private ConfigGame configGame;
     Scanner scanner;
+    List <Questions> questions;
+    private int roundsPerGame;
+    private int questionsPerRound;
 
 
-/// Hjälpmetoder som behöver skrivas om så de funkar med GUI
     private PlayerScore playerScore;
 
     public QuizSetUp() {
         this.questionDatabase = new QuestionDatabase();
         scanner = new Scanner(System.in);
-        configGame = new ConfigGame();
+        loadSettings();
     }
 
-//    public void startQuiz() {
-//        configGame.loadSettings();
-//        List <eCategoryType> category = getCategories();
-//        playAllRounds(category);
-//        System.out.println("Final score: " + playerScore.getScore());
-//    }
+    public void loadGameSettings() {
+        roundsPerGame = getRoundsPerGame();
+        questionsPerRound = getQuestionsPerRound();
+        questionsPerRound = Math.min(getQuestionsPerRound(), questions.size());
 
-    // liknande metod för frågor inom den valda kategorin?
+    }
+
     public static List<eCategoryType> getCategories(){
         List<eCategoryType> allAvailableCategories = new ArrayList<>(List.of(eCategoryType.values()));
         Collections.shuffle(allAvailableCategories);
@@ -38,6 +39,33 @@ public class QuizSetUp {
         List<eCategoryType> categorySet = new ArrayList<>(allAvailableCategories.subList(0, 2));
         return categorySet;
     }
+
+    public void loadSettings() {
+        Properties prop = new Properties();
+        try {
+            prop.load(new FileInputStream("src/server/setting.properties"));
+            roundsPerGame = Integer.parseInt(prop.getProperty("roundsPerGame"));
+            questionsPerRound = Integer.parseInt(prop.getProperty("questionsPerRound"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Questions> getQuestions(eCategoryType category){
+        return questionDatabase.addQuestionsForCategory(eCategoryType.valueOf(String.valueOf(category)));
+    }
+
+    public int getRoundsPerGame() {
+        return roundsPerGame;
+    }
+
+    public int getQuestionsPerRound() {
+        return questionsPerRound;
+    }
+}
+
+
 
 //    public void playAllRounds(List<eCategoryType> category) {              //serverSidan?
 //        int roundsPerGame = configGame.getRoundsPerGame();
@@ -63,9 +91,7 @@ public class QuizSetUp {
 //        processAnswer(question);
 //    }
 
-    public List<Questions> getQuestions(eCategoryType category){
-        return questionDatabase.addQuestionsForCategory(eCategoryType.valueOf(String.valueOf(category)));
-    }
+
 
 //
 //    public void displayQuestion(Questions question, int questionNumber, int totalQuestions) {
@@ -93,4 +119,3 @@ public class QuizSetUp {
 //                    answers[question.getCorrectAnswerIndex()]);
 //        }
 //    }
-}
