@@ -1,6 +1,5 @@
 package server;
 
-import QuizGame.PlayerScore;
 import QuizGame.Questions;
 import QuizGame.QuizSetUp;
 import QuizGame.eCategoryType;
@@ -11,22 +10,21 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Server {
 
     private static final int PORT = 6000;
     static List<ClientConnection> onGoingGame;
-    ClientConnection currentPlayer;
-    QuizSetUp setUp;
-    List<PlayerScore> playerOneScore;
-    List<PlayerScore> playerTwoScore;
+//    ClientConnection currentPlayer;
+//    QuizSetUp setUp;
+//    List<PlayerScore> playerOneScore;
+//    List<PlayerScore> playerTwoScore;
 
 
     public Server() {
         onGoingGame = new ArrayList<>();
-        playerOneScore = new ArrayList<>();
-        playerTwoScore = new ArrayList<>();
+//        playerOneScore = new ArrayList<>();
+//        playerTwoScore = new ArrayList<>();
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server started");
@@ -63,18 +61,20 @@ public class Server {
         System.out.println("Game started");
 
     }
+
     /// Metod för att byta spelare efter en runda. Klient som valt kategori skickar då med sig frågor den svarat på till den andra klienten.
+    /// Skickar rätt respons till client(responsehandler) beroende på status på spelare.
     public static void switchCurrentPlayer(ClientConnection playerOne, ClientConnection playerTwo, List<Questions> questions) throws IOException {
         System.out.println("Switching players");
-        if (playerOne.hasAnsweredThisRound && playerTwo.hasAnsweredThisRound){
+        if (playerOne.hasAnsweredThisRound && playerTwo.hasAnsweredThisRound){ //om BÅDA spelarna har svarat på frågor i en runda
             System.out.printf("Sending categories again");
             List<eCategoryType> categories = QuizSetUp.getCategories();
             sendResponse(new ServerResponse(ResponseType.MY_TURN_CHOOSING, true, categories), playerOne);
             sendResponse(new ServerResponse(ResponseType.WAITING), playerTwo);
-            playerOne.hasAnsweredThisRound = false; ///Sätts till falskt här och ändras i responeHandler till true
+            playerOne.hasAnsweredThisRound = false;    ///Sätts till falskt här då ny "omgång" inleds och ingen har svarat än, ändras i requestHandler till true när första spelaren svarar.
             playerTwo.hasAnsweredThisRound = false;
         }
-        else{
+        else{ ///om INTE båda spelarna har svarat på frågor skickas samma frågor till andra spelaren, och första spelaren hamnar i kö.
             System.out.println("Sending same questions");
             sendResponse(new ServerResponse(ResponseType.WAITING), playerOne);
             sendResponse(new ServerResponse(ResponseType.MY_TURN_ANSWERING, questions), playerTwo);
@@ -103,11 +103,3 @@ public class Server {
 
     }
 }
-  /*
-        if(currentPlayer == playerOne) {
-            sendResponse(new ServerResponse(ResponseType.PLAYER_ONE_DONE, false, QuizSetUp.getCategories()), playerOne);
-            sendResponse(new ServerResponse(ResponseType.PLAYER_TWO_TURN, true, QuizSetUp.getCategories()), playerTwo);
-            System.out.println("Player2 playing turn");
-        } else{
-            currentPlayer = playerOne;
-        }*/

@@ -5,6 +5,7 @@ import QuizGame.QuestionDatabase;
 import QuizGame.Questions;
 import QuizGame.QuizSetUp;
 import QuizGame.eCategoryType;
+import server.ClientConnection;
 import server.ServerResponse;
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,6 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
-
 
 public class Client {
 
@@ -26,16 +26,14 @@ public class Client {
     ResponseHandler responseHandler;
     QuizSetUp quizSetUp;
     int onRound = 0;
-
     int score;
     boolean myTurn;
-
     public Questions currentQuestion;
     public eCategoryType currentCategory;
     public List<Questions> currentQuestions;
-
+    ClientConnection playerOne;
+    ClientConnection playerTwo;
     public int onQuestion = 0;
-    public int amountOfQuestionsPerRound = 4;
 
     String username;
 
@@ -50,8 +48,6 @@ public class Client {
 
         listenForConnection();
         addActionListeners();
-        //database.addQuestionsForCategory(eCategoryType.MUSIC);
-
     }
 
 
@@ -95,14 +91,21 @@ public class Client {
             System.exit(0);
             System.out.println("Want to disconnect");
         });
+        frame.getPlayAgainButton().addActionListener(e -> {
+            if (e.getSource() == playerOne && e.getSource() == playerTwo) {
+                frame.switchTo("Welcome");
+            } else if (e.getSource() == playerOne || e.getSource() == playerTwo) {
+                frame.switchTo("Queue");
+            }
+        });
         frame.getNextButton().addActionListener(e -> {
             onQuestion++;
             resetButtons();
-            if (onQuestion == quizSetUp.getQuestionsPerRound()) {
+            if (onQuestion == quizSetUp.getQuestionsPerRound()) { /// spelet styrs via properies (antalet frågor).
                 System.out.println("Sending round finished");
                 sendToServer(new ClientRequest(RequestType.ROUND_FINISHED, currentQuestions));
                 onQuestion = 0; ///variabel styr vilken fråga man är på, ökar efter varje fråga för att komma till nästa.
-                if (onRound == quizSetUp.getRoundsPerGame()){ /// spelet styrs via properies.
+                if (onRound == quizSetUp.getRoundsPerGame()){ /// spelet styrs via properies (antalet rundor).
                     sendToServer(new ClientRequest(RequestType.MY_SCORE, score));
                 }
             }
@@ -143,9 +146,14 @@ public class Client {
             button.addActionListener(e -> {
                 String answer = button.getText();
                 if (currentQuestion.isCorrect(answer)) {
-                    score++;
+                    score++;                    ///uppdatera poäng om rätt svar
                     button.setBackground(Color.GREEN);
-                    frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct");
+                    try{
+                        Thread.sleep(1000);
+                        frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct"); ///sleepfunktion
+                    } catch (InterruptedException e1){
+                        e1.printStackTrace();
+                    }
                 } else {
                     button.setBackground(Color.RED);
                     for (JButton otherButton : answerButtons) {
@@ -161,9 +169,7 @@ public class Client {
         }
     }
 
-    public void resetIsCorrectLabel() {
-        frame.getIsCorrectlabel().setText("Your answer: ");
-    }
+
         /// metod som resettar färg på knappar. hämtas efter varje fråga
     public void resetButtons() {
         List<JButton> answerButtons = frame.getAnswerButtons();
@@ -188,179 +194,3 @@ public class Client {
         Client client = new Client();
     }
 }
-
-
-/*package Client;
-
-import QuizApp.QuizFrame;
-
-import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-
-public class Client {
-
-    private final InetAddress ip = InetAddress.getLocalHost();
-    private final int PORT = 6000;
-    QuizFrame frame;
-
-    public Client() throws UnknownHostException {
-        listenForConnection();
-        //initializingConnection2();
-    }
-
-   // public void initializingConnection2(){
-        //socket = new Socket(ip, PORT);
-        //out = new ObjectOutputStream(socket.getOutputStream());
-        //in = new ObjectInputStream(socket.getInputStream());
-    }
-
-    public void sendToServer(Object obj, ObjectOutputStream out) throws IOException {
-        out.writeObject(obj);
-    }
-
-    public void listenForConnection(){
-        new Thread(()->{
-            System.out.println("Attempting to connect...");
-            try (Socket clientSocket = new Socket(ip, PORT)) {
-                System.out.println("Socket created.");
-                try (ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-                     ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())) {
-
-                    System.out.println("Streams created, connection established.");
-                    sendToServer(new Object(), out);
-                    Object objIn;
-                    while ((objIn = in.readObject()) != null) { //skicka ny frame?
-                        if (objIn instanceof Object obj){
-                            System.out.println("Received response");
-                        }
-                    }
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            } catch (IOException e) {
-                System.err.println("An error occurred: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-        }).start();
-    }
-
-    public static void main(String[] args) throws UnknownHostException {
-        Client client = new Client();
-    }
-}
-
-/*public void initializingConnection(){
-    System.out.println("Attempting to connect...");
-    try (Socket clientSocket = new Socket(ip, PORT)) {
-        System.out.println("Socket created.");
-        try (PrintWriter serverWriter = new PrintWriter(clientSocket.getOutputStream(), true);
-             BufferedReader userReader = new BufferedReader(new InputStreamReader(System.in));
-             BufferedReader serverReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-
-            System.out.println("Streams created, connection established.");
-            String temp = serverReader.readLine();
-            String fromUser;
-            while ((fromUser = userReader.readLine()) != null) {
-                serverWriter.println(fromUser);
-                String fromServer = serverReader.readLine();
-
-            }
-        }
-    } catch (IOException e) {
-        System.err.println("An error occurred: " + e.getMessage());
-        e.printStackTrace();
-    }
-}
-    /*
-            System.out.println("Attempting to connect...");
-            try (Socket clientSocket = new Socket(ip, PORT)) {
-                System.out.println("Socket created.");
-                try (ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));) {
-
-                    System.out.println("Streams created, connection established.");
-                    while(input.readObject() instanceof ServerResponse response){
-
-                    }
-
-                    Object objIn;
-                    while ((objIn = in.readLine()) != null) {
-                        if (objIn instanceof ServerResponse response){
-                            System.out.println("Received response");
-                        }
-                    }
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            } catch (IOException e) {
-                System.err.println("An error occurred: " + e.getMessage());
-                e.printStackTrace();
-            }*/
-
-
-
-    /*public void addEventListeners(){
-        frame.getLoginButton().addActionListener();
-    }*/
-    /*
-    public void sendRequest(JButton button) throws IOException {
-        output = new ObjectOutputStream(clientSocket.getOutputStream());
-        input = new ObjectInputStream(new ObjectInputStream(clientSocket.getInputStream()));
-        if (button == frame.getLoginButton()) {
-            System.out.println("Sending request to connect...");
-            output.writeObject(new ClientRequest(RequestType.CONNECT_REQUEST, frame.getUserField().getText()));
-        } else if (button == frame.getStartGameButton()) {
-            output.writeObject(new ClientRequest(RequestType.START_GAME, frame.getUserField().getName()));
-        }
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JButton button = (JButton) e.getSource();
-        try {
-            sendRequest(button);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }*/
-
-//        frame.getCategory1Button().addActionListener(e ->{
-//            System.out.println("Sending request to music category");
-//            eCategoryType chosen = eCategoryType.valueOf(frame.getCategory1Button().getText());
-//            sendToServer(new ClientRequest(RequestType.CATEGORY_TYPE_REQUEST, chosen));
-//            frame.switchTo("Question");
-//        });
-
-
-//        frame.getAnswer1Button().addActionListener(e ->{
-//            if(frame.getCorrectAnswerIndex() == 3){
-//                frame.getAnswer1Button().setBackground(Color.GREEN);
-//
-//            }else{
-//                frame.getAnswer1Button().setBackground(Color.RED);
-//            }
-//        });
-//        frame.getAnswer2Button().addActionListener(e ->{
-//            if(frame.getCorrectAnswerIndex() == 1){
-//                frame.getAnswer2Button().setBackground(Color.GREEN);
-//            }else{
-//                frame.getAnswer2Button().setBackground(Color.RED);
-//            }
-//        });
-//        frame.getAnswer3Button().addActionListener(e ->{
-//            if(frame.getCorrectAnswerIndex() == 2){
-//                frame.getAnswer3Button().setBackground(Color.GREEN);
-//            }else{
-//                frame.getAnswer3Button().setBackground(Color.RED);
-//            }
-//        });
-//        frame.getAnswer4Button().addActionListener(e ->{;
-//            if(frame.getCorrectAnswerIndex() == 3){
-//                frame.getAnswer4Button().setBackground(Color.GREEN);
-//            }else{
-//                frame.getAnswer4Button().setBackground(Color.RED);
-//            }
-//        });

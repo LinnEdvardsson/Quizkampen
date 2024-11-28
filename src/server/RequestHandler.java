@@ -12,7 +12,7 @@ public class RequestHandler {
     public static void handleRequest(ClientRequest request, ClientConnection client) throws IOException {
 
         switch (request.getRequestType()){
-            case CONNECT_REQUEST -> { // om detta skickar med username till servern
+            case CONNECT_REQUEST -> {
                 System.out.println("Wish to connect to server");
                 client.username = request.getUsername();
                 Server.sendResponse(new ServerResponse(ResponseType.CONNECTION_ESTABLISHED), client);
@@ -45,7 +45,7 @@ public class RequestHandler {
             }
 
             case ROUND_FINISHED -> {
-                client.hasAnsweredThisRound = true; ///sätts till trye för att byta spelare och visa samma frågor.
+                client.hasAnsweredThisRound = true; ///sätts till true för att byta spelare och visa samma frågor.
                 List<Questions> questions = request.getQuestions();
                 Server.switchCurrentPlayer(client, client.getOpponent(), questions);
             }

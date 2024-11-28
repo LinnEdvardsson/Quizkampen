@@ -74,6 +74,7 @@ public class ClientConnection extends Thread implements Runnable {
         return out;
     }
 
+
     public void closeConnection(){
         try{
             out.close();

@@ -1,9 +1,6 @@
 package Client;
 
 import QuizGame.Questions;
-import QuizGame.eCategoryType;
-import server.ClientConnection;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,7 +8,6 @@ public class ClientRequest implements Serializable {
 
     RequestType type;
     String username;
-    eCategoryType category;
     List<Questions> answeredQuestions;
     int score;
 
@@ -20,11 +16,7 @@ public class ClientRequest implements Serializable {
         this.username = username;
     }
 
-    public ClientRequest(RequestType type, eCategoryType category){
-        this.type = type;
-        this.category = category;
-    }
-
+    /// Klient so valt kategori skickar svarade frågor till den andra spelaren så denne svarar på samma.
     public ClientRequest(RequestType type, List<Questions> questions){
         this.type = type;
         this.answeredQuestions = questions;

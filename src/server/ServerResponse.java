@@ -19,7 +19,7 @@ public class ServerResponse implements Serializable {
         this.type = type;
     }
 
-    public ServerResponse(ResponseType type, boolean myTurn, List<eCategoryType> categories){ /// Extended constructor
+    public ServerResponse(ResponseType type, boolean myTurn, List<eCategoryType> categories){
         this.type = type;
         this.myTurn = myTurn;
         this.categories = categories;

@@ -30,12 +30,10 @@ public class QuestionDatabase {
         musicQuestions.add(new Questions("Who is known as the King of Pop?", new String[]{"Freddie Mercury", "Elvis Presley", "Michael Jackson", "Prince"}, "Michael Jackson", MUSIC));
         musicQuestions.add(new Questions("The 'Mamma Mia' Musical is based around the music of which band?", new String[]{"Take That", "Sarek", "ABBA", "Vikingarna"}, "ABBA", MUSIC));
 
-
         sportQuestions.add(new Questions("What sport is best known as the ‘king of sports?", new String[]{"Basketball", "Hockey", "Football", "Golf"}, "Football", SPORT));
         sportQuestions.add(new Questions("What do you call it when a bowler makes three strikes in a row?", new String[]{"Meatloaf", "Turkey", "Hole in one", "Strike"}, "Turkey", SPORT));
         sportQuestions.add(new Questions("How many dimples does an average golf ball have?", new String[]{"100-150", "300-500", "50-100", "350-600"}, "300-500", SPORT));
         sportQuestions.add(new Questions("What type of race is the Tour de France?", new String[]{"by Car", "by Bicycle", "by Skates", "by Horse"}, "by Bicycle", SPORT));
-
 
         movieQuestions.add(new Questions("What is the name of the foley artist who designed the famous sounds of Star Wars, including Chewbacca's roar and R2D2's beeps and whistles?", new String[]{"Hank Bowley", "Tom Sagan", "Ben Burtt", "Luke Edward"}, "Ben Burtt", eCategoryType.MOVIES));
         movieQuestions.add(new Questions("Which actor played the main character in the 1990 film &quot;Edward Scissorhands&quot;?", new String[]{"Clint Eastwood", "Leonardo Dicaprio", "Ben Stiller", "Johnny Depp"}, "Johnny Depp", eCategoryType.MOVIES));
