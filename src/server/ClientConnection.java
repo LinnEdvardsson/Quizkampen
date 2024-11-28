@@ -16,14 +16,30 @@ public class ClientConnection extends Thread implements Runnable {
     private Socket socket;
     ObjectOutputStream out;
     ObjectInputStream in;
-//    private ClientConnection player1;
-//    private ClientConnection Player2;
-//    List<ClientConnection> players;
+    RequestHandler requestHandler;
+    public boolean hasAnsweredThisRound = false;
+    public boolean hasFinishedGame = false;
+    public int score = 0;
+    String username;
+
+    ClientConnection opponent;
 
     public ClientConnection(Socket socket) throws UnknownHostException {
         this.socket = socket;
-//        players = new ArrayList<>();
+        this.requestHandler = new RequestHandler();
 
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    public void setOpponent(ClientConnection opponentClient){
+        this.opponent = opponentClient;
+    }
+
+    public ClientConnection getOpponent(){
+        return opponent;
     }
 
     @Override
@@ -43,7 +59,7 @@ public class ClientConnection extends Thread implements Runnable {
 
             System.out.println("Connected to server");
             while(in.readObject() instanceof ClientRequest request){
-                RequestHandler.handleRequest(request, this);
+                requestHandler.handleRequest(request, this);
             }
 
         } catch (ClassNotFoundException e) {
