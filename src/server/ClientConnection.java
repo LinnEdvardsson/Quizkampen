@@ -30,15 +30,15 @@ public class ClientConnection extends Thread implements Runnable {
 
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 
-    public void setOpponent(ClientConnection opponentClient){
+    public void setOpponent(ClientConnection opponentClient) {
         this.opponent = opponentClient;
     }
 
-    public ClientConnection getOpponent(){
+    public ClientConnection getOpponent() {
         return opponent;
     }
 
@@ -46,8 +46,7 @@ public class ClientConnection extends Thread implements Runnable {
     public void run() {
         try {
             initializingConnection();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -58,32 +57,21 @@ public class ClientConnection extends Thread implements Runnable {
             in = new ObjectInputStream(socket.getInputStream());
 
             System.out.println("Connected to server");
-            while(in.readObject() instanceof ClientRequest request){
+            while (in.readObject() instanceof ClientRequest request) {
                 requestHandler.handleRequest(request, this);
             }
 
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        finally{
-            //closeConnection();
-        }
     }
 
-    public ObjectOutputStream getOutputStream(){
+
+    public ObjectOutputStream getOutputStream() {
         return out;
     }
-
-
-    public void closeConnection(){
-        try{
-            out.close();
-            in.close();
-            socket.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
 }
+
+
+
 

@@ -28,7 +28,7 @@ public class QuizFrame {
     private JLabel isCorrectlabel;
     private JLabel player1label;
     private JLabel player2label;
-    private JButton playAgain;
+    private JButton exitGameButton1;
 
     public QuizFrame() {
         setupGUI();
@@ -176,12 +176,12 @@ public class QuizFrame {
         JLabel label = new JLabel("Final Results: ", SwingConstants.CENTER);
         player1label = new JLabel();
         player2label = new JLabel();
-        playAgain = new JButton("Play Again"); ///Actionlyssnare. Initialiseras utanför metod + getter.
+        exitGameButton1 = new JButton("Exit Game");
 
         panel.add(player1label, BorderLayout.WEST);
         panel.add(player2label, BorderLayout.EAST);
         panel.add(label, BorderLayout.CENTER);
-        panel.add(playAgain, BorderLayout.SOUTH);
+        panel.add(exitGameButton1, BorderLayout.SOUTH);
         return panel;
     }
 
@@ -212,5 +212,5 @@ public class QuizFrame {
 
     public JLabel getIsCorrectlabel() {return isCorrectlabel;}
 
-    public JButton getPlayAgainButton() {return playAgain;}
+    public JButton getExitGameButton1() {return exitGameButton1;}
 }
