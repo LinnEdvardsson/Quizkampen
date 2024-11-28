@@ -17,7 +17,7 @@ import java.util.List;
 public class Client {
 
     private final InetAddress ip = InetAddress.getLocalHost();
-    private final int PORT = 6000;
+    private final int PORT = 5000;
     QuizFrame frame;
     QuestionDatabase database;
     ObjectOutputStream output;
@@ -104,7 +104,7 @@ public class Client {
             if (onQuestion == quizSetUp.getQuestionsPerRound()) { /// spelet styrs via properies (antalet frågor).
                 System.out.println("Sending round finished");
                 sendToServer(new ClientRequest(RequestType.ROUND_FINISHED, currentQuestions));
-                onQuestion = 0; ///variabel styr vilken fråga man är på, ökar efter varje fråga för att komma till nästa.
+                onQuestion = 0;                                 ///variabel styr vilken fråga man är på, ökar efter varje fråga för att komma till nästa.
                 if (onRound == quizSetUp.getRoundsPerGame()){ /// spelet styrs via properies (antalet rundor).
                     sendToServer(new ClientRequest(RequestType.MY_SCORE, score));
                 }
@@ -137,6 +137,7 @@ public class Client {
                 }
             });
         }
+
     }
 
             /// Lägger till lyssnare till svarsknappar från en lista, och kollar om korrekt svar stämmer med texten på knappen. + byter fönster till userresult
@@ -146,14 +147,11 @@ public class Client {
             button.addActionListener(e -> {
                 String answer = button.getText();
                 if (currentQuestion.isCorrect(answer)) {
-                    score++;                    ///uppdatera poäng om rätt svar
+                    score++;
                     button.setBackground(Color.GREEN);
-                    try{
-                        Thread.sleep(1000);
-                        frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct"); ///sleepfunktion
-                    } catch (InterruptedException e1){
-                        e1.printStackTrace();
-                    }
+                    
+                    frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct"); ///sleepfunktion??
+
                 } else {
                     button.setBackground(Color.RED);
                     for (JButton otherButton : answerButtons) {
