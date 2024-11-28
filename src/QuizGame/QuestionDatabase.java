@@ -36,7 +36,7 @@ public class QuestionDatabase {
         sportQuestions.add(new Questions("What type of race is the Tour de France?", new String[]{"by Car", "by Bicycle", "by Skates", "by Horse"}, "by Bicycle", SPORT));
 
         movieQuestions.add(new Questions("What is the name of the foley artist who designed the famous sounds of Star Wars, including Chewbacca's roar and R2D2's beeps and whistles?", new String[]{"Hank Bowley", "Tom Sagan", "Ben Burtt", "Luke Edward"}, "Ben Burtt", eCategoryType.MOVIES));
-        movieQuestions.add(new Questions("Which actor played the main character in the 1990 film &quot;Edward Scissorhands&quot;?", new String[]{"Clint Eastwood", "Leonardo Dicaprio", "Ben Stiller", "Johnny Depp"}, "Johnny Depp", eCategoryType.MOVIES));
+        movieQuestions.add(new Questions("Which actor played the main character in the 1990 film \"Edward Scissorhands\"?", new String[]{"Clint Eastwood", "Leonardo Dicaprio", "Ben Stiller", "Johnny Depp"}, "Johnny Depp", eCategoryType.MOVIES));
         movieQuestions.add(new Questions("Which of the following films was NOT directed by Quentin Tarantino?", new String[]{"From Dusk till Dawn", "Jackie Brown", "Pulp Fiction", "Reservoir Dogs"}, "From Dusk till Dawn", eCategoryType.MOVIES));
         movieQuestions.add(new Questions("What was another suggested name for, the 1985 film, Back to the Future?", new String[]{"Hill Valley Time Travelers", "The Time Travelers", "Spaceman From Pluto", "The Lucky Man"}, "Spaceman From Pluto", eCategoryType.MOVIES));
 
@@ -48,7 +48,7 @@ public class QuestionDatabase {
         animalsQuestions.add(new Questions("Cashmere is the wool from which kind of animal?", new String[]{"Goat", "Sheep", "Camel", "Llama"}, "Goat", eCategoryType.ANIMALS));
         animalsQuestions.add(new Questions("What dog breed is one of the oldest breeds of dog and has flourished since before 400 BCE.", new String[]{"Bulldogs", "Boxers", "Chihuahua", "Pugs"}, "Pugs", eCategoryType.ANIMALS));
         animalsQuestions.add(new Questions("What is the name for a male bee that comes from an unfertilized egg?", new String[]{"Drone", "Soldier", "Worker", "Male"}, "Drone", eCategoryType.ANIMALS));
-        animalsQuestions.add(new Questions("What color/colour is a polar bear&#039;s skin?", new String[]{"White", "Green", "Black", "Pink"}, "Black", eCategoryType.ANIMALS));
+        animalsQuestions.add(new Questions("What color/colour is a polar bear's skin?", new String[]{"White", "Green", "Black", "Pink"}, "Black", eCategoryType.ANIMALS));
 
         geographyQuestions.add(new Questions("What is the largest Muslim country in the world?", new String[]{"Pakistan", "Saudi Arabia", "Iran", "Indonesia"}, "Indonesia", eCategoryType.GEOGRAPHY));
         geographyQuestions.add(new Questions("Which of the following countries banned the use of personal genetic ancestry tests?", new String[]{"Austria", "Germany", "Canada", "Denmark"}, "Germany", eCategoryType.GEOGRAPHY));
@@ -79,8 +79,3 @@ public class QuestionDatabase {
         }
     }
 }
-
-
-
-
-

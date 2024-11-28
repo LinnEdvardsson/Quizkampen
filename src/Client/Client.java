@@ -26,7 +26,7 @@ public class Client {
     ResponseHandler responseHandler;
     QuizSetUp quizSetUp;
     int onRound = 0;
-    int score;
+    int score = 0;
     boolean myTurn;
     public Questions currentQuestion;
     public eCategoryType currentCategory;
@@ -95,7 +95,7 @@ public class Client {
             if (e.getSource() == playerOne && e.getSource() == playerTwo) {
                 frame.switchTo("Welcome");
             } else if (e.getSource() == playerOne || e.getSource() == playerTwo) {
-                frame.switchTo("Queue");
+                frame.switchTo("Queue"); ///Funkar inte
             }
         });
         frame.getNextButton().addActionListener(e -> {
@@ -134,6 +134,7 @@ public class Client {
                     frame.populateQuestionPanel(currentQuestion);
                     frame.switchTo("Question");
                     addActionListenersToAnswerButtons();
+
                 }
             });
         }
@@ -141,31 +142,38 @@ public class Client {
     }
 
             /// Lägger till lyssnare till svarsknappar från en lista, och kollar om korrekt svar stämmer med texten på knappen. + byter fönster till userresult
-    public void addActionListenersToAnswerButtons() {
-        List<JButton> answerButtons = frame.getAnswerButtons();
-        for (JButton button : answerButtons) {
-            button.addActionListener(e -> {
-                String answer = button.getText();
-                if (currentQuestion.isCorrect(answer)) {
-                    score++;
-                    button.setBackground(Color.GREEN);
-                    
-                    frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct"); ///sleepfunktion??
+            public void addActionListenersToAnswerButtons() {
+                List<JButton> answerButtons = frame.getAnswerButtons();
+                for (JButton button : answerButtons) {
+                    button.addActionListener(e -> {
+                        String answer = button.getText();
+                        boolean correct = currentQuestion.isCorrect(answer);
+                        System.out.println("scoreTest: " + score);
 
-                } else {
-                    button.setBackground(Color.RED);
-                    for (JButton otherButton : answerButtons) {
-                        if (currentQuestion.isCorrect(otherButton.getText())) {
-                            otherButton.setBackground(Color.GREEN);
+                        if (correct) {
+                            score++;
+                            System.out.println("score1: " + score);
+                            button.setBackground(Color.GREEN);
+                            frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct");
+                        } else {
+                            button.setBackground(Color.RED);
+                            for (JButton otherButton : answerButtons) {
+                                if (currentQuestion.isCorrect(otherButton.getText())) {
+                                    otherButton.setBackground(Color.GREEN);
+                                    System.out.println("score2: " + score);
+                                }
+                            }
+                            frame.getIsCorrectlabel().setText("You answered " + answer + " and you were wrong!");
                         }
-                    }
 
-                    frame.getIsCorrectlabel().setText("You answered " + answer + " and you were wrong!");
+                        Timer timer = new Timer(1500, evt -> {
+                            frame.switchTo("UserResult");
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
+                    });
                 }
-                frame.switchTo("UserResult");
-            });
-        }
-    }
+            }
 
 
         /// metod som resettar färg på knappar. hämtas efter varje fråga

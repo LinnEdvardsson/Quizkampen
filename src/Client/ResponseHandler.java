@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 
-
 //CLIENT
 
 public class ResponseHandler {
@@ -45,12 +44,7 @@ public class ResponseHandler {
                 client.frame.getCategory4Button().setText(categories.get(3).name());
                 System.out.println("Choosing Category");
             }
-//            case CHOOSEN_CATEGORY -> { /// Kan testa kommentera ut och ta bort?
-//                if (response.isMyTurn()) {
-//                    client.frame.switchTo("Question");
-//
-//                }
-//            }
+
             case WAITING -> {
                 client.myTurn = false;
                 client.frame.switchTo("Queue");

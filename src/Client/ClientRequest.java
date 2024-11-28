@@ -43,4 +43,3 @@ public class ClientRequest implements Serializable {
         return score;
     }
 }
-
