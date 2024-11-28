@@ -46,13 +46,13 @@ public class Server {
         onGoingGame.add(client);
     }
 
+    /// Metod för att särskilja spelare och lägga i tur-ordning.
     public static void notifyInstance(Instance instance) throws IOException {
         ClientConnection playerOne = instance.getClientOne();
         ClientConnection playerTwo = instance.getClientTwo();
 
         playerOne.setOpponent(playerTwo);
         playerTwo.setOpponent(playerOne);
-
 
         List<eCategoryType> categories = QuizSetUp.getCategories();
 
@@ -63,7 +63,7 @@ public class Server {
         System.out.println("Game started");
 
     }
-
+    /// Metod för att byta spelare efter en runda. Klient som valt kategori skickar då med sig frågor den svarat på till den andra klienten.
     public static void switchCurrentPlayer(ClientConnection playerOne, ClientConnection playerTwo, List<Questions> questions) throws IOException {
         System.out.println("Switching players");
         if (playerOne.hasAnsweredThisRound && playerTwo.hasAnsweredThisRound){
@@ -71,7 +71,7 @@ public class Server {
             List<eCategoryType> categories = QuizSetUp.getCategories();
             sendResponse(new ServerResponse(ResponseType.MY_TURN_CHOOSING, true, categories), playerOne);
             sendResponse(new ServerResponse(ResponseType.WAITING), playerTwo);
-            playerOne.hasAnsweredThisRound = false;
+            playerOne.hasAnsweredThisRound = false; ///Sätts till falskt här och ändras i responeHandler till true
             playerTwo.hasAnsweredThisRound = false;
         }
         else{

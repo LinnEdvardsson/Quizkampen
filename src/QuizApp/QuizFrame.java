@@ -136,7 +136,6 @@ public class QuizFrame {
         return panel;
     }
 
-
     private JPanel createCategoryFrame() {
         JPanel panel = new JPanel(new GridLayout(4, 1));
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
@@ -154,7 +153,7 @@ public class QuizFrame {
     }
 
     private JPanel createQuestionFrame() {
-        QuestionDatabase qdb = new QuestionDatabase();
+       // QuestionDatabase qdb = new QuestionDatabase();
         JPanel panel = new JPanel(new FlowLayout());
         questionLabel = new JLabel("Question: ", SwingConstants.CENTER);
         JPanel answerPanel = new JPanel(new GridLayout(4, 1));
@@ -164,12 +163,11 @@ public class QuizFrame {
         answerPanel.add(answer3Button = new JButton());
         answerPanel.add(answer4Button = new JButton());
 
-
         panel.add(questionLabel, BorderLayout.NORTH);
         panel.add(answerPanel, BorderLayout.CENTER);
         return panel;
     }
-
+        /// Metod för att fylla svarsknappar, hämtas i client-klassen
     public void populateQuestionPanel(Questions questionObj){
         String question = questionObj.getQuestion();
         String[] alternatives = questionObj.getAnswers();
@@ -192,7 +190,6 @@ public class QuizFrame {
         panel.add(nextButton, BorderLayout.SOUTH);
         return panel;
     }
-
 
 
     private JPanel createFinalResultFrame() {

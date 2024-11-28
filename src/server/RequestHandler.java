@@ -43,11 +43,9 @@ public class RequestHandler {
             case PLAYER1_PLAYING -> {
                 Server.sendResponse(new ServerResponse(ResponseType.GET_QUESTION), client);
             }
-            //case PLAYER_ONE_DONE -> {
-            //Server.switchCurrentPlayer(client, client.getOpponent());
-            //}
+
             case ROUND_FINISHED -> {
-                client.hasAnsweredThisRound = true;
+                client.hasAnsweredThisRound = true; ///sätts till trye för att byta spelare och visa samma frågor.
                 List<Questions> questions = request.getQuestions();
                 Server.switchCurrentPlayer(client, client.getOpponent(), questions);
             }

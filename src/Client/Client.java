@@ -5,16 +5,9 @@ import QuizGame.QuestionDatabase;
 import QuizGame.Questions;
 import QuizGame.QuizSetUp;
 import QuizGame.eCategoryType;
-import jdk.jfr.Category;
-import server.ClientConnection;
-import server.ResponseType;
-import server.Server;
 import server.ServerResponse;
-
 import javax.swing.*;
 import java.awt.*;
-import java.net.Authenticator;
-import java.util.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -87,7 +80,6 @@ public class Client {
         }
     }
 
-
     public void addActionListeners() { // actionlyssnare för knappar
         frame.getLoginButton().addActionListener(e -> {
             System.out.println("Sending request to connect...");
@@ -109,8 +101,8 @@ public class Client {
             if (onQuestion == quizSetUp.getQuestionsPerRound()) {
                 System.out.println("Sending round finished");
                 sendToServer(new ClientRequest(RequestType.ROUND_FINISHED, currentQuestions));
-                onQuestion = 0;
-                if (onRound == quizSetUp.getRoundsPerGame()){
+                onQuestion = 0; ///variabel styr vilken fråga man är på, ökar efter varje fråga för att komma till nästa.
+                if (onRound == quizSetUp.getRoundsPerGame()){ /// spelet styrs via properies.
                     sendToServer(new ClientRequest(RequestType.MY_SCORE, score));
                 }
             }
@@ -122,7 +114,7 @@ public class Client {
             }
 
         });
-
+                /// Lagt kategoriknappar i lista och går igenom listan för att tilldela knapparna en kategoritext
         List<JButton> categoryButtons = frame.getCategoryButtons();
         for (JButton categoryButton : categoryButtons) {
             categoryButton.addActionListener(e -> {
@@ -144,7 +136,7 @@ public class Client {
         }
     }
 
-
+            /// Lägger till lyssnare till svarsknappar från en lista, och kollar om korrekt svar stämmer med texten på knappen. + byter fönster till userresult
     public void addActionListenersToAnswerButtons() {
         List<JButton> answerButtons = frame.getAnswerButtons();
         for (JButton button : answerButtons) {
@@ -172,7 +164,7 @@ public class Client {
     public void resetIsCorrectLabel() {
         frame.getIsCorrectlabel().setText("Your answer: ");
     }
-
+        /// metod som resettar färg på knappar. hämtas efter varje fråga
     public void resetButtons() {
         List<JButton> answerButtons = frame.getAnswerButtons();
         for (JButton button : answerButtons) {
