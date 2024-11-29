@@ -38,7 +38,7 @@ public class ResponseHandler {
                 client.myTurn = true;
                 client.frame.switchTo("Category");
                 List<eCategoryType> categories = response.getCategories();
-                client.frame.getCategory1Button().setText(categories.get(0).name()); ///Kan läggas i egen metod
+                client.frame.getCategory1Button().setText(categories.get(0).name());
                 client.frame.getCategory2Button().setText(categories.get(1).name());
                 client.frame.getCategory3Button().setText(categories.get(2).name());
                 client.frame.getCategory4Button().setText(categories.get(3).name());

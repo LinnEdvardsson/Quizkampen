@@ -74,7 +74,7 @@ public class Server {
             System.out.println("Player2 playing turn");
         }
     }
-
+        /// Om båda spelarna har har spelat färdigt, skickas slutresultat från servern till klienterna med poängen.
     public static void sendFinalResult(ClientConnection playerOne, ClientConnection playerTwo) throws IOException {
         Server.sendResponse(new ServerResponse(ResponseType.WAITING), playerOne);
         if (playerOne.hasFinishedGame && playerTwo.hasFinishedGame){

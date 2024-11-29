@@ -32,8 +32,7 @@ public class Client {
     public Questions currentQuestion;
     public eCategoryType currentCategory;
     public List<Questions> currentQuestions;
-    ClientConnection playerOne;
-    ClientConnection playerTwo;
+
     public int onQuestion = 0;
     String username;
 
@@ -88,11 +87,11 @@ public class Client {
         });
         frame.getExitGameButton().addActionListener(e -> {
             System.exit(0);
-//            closeConnection();
+
             System.out.println("Want to disconnect");
         });
         frame.getExitGameButton1().addActionListener(e -> {
-//            closeConnection();
+
             System.exit(0);
         });
         frame.getNextButton().addActionListener(e -> {
@@ -153,7 +152,6 @@ public class Client {
 
                         if (correct) {
                             score++;
-                            System.out.println("score1: " + score);
                             button.setBackground(Color.GREEN);
                             frame.getIsCorrectlabel().setText("You answered " + answer + " and you were correct");
 
@@ -177,7 +175,6 @@ public class Client {
                 }
             }
 
-
         /// metod som resettar färg på knappar. hämtas efter varje fråga
     public void resetButtons() {
         List<JButton> answerButtons = frame.getAnswerButtons();
@@ -185,18 +182,6 @@ public class Client {
             button.setBackground(null);
         }
     }
-
-
-//    public void closeConnection() {
-//        try {
-//            output.close();
-//            input.close();
-//            socket.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
 
     public static void main(String[] args) throws IOException {
         Client client = new Client();
